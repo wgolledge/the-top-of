@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "homepage": "https://github.com/wgolledge/the-top-of#README",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wgolledge/the-top-of.git"
+  },
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4"
+  },
+  "private": true,
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
