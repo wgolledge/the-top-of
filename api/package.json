@@ -7,15 +7,19 @@
     "url": "git+https://github.com/wgolledge/the-top-of.git"
   },
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.16.4"
   },
   "private": true,
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "nodemon": "^1.18.10",
+    "prettier-eslint": "^8.8.2"
   }
 }
