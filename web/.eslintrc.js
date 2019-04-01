@@ -2,8 +2,10 @@ module.exports = {
   env: {
     browser: true,
     jest: true,
+    es6: true,
   },
   extends: ['airbnb', 'plugin:react/recommended', 'prettier', 'prettier/react'],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
