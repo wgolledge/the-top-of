@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 
 import hackerNewsImg from '../static/images/hackerNews.png';
 
+import SourceList from './SourceList';
+
 const useStyles = makeStyles({
   card: {
     maxWidth: 345,
@@ -42,7 +44,7 @@ const SourceCard = ({ chosenSource, name }) => {
             {name}
           </Typography>
           {sourceData ? (
-            <Typography component="p">{sourceData.data[0].url}</Typography>
+            <SourceList articles={sourceData.data} />
           ) : (
             <Typography component="p">Loading...</Typography>
           )}
