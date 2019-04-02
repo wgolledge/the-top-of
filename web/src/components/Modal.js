@@ -39,7 +39,7 @@ const SimpleModal = () => {
   const [chosenSource, setChosenSource] = useState(null);
 
   useEffect(() => {
-    get('http://localhost:8080/sources').then(({ data }) => setSources(data));
+    get('/sources').then(({ data }) => setSources(data));
   }, []);
 
   const handleOpen = () => setModalOpen(true);
