@@ -26,12 +26,8 @@ const SourceCard = ({ chosenSource, name }) => {
   const [sourceData, setSourceData] = useState(null);
 
   useEffect(() => {
-    get(`http://localhost:8080/sources/${chosenSource}`).then(({ data }) =>
-      setSourceData(data),
-    );
+    get(`sources/${chosenSource}`).then(({ data }) => setSourceData(data));
   }, []);
-
-  console.log(sourceData);
 
   return (
     <Card className={classes.card}>
@@ -46,7 +42,7 @@ const SourceCard = ({ chosenSource, name }) => {
             {name}
           </Typography>
           {sourceData ? (
-            <Typography component="p">{sourceData.data[0].link}</Typography>
+            <Typography component="p">{sourceData.data[0].url}</Typography>
           ) : (
             <Typography component="p">Loading...</Typography>
           )}
