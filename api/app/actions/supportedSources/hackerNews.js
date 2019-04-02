@@ -1,5 +1,7 @@
 const { get } = require('axios');
 
+let id = 0;
+
 module.exports = {
   name: 'Hacker News',
   working: true,
@@ -13,7 +15,9 @@ module.exports = {
             if (!url) {
               return acc;
             }
-            acc.push({ title, url });
+
+            // eslint-disable-next-line no-plusplus
+            acc.push({ title, url, id: ++id });
             return acc;
           }, [])
           .slice(0, 10),
