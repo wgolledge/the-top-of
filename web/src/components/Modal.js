@@ -51,8 +51,12 @@ const SimpleModal = () => {
 
   return (
     <div>
-      {chosenSource ? (
-        <SourceCard chosenSource={chosenSource.id} name={chosenSource.name} />
+      {chosenSource && !modalOpen ? (
+        <SourceCard
+          chosenSource={chosenSource.id}
+          name={chosenSource.name}
+          changeSource={handleOpen}
+        />
       ) : (
         <Button onClick={handleOpen} text="... THE TOP OF">
           Open Modal
