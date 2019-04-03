@@ -8,6 +8,7 @@ module.exports = sources.map(source => ({
   id: ++id,
   name: source.name,
   working: source.working,
+  imgName: source.imgName,
   getData: source.getData,
   attributionLink: source.attributionLink,
 }));

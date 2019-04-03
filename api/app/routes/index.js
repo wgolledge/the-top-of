@@ -6,3 +6,4 @@ app.get('/', (req, res) => {
 });
 
 app.use('/sources', require('./sources'));
+app.use('/images', require('./images'));
