@@ -26,7 +26,7 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
   const [sourceData, setSourceData] = useState(null);
 
   useEffect(() => {
-    get(`sources/${chosenSource}`).then(({ data }) => setSourceData(data));
+    get(`${process.env.REACT_APP_API_URL}/sources/${chosenSource}`).then(({ data }) => setSourceData(data));
   }, []);
 
   return (
@@ -35,7 +35,7 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
         <CardMedia
           className={classes.media}
           title={name}
-          image={`${process.env.REACT_APP_API_URL}images/${chosenSource}`}
+          image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
