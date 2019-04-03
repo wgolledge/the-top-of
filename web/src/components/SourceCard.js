@@ -10,8 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import { get } from 'axios';
 import PropTypes from 'prop-types';
 
-import hackerNewsImg from '../static/images/hackerNews.png';
-
 import SourceList from './SourceList';
 
 const useStyles = makeStyles({
@@ -19,11 +17,11 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: 70,
+    height: 69,
   },
 });
 
-const SourceCard = ({ chosenSource, name }) => {
+const SourceCard = ({ chosenSource, name, changeSource }) => {
   const classes = useStyles();
   const [sourceData, setSourceData] = useState(null);
 
@@ -36,8 +34,8 @@ const SourceCard = ({ chosenSource, name }) => {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={hackerNewsImg}
           title={name}
+          image={`${process.env.REACT_APP_API_URL}images/${chosenSource}`}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -51,10 +49,7 @@ const SourceCard = ({ chosenSource, name }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={changeSource}>
           Change Source
         </Button>
       </CardActions>
@@ -65,6 +60,7 @@ const SourceCard = ({ chosenSource, name }) => {
 SourceCard.propTypes = {
   chosenSource: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  changeSource: PropTypes.func.isRequired,
 };
 
 export default SourceCard;
