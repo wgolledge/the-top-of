@@ -39,7 +39,7 @@ const SimpleModal = () => {
   const [chosenSource, setChosenSource] = useState(null);
 
   useEffect(() => {
-    get('/sources').then(({ data }) => setSources(data));
+    get(`${process.env.REACT_APP_API_URL}/sources`).then(({ data }) => setSources(data));
   }, []);
 
   const handleOpen = () => setModalOpen(true);
