@@ -2,7 +2,6 @@
   "name": "show-me-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/wgolledge/the-top-of#README",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wgolledge/the-top-of.git"
@@ -38,6 +37,5 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "prettier-eslint": "^8.8.2"
-  },
-  "proxy": "http://localhost:8080"
+  }
 }
