@@ -1,22 +1,22 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-const styles = {
+const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
   text: {
-    margin: 'auto',
+    margin: 'auto !important',
   },
-};
+});
 
 const Header = props => {
   const ref = useRef(null);
-  const { classes } = props;
+  const classes = useStyles();
 
   useEffect(() => {
     props.setHeight(ref.current.clientHeight);
@@ -36,8 +36,7 @@ const Header = props => {
 };
 
 Header.propTypes = {
-  classes: PropTypes.shape().isRequired,
   setHeight: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Header);
+export default Header;
