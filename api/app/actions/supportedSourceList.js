@@ -1,5 +1,10 @@
-// eslint-disable-next-line global-require
-const sources = [require('./hackerNews'), require('./bbc')];
+const glob = require('glob');
+const path = require('path');
+
+const sources = glob.sync(`${__dirname}/supportedSources/*.js`).map(file =>
+  // eslint-disable-next-line
+  require(path.resolve(file))
+);
 
 let id = 0;
 
