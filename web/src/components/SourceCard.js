@@ -26,7 +26,9 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
   const [sourceData, setSourceData] = useState(null);
 
   useEffect(() => {
-    get(`${process.env.REACT_APP_API_URL}/sources/${chosenSource}`).then(({ data }) => setSourceData(data));
+    get(`${process.env.REACT_APP_API_URL}/sources/${chosenSource}`).then(
+      ({ data }) => setSourceData(data),
+    );
   }, []);
 
   return (
