@@ -1,4 +1,4 @@
-const supportedSources = require('./supportedSources/supportedSources');
+const supportedSources = require('./supportedSourceList');
 
 const returnPropIfExists = (prop, name) => prop && { [name]: prop };
 
