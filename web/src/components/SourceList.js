@@ -35,7 +35,7 @@ function SourceList({ articles }) {
         {articles.map(article => (
           <ListItemLink href={article.url} key={article.id}>
             <ListItemText
-              primary={<Typography variant="h8">{article.title}</Typography>}
+              primary={<Typography variant="body1">{article.title}</Typography>}
             />
           </ListItemLink>
         ))}

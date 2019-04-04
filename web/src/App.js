@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
-import { makeStyles, createGenerateClassName } from '@material-ui/styles';
+import {
+  makeStyles,
+  createGenerateClassName,
+  ThemeProvider,
+} from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import Header from './components/Header';
 import Modal from './components/Modal';
@@ -8,6 +13,12 @@ import Modal from './components/Modal';
 const generateClassName = createGenerateClassName({
   dangerouslyUseGlobalCSS: false,
   productionPrefix: 'c',
+});
+
+export const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 const useStyles = makeStyles({
@@ -29,14 +40,16 @@ const App = () => {
 
   return (
     <JssProvider generateClassName={generateClassName}>
-      <div className={classes.root}>
-        <Header setHeight={setHeight} />
-        {height && (
-          <div className={classes.main}>
-            <Modal />
-          </div>
-        )}
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <Header setHeight={setHeight} />
+          {height && (
+            <div className={classes.main}>
+              <Modal />
+            </div>
+          )}
+        </div>
+      </ThemeProvider>
     </JssProvider>
   );
 };
