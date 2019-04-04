@@ -1,4 +1,4 @@
-const supportedSources = require('./supportedSources/supportedSources');
+const supportedSources = require('./supportedSourceList');
 
 const getSourceImage = (req, res) => {
   const imageId = Number(req.params.id);

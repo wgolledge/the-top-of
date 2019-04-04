@@ -8,10 +8,10 @@ module.exports = {
     get(
       'http://hn.algolia.com/api/v1/search?tags=front_page&numericFilters=created_at_i>86400',
     )
-      .then(({ data }) => {
+      .then(({ data: { hits } }) => {
         let id = 0;
 
-        return data.hits
+        return hits
           .reduce((acc, { title, url }) => {
             if (!url) {
               return acc;
