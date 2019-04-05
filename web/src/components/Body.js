@@ -22,7 +22,7 @@ const Body = () => {
   const closeModal = () => setModalOpen(false);
 
   return (
-    <div>
+    <>
       <Modal
         isOpen={modalOpen}
         setChosenSource={handleSetChosenSource}
@@ -37,7 +37,7 @@ const Body = () => {
       ) : (
         <Button onClick={openModal} text="... THE TOP OF" />
       )}
-    </div>
+    </>
   );
 };
 

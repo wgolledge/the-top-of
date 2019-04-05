@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     height: props => `calc(100% - ${props.height}px)`,
     justifyContent: 'center',
     margin: 'auto',
-    maxWidth: '1000px',
+    maxWidth: '960px',
     width: '95%',
   },
 });

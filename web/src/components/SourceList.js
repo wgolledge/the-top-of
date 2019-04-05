@@ -11,9 +11,9 @@ const theme = createMuiTheme();
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+    height: '100%',
+    overflow: 'scroll',
   },
   listItemText: {
     fontSize: '0.5em',
@@ -26,8 +26,6 @@ function ListItemLink(props) {
 
 function SourceList({ articles }) {
   const classes = useStyles();
-
-  console.log(classes);
 
   return (
     <div className={classes.root}>

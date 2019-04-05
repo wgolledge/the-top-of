@@ -12,12 +12,34 @@ import PropTypes from 'prop-types';
 
 import SourceList from './SourceList';
 
+const MEDIA_HEIGHT = 69;
+const ACTIONS_HEIGHT = 40;
+
 const useStyles = makeStyles({
   card: {
-    maxWidth: 345,
+    height: '95%',
+    width: '95%',
+  },
+  cardActionArea: {
+    height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
   },
   media: {
-    height: 69,
+    height: MEDIA_HEIGHT,
+  },
+  content: {
+    height: `calc(100% - ${MEDIA_HEIGHT}px)`,
+    boxSizing: 'border-box',
+    padding: '16px 16px 0 16px !important',
+  },
+  contentTitle: {
+    height: ACTIONS_HEIGHT,
+    margin: '0 !important',
+  },
+  contentList: {
+    height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
+  },
+  actions: {
+    height: ACTIONS_HEIGHT,
   },
 });
 
@@ -33,24 +55,31 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
 
   return (
     <Card className={classes.card}>
-      <CardActionArea>
+      <CardActionArea className={classes.cardActionArea}>
         <CardMedia
           className={classes.media}
           title={name}
           image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+        <CardContent className={classes.content}>
+          <Typography
+            className={classes.contentTitle}
+            gutterBottom
+            variant="h5"
+            component="h2"
+          >
             {name}
           </Typography>
           {sourceData ? (
-            <SourceList articles={sourceData.data} />
+            <div className={classes.contentList}>
+              <SourceList articles={sourceData.data} />
+            </div>
           ) : (
             <Typography component="p">Loading...</Typography>
           )}
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions className={classes.actions}>
         <Button size="small" color="primary" onClick={changeSource}>
           Change Source
         </Button>
