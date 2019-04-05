@@ -3,7 +3,10 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import { makeStyles, createGenerateClassName } from '@material-ui/styles';
 
 import Header from './components/Header';
+import Body from './components/Body';
 import Modal from './components/Modal';
+import SourceCard from './components/SourceCard';
+import Button from './components/Button';
 
 const generateClassName = createGenerateClassName({
   dangerouslyUseGlobalCSS: false,
@@ -19,6 +22,9 @@ const useStyles = makeStyles({
     display: 'flex',
     height: props => `calc(100% - ${props.height}px)`,
     justifyContent: 'center',
+    margin: 'auto',
+    maxWidth: '1000px',
+    width: '95%',
   },
 });
 
@@ -31,11 +37,7 @@ const App = () => {
     <JssProvider generateClassName={generateClassName}>
       <div className={classes.root}>
         <Header setHeight={setHeight} />
-        {height && (
-          <div className={classes.main}>
-            <Modal />
-          </div>
-        )}
+        <div className={classes.main}>{height && <Body />}</div>
       </div>
     </JssProvider>
   );
