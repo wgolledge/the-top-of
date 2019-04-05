@@ -4,9 +4,6 @@ import { makeStyles, createGenerateClassName } from '@material-ui/styles';
 
 import Header from './components/Header';
 import Body from './components/Body';
-import Modal from './components/Modal';
-import SourceCard from './components/SourceCard';
-import Button from './components/Button';
 
 const generateClassName = createGenerateClassName({
   dangerouslyUseGlobalCSS: false,
@@ -23,7 +20,7 @@ const useStyles = makeStyles({
     height: props => `calc(100% - ${props.height}px)`,
     justifyContent: 'center',
     margin: 'auto',
-    maxWidth: '960px',
+    maxWidth: '860px',
     width: '95%',
   },
 });

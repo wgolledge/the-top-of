@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { createMuiTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 const theme = createMuiTheme();
 
@@ -15,10 +16,23 @@ const useStyles = makeStyles({
     height: '100%',
     overflow: 'scroll',
   },
-  listItemText: {
-    fontSize: '0.5em',
-  },
 });
+
+const styles = {
+  listItemText: {
+    // add media queries
+    fontSize: 'calc(0.6vw + 0.6vh + .5vmin)',
+    [theme.breakpoints.down('sm')]: {
+      backgroundColor: theme.palette.secondary.main,
+    },
+    [theme.breakpoints.up('md')]: {
+      backgroundColor: theme.palette.primary.main,
+    },
+    [theme.breakpoints.up('lg')]: {
+      backgroundColor: green[500],
+    },
+  },
+};
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -31,11 +45,19 @@ function SourceList({ articles }) {
     <div className={classes.root}>
       <List component="nav">
         {articles.map(article => (
-          <ListItemLink href={article.url} key={article.id}>
-            <ListItemText
-              primary={<Typography variant="h8">{article.title}</Typography>}
-            />
-          </ListItemLink>
+          <div key={article.id}>
+            <ListItemLink href={article.url}>
+              <ListItemText
+                className={classes.listItemText}
+                primary={
+                  <Typography style={styles.listItemText} variant="body2">
+                    {article.title}
+                  </Typography>
+                }
+              />
+            </ListItemLink>
+            <Divider />
+          </div>
         ))}
       </List>
     </div>

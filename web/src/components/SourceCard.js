@@ -24,16 +24,12 @@ const useStyles = makeStyles({
     height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
   },
   media: {
-    height: MEDIA_HEIGHT,
+    minHeight: MEDIA_HEIGHT,
+    height: '15%',
   },
   content: {
-    height: `calc(100% - ${MEDIA_HEIGHT}px)`,
+    height: `85%`,
     boxSizing: 'border-box',
-    padding: '16px 16px 0 16px !important',
-  },
-  contentTitle: {
-    height: ACTIONS_HEIGHT,
-    margin: '0 !important',
   },
   contentList: {
     height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
@@ -42,6 +38,17 @@ const useStyles = makeStyles({
     height: ACTIONS_HEIGHT,
   },
 });
+
+const styles = {
+  content: {
+    padding: '16px 16px 0 16px',
+  },
+  contentTitle: {
+    // add media queries
+    fontSize: 'calc(1vw + 1vh + .5vmin)',
+    margin: 0,
+  },
+};
 
 const SourceCard = ({ chosenSource, name, changeSource }) => {
   const classes = useStyles();
@@ -61,11 +68,11 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
           title={name}
           image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
         />
-        <CardContent className={classes.content}>
+        <CardContent styles={styles.content} className={classes.content}>
           <Typography
+            style={styles.contentTitle}
             className={classes.contentTitle}
             gutterBottom
-            variant="h5"
             component="h2"
           >
             {name}
