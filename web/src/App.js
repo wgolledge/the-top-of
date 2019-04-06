@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
-import { makeStyles, createGenerateClassName } from '@material-ui/styles';
+import {
+  makeStyles,
+  createGenerateClassName,
+  ThemeProvider,
+} from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import Header from './components/Header';
 import Body from './components/Body';
@@ -9,6 +14,10 @@ const generateClassName = createGenerateClassName({
   dangerouslyUseGlobalCSS: false,
   productionPrefix: 'c',
 });
+
+console.log(createMuiTheme());
+
+export const theme = createMuiTheme();
 
 const useStyles = makeStyles({
   root: {
@@ -32,10 +41,16 @@ const App = () => {
 
   return (
     <JssProvider generateClassName={generateClassName}>
-      <div className={classes.root}>
-        <Header setHeight={setHeight} />
-        <div className={classes.main}>{height && <Body />}</div>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <Header setHeight={setHeight} />
+          {height && (
+            <div className={classes.main}>
+              <Body />
+            </div>
+          )}
+        </div>
+      </ThemeProvider>
     </JssProvider>
   );
 };

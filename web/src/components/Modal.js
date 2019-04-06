@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import { get } from 'axios';
@@ -8,9 +7,7 @@ import PropTypes from 'prop-types';
 
 import Button from './Button';
 
-const theme = createMuiTheme();
-
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     width: theme.spacing(50),
     backgroundColor: theme.palette.background.paper,
@@ -18,7 +15,7 @@ const useStyles = makeStyles({
     padding: theme.spacing(2),
     outline: 'none',
   },
-});
+}));
 
 const getModalStyle = () => ({
   alignItems: 'center',
@@ -27,7 +24,7 @@ const getModalStyle = () => ({
 });
 
 const SimpleModal = ({ isOpen, setChosenSource, onClose }) => {
-  const classes = useStyles();
+  const classes = useStyles(useTheme());
   const [sources, setSources] = useState(null);
 
   useEffect(() => {
