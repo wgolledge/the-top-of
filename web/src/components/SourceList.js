@@ -14,15 +14,14 @@ const useStyles = makeStyles(theme => ({
     overflow: 'scroll',
   },
   listItemText: {
-    // add media queries
     [theme.breakpoints.down('sm')]: {
-      fontSize: 'calc(0.vw + 0.6vh + .5vmin) !important',
+      fontSize: 'calc(0.7vw + 0.7vh + .5vmin)',
     },
     [theme.breakpoints.up('md')]: {
-      fontSize: 'calc(0.6vw + 0.6vh + .5vmin) !important',
+      fontSize: 'calc(0.6vw + 0.6vh + .5vmin)',
     },
     [theme.breakpoints.up('lg')]: {
-      fontSize: '1rem !important',
+      fontSize: '1rem',
     },
   },
 }));
@@ -41,11 +40,9 @@ function SourceList({ articles }) {
           <div key={article.id}>
             <ListItemLink href={article.url}>
               <ListItemText
-                primary={
-                  <Typography className={classes.listItemText} variant="body2">
-                    {article.title}
-                  </Typography>
-                }
+                primary={article.title}
+                className={classes.listItemText}
+                disableTypography
               />
             </ListItemLink>
             <Divider />

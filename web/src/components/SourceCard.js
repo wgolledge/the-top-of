@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -13,9 +13,10 @@ import PropTypes from 'prop-types';
 import SourceList from './SourceList';
 
 const MEDIA_HEIGHT = 69;
+const TITLE_HEIGHT = 35;
 const ACTIONS_HEIGHT = 40;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
     height: '95%',
     width: '95%',
@@ -28,30 +29,39 @@ const useStyles = makeStyles({
     height: '15%',
   },
   content: {
-    height: `85%`,
-    boxSizing: 'border-box',
+    '&&': {
+      height: '100%',
+      padding: '16px 16px 0 16px',
+    },
+  },
+  contentTitle: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 'calc(1vw + 1vh + .5vmin)',
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: 'calc(0.8vw + 0.8vh + .7vmin)',
+    },
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '1.4rem',
+    },
   },
   contentList: {
-    height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
+    height: `calc(100% - ${TITLE_HEIGHT}px)`,
   },
   actions: {
     height: ACTIONS_HEIGHT,
   },
-});
+}));
 
 const styles = {
-  content: {
-    padding: '16px 16px 0 16px',
-  },
   contentTitle: {
-    // add media queries
-    fontSize: 'calc(1vw + 1vh + .5vmin)',
+    height: TITLE_HEIGHT,
     margin: 0,
   },
 };
 
 const SourceCard = ({ chosenSource, name, changeSource }) => {
-  const classes = useStyles();
+  const classes = useStyles(useTheme());
   const [sourceData, setSourceData] = useState(null);
 
   useEffect(() => {
@@ -61,14 +71,14 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
   }, []);
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} raised>
       <CardActionArea className={classes.cardActionArea}>
         <CardMedia
           className={classes.media}
           title={name}
           image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
         />
-        <CardContent styles={styles.content} className={classes.content}>
+        <CardContent classes={{ root: classes.content }}>
           <Typography
             style={styles.contentTitle}
             className={classes.contentTitle}

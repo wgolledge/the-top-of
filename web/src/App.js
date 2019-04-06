@@ -30,7 +30,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     margin: 'auto',
     maxWidth: '860px',
-    width: '95%',
   },
 });
 
