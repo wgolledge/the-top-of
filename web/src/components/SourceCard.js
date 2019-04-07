@@ -3,10 +3,11 @@ import { makeStyles, useTheme } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+// import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import { get } from 'axios';
 import PropTypes from 'prop-types';
 
@@ -14,7 +15,7 @@ import SourceList from './SourceList';
 
 const MEDIA_HEIGHT = 69;
 const TITLE_HEIGHT = 35;
-const ACTIONS_HEIGHT = 40;
+const ACTIONS_HEIGHT = 50;
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -25,8 +26,7 @@ const useStyles = makeStyles(theme => ({
     height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
   },
   media: {
-    minHeight: MEDIA_HEIGHT,
-    height: '15%',
+    height: '100%',
   },
   content: {
     '&&': {
@@ -36,27 +36,28 @@ const useStyles = makeStyles(theme => ({
   },
   contentTitle: {
     [theme.breakpoints.down('sm')]: {
-      fontSize: 'calc(1vw + 1vh + .5vmin)',
+      fontSize: 'calc(1.2vw + 1.2vh + .5vmin)',
     },
     [theme.breakpoints.up('md')]: {
-      fontSize: 'calc(0.8vw + 0.8vh + .7vmin)',
+      fontSize: 'calc(1vw + 1vh + .7vmin)',
     },
     [theme.breakpoints.up('lg')]: {
-      fontSize: '1.4rem',
+      fontSize: '1.5rem',
     },
   },
   contentList: {
-    height: `calc(100% - ${TITLE_HEIGHT}px)`,
-  },
-  actions: {
-    height: ACTIONS_HEIGHT,
+    height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
   },
 }));
 
 const styles = {
   contentTitle: {
     height: TITLE_HEIGHT,
-    margin: 0,
+    padding: '10px 0 0 10px',
+  },
+  action: {
+    height: `${ACTIONS_HEIGHT}px`,
+    marginTop: `-${ACTIONS_HEIGHT}px`,
   },
 };
 
@@ -72,32 +73,33 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
 
   return (
     <Card className={classes.card} raised>
-      <CardActionArea className={classes.cardActionArea}>
-        <CardMedia
-          className={classes.media}
-          title={name}
-          image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
-        />
-        <CardContent classes={{ root: classes.content }}>
-          <Typography
-            style={styles.contentTitle}
-            className={classes.contentTitle}
-            gutterBottom
-            component="h2"
-          >
-            {name}
-          </Typography>
-          {sourceData ? (
-            <div className={classes.contentList}>
-              <SourceList articles={sourceData.data} />
-            </div>
-          ) : (
-            <Typography component="p">Loading...</Typography>
-          )}
-        </CardContent>
-      </CardActionArea>
-      <CardActions className={classes.actions}>
-        <Button size="small" color="primary" onClick={changeSource}>
+      <Box height="100%">
+        <CardActionArea classes={{ root: classes.cardActionArea }}>
+          <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
+            <CardMedia
+              className={classes.media}
+              title={name}
+              image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
+            />
+          </Box>
+          <Box height="85%">
+            <Typography
+              style={styles.contentTitle}
+              className={classes.contentTitle}
+              component="h2"
+            >
+              {sourceData ? name : 'Loading...'}
+            </Typography>
+            {sourceData && (
+              <div className={classes.contentList}>
+                <SourceList articles={sourceData.data} />
+              </div>
+            )}
+          </Box>
+        </CardActionArea>
+      </Box>
+      <CardActions style={styles.action}>
+        <Button size="medium" color="primary" onClick={changeSource}>
           Change Source
         </Button>
       </CardActions>

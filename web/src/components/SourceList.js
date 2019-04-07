@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
@@ -12,6 +12,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     height: '100%',
     overflow: 'scroll',
+  },
+  list: {
+    '&&': {
+      [theme.breakpoints.down('sm')]: {
+        paddingTop: 0,
+      },
+    },
   },
   listItemText: {
     [theme.breakpoints.down('sm')]: {
@@ -35,7 +42,7 @@ function SourceList({ articles }) {
 
   return (
     <div className={classes.root}>
-      <List component="nav">
+      <List component="nav" className={classes.list}>
         {articles.map(article => (
           <div key={article.id}>
             <ListItemLink href={article.url}>

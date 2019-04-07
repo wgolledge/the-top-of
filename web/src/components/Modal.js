@@ -9,11 +9,13 @@ import Button from './Button';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    width: theme.spacing(50),
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
+    boxSizing: 'border-box',
+    maxWidth: '500px',
     padding: theme.spacing(2),
     outline: 'none',
+    width: '95%',
   },
 }));
 
