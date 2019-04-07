@@ -8,18 +8,14 @@ import {
 import { createMuiTheme } from '@material-ui/core/styles';
 
 import Header from './components/Header';
-import Modal from './components/Modal';
+import Body from './components/Body';
 
 const generateClassName = createGenerateClassName({
   dangerouslyUseGlobalCSS: false,
   productionPrefix: 'c',
 });
 
-export const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-  },
-});
+export const theme = createMuiTheme();
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +26,8 @@ const useStyles = makeStyles({
     display: 'flex',
     height: props => `calc(100% - ${props.height}px)`,
     justifyContent: 'center',
+    margin: 'auto',
+    maxWidth: '860px',
   },
 });
 
@@ -45,7 +43,7 @@ const App = () => {
           <Header setHeight={setHeight} />
           {height && (
             <div className={classes.main}>
-              <Modal />
+              <Body />
             </div>
           )}
         </div>

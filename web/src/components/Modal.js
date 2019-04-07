@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import { get } from 'axios';
+import PropTypes from 'prop-types';
 
 import Button from './Button';
-import SourceCard from './SourceCard';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
+  paper: {
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
+    boxSizing: 'border-box',
+    maxWidth: '500px',
+    padding: theme.spacing(2),
     outline: 'none',
-    top: '50%',
-    left: '50%',
-    transform: `translate(-50%, -50%)`,
+    width: '95%',
   },
 }));
 
-const SimpleModal = () => {
-  const classes = useStyles();
-  const [modalOpen, setModalOpen] = useState(false);
+const getModalStyle = () => ({
+  alignItems: 'center',
+  justifyContent: 'center',
+  display: 'flex',
+});
+
+const SimpleModal = ({ isOpen, setChosenSource, onClose }) => {
+  const classes = useStyles(useTheme());
   const [sources, setSources] = useState(null);
-  const [chosenSource, setChosenSource] = useState(null);
 
   useEffect(() => {
     get(`${process.env.REACT_APP_API_URL}/sources`).then(({ data }) =>
@@ -33,31 +35,18 @@ const SimpleModal = () => {
     );
   }, []);
 
-  const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false);
-  const handleSelectSource = source => {
-    setModalOpen(false);
-    setChosenSource(source);
-  };
-
   return (
     <div>
-      {chosenSource && !modalOpen ? (
-        <SourceCard
-          chosenSource={chosenSource.id}
-          name={chosenSource.name}
-          changeSource={handleOpen}
-        />
-      ) : (
-        <Button onClick={handleOpen} text="... THE TOP OF" />
-      )}
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-        open={modalOpen}
-        onClose={handleClose}
+        disablePortal
+        BackdropProps={{ classes: classes.backdrop }}
+        open={isOpen}
+        onClose={onClose}
+        style={getModalStyle()}
       >
-        <div className={classes.root}>
+        <div className={classes.paper}>
           <Typography variant="h6" id="modal-title">
             Available news sources
           </Typography>
@@ -69,13 +58,19 @@ const SimpleModal = () => {
               <Button
                 key={source.id}
                 text={source.name}
-                onClick={() => handleSelectSource(source)}
+                onClick={() => setChosenSource(source)}
               />
             ))}
         </div>
       </Modal>
     </div>
   );
+};
+
+SimpleModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  setChosenSource: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default SimpleModal;
