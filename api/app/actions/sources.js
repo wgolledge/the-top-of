@@ -1,33 +1,28 @@
-const supportedSources = require('./supportedSourceList');
+const storage = require('node-persist');
+const { availableSources } = require('./supportedSourceList');
 
 const returnPropIfExists = (prop, name) => prop && { [name]: prop };
 
 const getSources = (req, res) =>
   res.send(
-    supportedSources.reduce((acc, curr) => {
-      if (!curr.working) {
-        return acc;
-      }
-
-      acc.push({ id: curr.id, name: curr.name });
-
-      return acc;
-    }, []),
+    availableSources.map(source => ({ id: source.id, name: source.name })),
   );
 
-const getSourceData = (req, res) => {
-  const { getData, attributionLink } = supportedSources.find(
+const getSourceData = async (req, res) => {
+  const selectedSource = availableSources.find(
     source => source.id === Number(req.params.id),
   );
 
-  return getData()
-    .then(data =>
-      res.send({
-        data,
-        ...returnPropIfExists(attributionLink, 'attributionLink'),
-      }),
-    )
-    .catch(err => console.log(err));
+  try {
+    const data = await storage.getItem(req.params.id);
+
+    res.send({
+      data,
+      ...returnPropIfExists(selectedSource.attributionLink, 'attributionLink'),
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = {
