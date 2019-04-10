@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from 'prop-types';
-// import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
@@ -44,9 +44,12 @@ const SourceList = ({ articles }) => {
         {articles.map(article => (
           <div key={article.id}>
             <ListItemLink href={article.url}>
+              <Typography variant="h6" component="span">
+                {article.id}
+              </Typography>
               <ListItemText
-                primary={article.title}
                 className={classes.listItemText}
+                primary={article.title}
                 disableTypography
               />
             </ListItemLink>
@@ -56,7 +59,7 @@ const SourceList = ({ articles }) => {
       </List>
     </div>
   );
-}
+};
 
 SourceList.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.shape()).isRequired,
