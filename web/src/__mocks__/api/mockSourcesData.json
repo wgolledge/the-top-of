@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Hacker News"
+    },
+    {
+      "id": 2,
+      "name": "The Top Of for Reddit"
+    },
+    {
+      "id": 3,
+      "name": "The Guardian"
+    }
+  ]
+}
