@@ -15,6 +15,7 @@ module.exports = {
   name: 'The Top Of for Reddit',
   working: true,
   imgName: 'reddit.png',
+  url: 'https://reddit.com',
   getData: () =>
     post('https://www.reddit.com/api/v1/access_token', data, {
       headers,
