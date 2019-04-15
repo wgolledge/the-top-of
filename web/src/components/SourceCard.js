@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { get } from 'axios';
 import PropTypes from 'prop-types';
 
 import { useGetFromUrl } from '../utils/hooks';
@@ -68,11 +68,11 @@ const styles = {
   },
 };
 
-const SourceCard = ({ chosenSource, name, changeSource }) => {
+const SourceCard = ({ chosenSource, changeSource }) => {
   const classes = useStyles(useTheme());
   const { data: sourceData, isLoading, isError } = useGetFromUrl(
-    `${process.env.REACT_APP_API_URL}/sources/${chosenSource}`,
-    500,
+    `${process.env.REACT_APP_API_URL}/sources/${chosenSource.id}`,
+    300,
   );
 
   return (
@@ -87,8 +87,11 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
           <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
             <CardMedia
               className={classes.media}
-              title={name}
-              image={`${process.env.REACT_APP_API_URL}/images/${chosenSource}`}
+              href={chosenSource.url}
+              title={chosenSource.name}
+              image={`${process.env.REACT_APP_API_URL}/images/${
+                chosenSource.id
+              }`}
             />
           </Box>
           <Box height="85%">
@@ -99,10 +102,10 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
                   className={classes.contentTitle}
                   component="h2"
                 >
-                  {name}
+                  {chosenSource.name}
                 </Typography>
                 <div className={classes.contentList}>
-                  <SourceList articles={sourceData.data} />
+                  <SourceList articles={sourceData} />
                 </div>
               </>
             ) : (
@@ -112,17 +115,27 @@ const SourceCard = ({ chosenSource, name, changeSource }) => {
         </CardActionArea>
       </Box>
       <CardActions style={styles.action}>
-        <Button size="medium" color="primary" onClick={changeSource}>
-          Change Source
-        </Button>
+        <Grid container spacing={0} justify="flex-start">
+          <Grid item xs={6}>
+            <Button size="medium" color="primary" onClick={changeSource}>
+              Change Source
+            </Button>
+          </Grid>
+          {chosenSource.attributionLink && (
+            <Grid item xs={6}>
+              <Link href={chosenSource.attributionLink.link}>
+                {chosenSource.attributionLink.text}
+              </Link>
+            </Grid>
+          )}
+        </Grid>
       </CardActions>
     </Card>
   );
 };
 
 SourceCard.propTypes = {
-  chosenSource: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  chosenSource: PropTypes.shape().isRequired,
   changeSource: PropTypes.func.isRequired,
 };
 

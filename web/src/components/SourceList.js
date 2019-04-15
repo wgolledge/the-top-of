@@ -29,8 +29,8 @@ const SourceList = ({ sources, onClick }) => {
 
   return (
     <List disablePadding>
-      <Grid container spacing={30} justify="center">
-        <Grid item xs={12} md={12} lg={12}>
+      <Grid container spacing={2} justify="center">
+        <Grid item xs={12}>
           <Typography
             className={classes.introText}
             variant="body2"

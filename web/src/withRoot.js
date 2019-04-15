@@ -8,7 +8,7 @@ const generateClassName = createGenerateClassName({
   productionPrefix: 'c',
 });
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#78A1BB',

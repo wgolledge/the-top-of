@@ -19,7 +19,7 @@ const Loader = () => {
   const classes = useStyles(useTheme());
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="loading-spinner">
       <CircularProgress className={classes.progress} color="primary" />
     </div>
   );

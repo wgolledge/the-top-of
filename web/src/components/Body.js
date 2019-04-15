@@ -29,8 +29,7 @@ const Body = () => {
     <>
       {chosenSource ? (
         <SourceCard
-          chosenSource={chosenSource.id}
-          name={chosenSource.name}
+          chosenSource={chosenSource}
           changeSource={handleChangeSource}
         />
       ) : (

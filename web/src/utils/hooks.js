@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { get } from 'axios';
 
 export const useGetFromUrl = (url, minTime = 0) => {
-  const [data, setData] = useState(null);
+  const [response, setResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRetrievingData, setIsRetrievingData] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -18,9 +18,17 @@ export const useGetFromUrl = (url, minTime = 0) => {
       setIsRetrievingData(true);
 
       try {
-        const response = await get(url);
+        const {
+          data: { data, error },
+        } = await get(url);
 
-        setData(response.data);
+        if (data) {
+          setResponse(data);
+        } else if (error) {
+          setResponse(error);
+        } else {
+          throw new Error('Error accessing response data');
+        }
       } catch (error) {
         setIsError(true);
       }
@@ -42,7 +50,7 @@ export const useGetFromUrl = (url, minTime = 0) => {
     }
   }, [isRetrievingData, isLongerThanMinTime]);
 
-  return { data, isLoading, isError };
+  return { data: response, isLoading, isError };
 };
 
 export default {
