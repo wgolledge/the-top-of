@@ -11,7 +11,9 @@ const generateClassName = createGenerateClassName({
 export const theme = createMuiTheme({
   palette: {
     primary: {
+      light: '#BBD5ED',
       main: '#78A1BB',
+      dark: '#445E93',
     },
     secondary: {
       main: '#ADA8B6',

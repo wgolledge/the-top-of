@@ -75,6 +75,10 @@ const SourceCard = ({ chosenSource, changeSource }) => {
     300,
   );
 
+  const handleCardMediaClick = () => {
+    window.location = chosenSource.url;
+  };
+
   return (
     <Card className={classes.root} raised>
       <Box height="100%">
@@ -87,7 +91,7 @@ const SourceCard = ({ chosenSource, changeSource }) => {
           <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
             <CardMedia
               className={classes.media}
-              href={chosenSource.url}
+              onClick={handleCardMediaClick}
               title={chosenSource.name}
               image={`${process.env.REACT_APP_API_URL}/images/${
                 chosenSource.id
