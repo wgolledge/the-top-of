@@ -3,25 +3,31 @@ const { availableSources } = require('./supportedSourceList');
 
 const returnPropIfExists = (prop, name) => prop && { [name]: prop };
 
-const getSources = (req, res) =>
-  res.send(
-    availableSources.map(source => ({ id: source.id, name: source.name })),
-  );
+const getSources = (req, res) => {
+  try {
+    const formattedSources = availableSources.map(source => ({
+      id: source.id,
+      name: source.name,
+      ...returnPropIfExists(source.attributionLink, 'attributionLink'),
+    }));
+
+    res.send({ data: formattedSources });
+  } catch (err) {
+    console.log(err);
+    res.send({ error: err });
+  }
+};
 
 const getSourceData = async (req, res) => {
-  const selectedSource = availableSources.find(
-    source => source.id === Number(req.params.id),
-  );
-
   try {
-    const data = await storage.getItem(req.params.id);
+    const sourceData = await storage.getItem(req.params.id);
 
     res.send({
-      data,
-      ...returnPropIfExists(selectedSource.attributionLink, 'attributionLink'),
+      data: sourceData,
     });
   } catch (err) {
     console.log(err);
+    res.send({ error: err });
   }
 };
 
