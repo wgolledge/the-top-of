@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-testing-library';
 
-import App from '../App';
+import Index from '../../pages/index';
 
 it('renders without crashing', () => {
-  render(<App />);
+  render(<Index />);
 });
