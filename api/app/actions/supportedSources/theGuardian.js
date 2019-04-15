@@ -5,6 +5,7 @@ module.exports = {
   working: true,
   imgName: 'theGuardian.png',
   url: 'https://theguardian.com',
+  priority: 20,
   getData: () =>
     get(
       `https://content.guardianapis.com/search?order-by=relevance&q=news&use-date=last-modified&lang=en&from-date=2019-04-04&page-size=50&show-fields=headline,thumbnail,lastModified,score&api-key=${
@@ -19,13 +20,13 @@ module.exports = {
             (a, b) =>
               new Date(b.fields.lastModified) - new Date(a.fields.lastModified),
           )
-          .reduce((acc, { webTitle, webUrl }) => {
+          .reduce((acc, { webTitle, webUrl, fields: { thumbnail } }) => {
             if (!webUrl) {
               return acc;
             }
 
             // eslint-disable-next-line no-plusplus
-            acc.push({ title: webTitle, url: webUrl, id: ++id });
+            acc.push({ id: ++id, title: webTitle, url: webUrl, thumbnail });
             return acc;
           }, [])
           .slice(0, 10);

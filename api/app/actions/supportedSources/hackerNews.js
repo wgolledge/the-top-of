@@ -5,6 +5,7 @@ module.exports = {
   working: true,
   imgName: 'hackerNews.png',
   url: 'https://hn.algolia.com',
+  priority: 100,
   getData: () =>
     get(
       'http://hn.algolia.com/api/v1/search?tags=front_page&numericFilters=created_at_i>86400',
