@@ -1,5 +1,6 @@
 const { get, post } = require('axios');
 const queryString = require('query-string');
+const { returnPropIfExists } = require('../../util/obj');
 
 const headers = {
   'Content-Type': 'application/x-www-form-urlencoded',
@@ -16,6 +17,7 @@ module.exports = {
   working: true,
   imgName: 'reddit.png',
   url: 'https://reddit.com',
+  priority: 10,
   getData: () =>
     post('https://www.reddit.com/api/v1/access_token', data, {
       headers,
@@ -28,13 +30,21 @@ module.exports = {
       .then(({ data: { data: { children } } }) => {
         let id = 0;
 
-        return children.reduce((acc, { data: { title, url } }) => {
+        return children.reduce((acc, { data: { title, url, thumbnail } }) => {
           if (!url) {
             return acc;
           }
 
-          // eslint-disable-next-line no-plusplus
-          acc.push({ title, url, id: ++id });
+          acc.push({
+            // eslint-disable-next-line no-plusplus
+            id: ++id,
+            title,
+            url,
+            ...returnPropIfExists(
+              thumbnail !== 'self' && thumbnail,
+              'thumbnail',
+            ),
+          });
           return acc;
         }, []);
       })

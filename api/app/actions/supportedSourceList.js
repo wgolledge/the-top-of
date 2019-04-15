@@ -5,10 +5,13 @@ const schedule = require('node-schedule');
 
 storage.init();
 
-const sources = glob.sync(`${__dirname}/supportedSources/*.js`).map(file =>
-  // eslint-disable-next-line
-  require(path.resolve(file))
-);
+const sources = glob
+  .sync(`${__dirname}/supportedSources/*.js`)
+  .map(file =>
+    // eslint-disable-next-line
+    require(path.resolve(file)),
+  )
+  .sort((a, b) => a.priority - b.priority);
 
 const availableSources = (() => {
   let id = 0;
@@ -23,8 +26,6 @@ const availableSources = (() => {
 })();
 
 const updateSourceStorage = async () => {
-  console.log('updating sourceStorage');
-
   try {
     const sourceDataArr = await Promise.all(
       availableSources.map(source => source.getData()),
