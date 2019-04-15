@@ -9,8 +9,15 @@ const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   text: {
-    margin: 'auto !important',
+    '&:not(:first-child)': {
+      paddingLeft: 10,
+      fontWeight: 500,
+    },
   },
 });
 
@@ -25,9 +32,12 @@ const Header = props => {
   return (
     <div className={classes.root} ref={ref}>
       <AppBar position="static" color="default">
-        <Toolbar>
-          <Typography className={classes.text} variant="h6" color="inherit">
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="h5" color="secondary">
             Show Me...
+          </Typography>
+          <Typography className={classes.text} variant="h5" color="primary">
+            The Top Of
           </Typography>
         </Toolbar>
       </AppBar>
