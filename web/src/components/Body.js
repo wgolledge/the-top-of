@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
 
-import Modal from './Modal';
+import { useGetFromUrl } from '../utils/hooks';
+
+import SourceList from './SourceList';
 import SourceCard from './SourceCard';
-import Button from './Button';
+import Loader from './Loader';
 
 const Body = () => {
+  const { data: sources, isLoading, isError } = useGetFromUrl(
+    `${process.env.REACT_APP_API_URL}/sources`,
+    300,
+  );
   const [chosenSource, setChosenSource] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const handleChangeSource = () => {
     setChosenSource(null);
-    setModalOpen(true);
   };
 
   const handleSetChosenSource = source => {
     setChosenSource(source);
-    setModalOpen(false);
   };
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  if (isLoading || isError) {
+    return <Loader />;
+  }
 
   return (
     <>
-      <Modal
-        isOpen={modalOpen}
-        setChosenSource={handleSetChosenSource}
-        onClose={closeModal}
-      />
       {chosenSource ? (
         <SourceCard
-          chosenSource={chosenSource.id}
-          name={chosenSource.name}
+          chosenSource={chosenSource}
           changeSource={handleChangeSource}
         />
       ) : (
-        <Button onClick={openModal} text="... THE TOP OF" />
+        <SourceList sources={sources} onClick={handleSetChosenSource} />
       )}
     </>
   );
