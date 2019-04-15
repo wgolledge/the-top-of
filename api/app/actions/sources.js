@@ -1,7 +1,7 @@
 const storage = require('node-persist');
 const { availableSources } = require('./supportedSourceList');
 
-const returnPropIfExists = (prop, name) => prop && { [name]: prop };
+const { returnPropIfExists } = require('../util/obj');
 
 const getSources = (req, res) => {
   try {

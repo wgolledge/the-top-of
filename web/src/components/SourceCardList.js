@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -31,6 +32,11 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1rem',
     },
   },
+  avatar: {
+    height: 45,
+    margin: '-7px 0 -7px -7px',
+    width: 45,
+  },
 }));
 
 const ListItemLink = props => <ListItem button component="a" {...props} />;
@@ -52,6 +58,13 @@ const SourceList = ({ articles }) => {
                 primary={article.title}
                 disableTypography
               />
+              {article.thumbnail && (
+                <Avatar
+                  className={classes.avatar}
+                  alt={`Thumbnail for ${article.title}`}
+                  src={article.thumbnail}
+                />
+              )}
             </ListItemLink>
             <Divider />
           </div>
