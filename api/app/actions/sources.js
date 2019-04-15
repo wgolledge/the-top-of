@@ -8,6 +8,7 @@ const getSources = (req, res) => {
     const formattedSources = availableSources.map(source => ({
       id: source.id,
       name: source.name,
+      url: source.url,
       ...returnPropIfExists(source.attributionLink, 'attributionLink'),
     }));
 

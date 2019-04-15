@@ -18,11 +18,7 @@ const availableSources = (() => {
     .map(source => ({
       // eslint-disable-next-line no-plusplus
       id: ++id,
-      name: source.name,
-      working: source.working,
-      imgName: source.imgName,
-      getData: source.getData,
-      attributionLink: source.attributionLink,
+      ...source,
     }));
 })();
 
