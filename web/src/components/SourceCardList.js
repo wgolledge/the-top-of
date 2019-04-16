@@ -23,10 +23,10 @@ const useStyles = makeStyles(theme => ({
   },
   listItemText: {
     [theme.breakpoints.down('sm')]: {
-      fontSize: 'calc(0.7vw + 0.7vh + .5vmin)',
+      fontSize: 'calc(0.7vw + 0.9vh + .5vmin)',
     },
     [theme.breakpoints.up('md')]: {
-      fontSize: 'calc(0.6vw + 0.6vh + .5vmin)',
+      fontSize: 'calc(0.6vw + 0.7vh + .5vmin)',
     },
     [theme.breakpoints.up('lg')]: {
       fontSize: '1rem',

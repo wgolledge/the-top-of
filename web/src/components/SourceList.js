@@ -8,19 +8,23 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
+  introText: {
+    fontSize: '1.2em',
+    fontWeight: 500,
+    letterSpacing: 1.3,
+    marginBottom: 50,
+  },
   paper: {
     margin: '20px',
   },
   listItem: {
     cursor: 'pointer',
     justifyContent: 'center',
-  },
-  introText: {
-    fontSize: '1em',
-    marginBottom: 50,
+    padding: 5,
   },
   sourceText: {
-    fontSize: '1rem',
+    fontSize: '1.6em',
+    fontWeight: 500,
   },
 });
 
@@ -29,7 +33,7 @@ const SourceList = ({ sources, onClick }) => {
 
   return (
     <List disablePadding>
-      <Grid container spacing={2} justify="center">
+      <Grid container justify="center">
         <Grid item xs={12}>
           <Typography
             className={classes.introText}

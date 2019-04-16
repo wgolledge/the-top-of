@@ -8,7 +8,17 @@ const generateClassName = createGenerateClassName({
   productionPrefix: 'c',
 });
 
+export const minHeightMedia = '@media (min-height:800px)';
+
 export const theme = createMuiTheme({
+  mixins: {
+    toolbar: {
+      minHeight: 51,
+      [minHeightMedia]: {
+        minHeight: 64,
+      },
+    },
+  },
   palette: {
     primary: {
       light: '#BBD5ED',
@@ -16,7 +26,7 @@ export const theme = createMuiTheme({
       dark: '#445E93',
     },
     secondary: {
-      main: '#ADA8B6',
+      main: '#9E9AA7',
     },
   },
 });
