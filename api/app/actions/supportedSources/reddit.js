@@ -41,7 +41,7 @@ module.exports = {
             title,
             url,
             ...returnPropIfExists(
-              thumbnail !== 'self' && thumbnail,
+              ['self', 'default'].indexOf(thumbnail) === -1 && thumbnail,
               'thumbnail',
             ),
           });
