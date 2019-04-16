@@ -5,18 +5,31 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import { minHeightMedia } from '../withRoot';
+
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
+    backgroundColor: '#BBD5ED !important',
   },
   toolbar: {
-    display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
   },
   text: {
+    margin: '0 auto 0 auto',
+    display: 'none',
+    [minHeightMedia]: {
+      display: 'block',
+    },
     '&:not(:first-child)': {
-      paddingLeft: 10,
-      fontWeight: 500,
+      display: 'block',
+      marginTop: '4px',
+      [minHeightMedia]: {
+        marginTop: '-5px',
+      },
+      fontFamily: `'Pacifico', cursive`,
+      fontWeight: 400,
+      fontSize: '2rem',
     },
   },
 });
@@ -33,10 +46,14 @@ const Header = props => {
     <div className={classes.root} ref={ref}>
       <AppBar position="static" color="default">
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h5" color="secondary">
+          <Typography
+            className={classes.text}
+            variant="subtitle2"
+            color="secondary"
+          >
             Show Me...
           </Typography>
-          <Typography className={classes.text} variant="h5" color="primary">
+          <Typography className={classes.text} variant="h1" color="primary">
             The Top Of
           </Typography>
         </Toolbar>
