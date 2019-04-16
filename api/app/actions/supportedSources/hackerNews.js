@@ -26,8 +26,4 @@ module.exports = {
           .slice(0, 10);
       })
       .catch(err => console.log(err)),
-  // attributionLink: {
-  //   text: 'Powered by News API',
-  //   link: 'https://newsapi.org/',
-  // },
 };
