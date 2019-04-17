@@ -10,7 +10,8 @@ import { minHeightMedia } from '../withRoot';
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    backgroundColor: '#BBD5ED !important',
+    position: 'relative',
+    zIndex: 9999,
   },
   toolbar: {
     flexDirection: 'column',

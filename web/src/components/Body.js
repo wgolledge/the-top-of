@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Slide from '@material-ui/core/Slide';
 
 import { useGetFromUrl } from '../utils/hooks';
 
@@ -12,29 +13,39 @@ const Body = () => {
     300,
   );
   const [chosenSource, setChosenSource] = useState(null);
+  const [cardShown, setCardShown] = useState(false);
 
   const handleChangeSource = () => {
-    setChosenSource(null);
+    setCardShown(false);
   };
 
   const handleSetChosenSource = source => {
     setChosenSource(source);
+    setCardShown(true);
   };
 
   if (isLoading || isError) {
     return <Loader />;
   }
 
+  const timeout = { enter: 400, exit: 180 };
+
   return (
     <>
-      {chosenSource ? (
+      <Slide
+        direction="up"
+        in={cardShown}
+        timeout={timeout}
+        mountOnEnter
+        unmountOnExit
+      >
         <SourceCard
           chosenSource={chosenSource}
+          cardShown={cardShown}
           changeSource={handleChangeSource}
         />
-      ) : (
-        <SourceList sources={sources} onClick={handleSetChosenSource} />
-      )}
+      </Slide>
+      <SourceList sources={sources} onClick={handleSetChosenSource} />
     </>
   );
 };
