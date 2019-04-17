@@ -29,6 +29,11 @@ export const theme = createMuiTheme({
       main: '#9E9AA7',
     },
   },
+  transitions: {
+    easing: {
+      easeOut: 'cubic-bezier(.6,0,.6,1)',
+    },
+  },
 });
 
 const withRoot = Component => {

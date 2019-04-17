@@ -8,6 +8,9 @@ import Body from '../components/Body';
 const useStyles = makeStyles({
   root: {
     height: '100%',
+    overflow: 'hidden',
+    position: 'absolute',
+    width: '100%',
   },
   main: {
     alignItems: 'center',
@@ -16,6 +19,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     margin: 'auto',
     maxWidth: '860px',
+    position: 'relative',
   },
 });
 

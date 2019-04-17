@@ -12,10 +12,11 @@ const useStyles = makeStyles({
     fontSize: '1.2em',
     fontWeight: 500,
     letterSpacing: 1.3,
-    marginBottom: 50,
+    margin: 'auto auto 50px auto',
+    width: '95%',
   },
   paper: {
-    margin: '20px',
+    margin: '25px',
   },
   listItem: {
     cursor: 'pointer',
@@ -45,7 +46,7 @@ const SourceList = ({ sources, onClick }) => {
           </Typography>
         </Grid>
         {sources.map(source => (
-          <Grid item key={source.id} xs={12} md={10} lg={6}>
+          <Grid item key={source.id} xs={12} md={6} lg={6}>
             <Paper className={classes.paper} elevation={2}>
               <ListItem
                 className={classes.listItem}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, forwardRef } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -24,6 +24,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '95%',
     width: '95%',
+    position: 'absolute',
+    zIndex: 99,
   },
   cardActionArea: {
     height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
@@ -68,79 +70,105 @@ const styles = {
   },
 };
 
-const SourceCard = ({ chosenSource, changeSource }) => {
-  const classes = useStyles(useTheme());
-  const { data: sourceData, isLoading, isError } = useGetFromUrl(
-    `${process.env.REACT_APP_API_URL}/sources/${chosenSource.id}`,
-    300,
-  );
+const SourceCard = forwardRef(
+  // eslint-disable-next-line no-unused-vars
+  ({ chosenSource, changeSource, cardShown }, unusedRef) => {
+    const classes = useStyles(useTheme());
+    const cardRef = useRef(null);
 
-  const handleCardMediaClick = () => {
-    window.location = chosenSource.url;
-  };
+    const handleClickOutside = e => {
+      if (cardRef.current && !cardRef.current.contains(e.target)) {
+        changeSource();
+      }
+    };
 
-  return (
-    <Card className={classes.root} raised>
-      <Box height="100%">
-        <CardActionArea
-          classes={{
-            root: classes.cardActionArea,
-            focusHighlight: classes.focusHighlight,
-          }}
-        >
-          <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
-            <CardMedia
-              className={classes.media}
-              onClick={handleCardMediaClick}
-              title={chosenSource.name}
-              image={`${process.env.REACT_APP_API_URL}/images/${
-                chosenSource.id
-              }`}
-            />
+    const handleCardMediaClick = () => {
+      window.location = chosenSource.url;
+    };
+
+    useEffect(() => {
+      document.addEventListener('click', handleClickOutside, false);
+      return () => {
+        document.removeEventListener('click', handleClickOutside, false);
+      };
+    }, [cardShown]);
+
+    const { data: sourceData, isLoading, isError } = useGetFromUrl(
+      `${process.env.REACT_APP_API_URL}/sources/${chosenSource &&
+        chosenSource.id}`,
+      300,
+    );
+
+    return (
+      <Card ref={cardRef} className={classes.root} raised>
+        <>
+          <Box height="100%">
+            <CardActionArea
+              classes={{
+                root: classes.cardActionArea,
+                focusHighlight: classes.focusHighlight,
+              }}
+            >
+              <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
+                <CardMedia
+                  className={classes.media}
+                  onClick={handleCardMediaClick}
+                  title={chosenSource.name}
+                  image={`${process.env.REACT_APP_API_URL}/images/${
+                    chosenSource.id
+                  }`}
+                />
+              </Box>
+              <Box height="85%">
+                {!isLoading && !isError ? (
+                  <>
+                    <Typography
+                      style={styles.contentTitle}
+                      className={classes.contentTitle}
+                      component="h2"
+                    >
+                      {chosenSource.name}
+                    </Typography>
+                    <div className={classes.contentList}>
+                      <SourceList articles={sourceData} />
+                    </div>
+                  </>
+                ) : (
+                  <Loader />
+                )}
+              </Box>
+            </CardActionArea>
           </Box>
-          <Box height="85%">
-            {!isLoading && !isError ? (
-              <>
-                <Typography
-                  style={styles.contentTitle}
-                  className={classes.contentTitle}
-                  component="h2"
-                >
-                  {chosenSource.name}
-                </Typography>
-                <div className={classes.contentList}>
-                  <SourceList articles={sourceData} />
-                </div>
-              </>
-            ) : (
-              <Loader />
-            )}
-          </Box>
-        </CardActionArea>
-      </Box>
-      <CardActions style={styles.action}>
-        <Grid container spacing={0} justify="flex-start">
-          <Grid item xs={6}>
-            <Button size="medium" color="primary" onClick={changeSource}>
-              Change Source
-            </Button>
-          </Grid>
-          {chosenSource.attributionLink && (
-            <Grid item xs={6}>
-              <Link href={chosenSource.attributionLink.link}>
-                {chosenSource.attributionLink.text}
-              </Link>
+          <CardActions style={styles.action}>
+            <Grid container spacing={0} justify="flex-start">
+              <Grid item xs={6}>
+                <Button size="medium" color="primary" onClick={changeSource}>
+                  Change Source
+                </Button>
+              </Grid>
+              {chosenSource.attributionLink && (
+                <Grid item xs={6}>
+                  <Link href={chosenSource.attributionLink.link}>
+                    {chosenSource.attributionLink.text}
+                  </Link>
+                </Grid>
+              )}
             </Grid>
-          )}
-        </Grid>
-      </CardActions>
-    </Card>
-  );
-};
+          </CardActions>
+        </>
+      </Card>
+    );
+  },
+);
 
 SourceCard.propTypes = {
-  chosenSource: PropTypes.shape().isRequired,
+  chosenSource: PropTypes.shape(),
   changeSource: PropTypes.func.isRequired,
+  cardShown: PropTypes.bool.isRequired,
+};
+
+SourceCard.defaultProps = {
+  chosenSource: null,
 };
 
 export default SourceCard;
