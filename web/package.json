@@ -8,7 +8,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
+    "build-sw": "node ./src/sw-build.js",
+    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
     "test": "react-scripts test",
     "lint": "./node_modules/.bin/eslint src/",
     "eject": "react-scripts eject"
@@ -33,7 +35,8 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
-    "prettier-eslint": "^8.8.2"
+    "prettier-eslint": "^8.8.2",
+    "workbox-build": "^4.3.0"
   },
   "jest": {
     "collectCoverageFrom": [
