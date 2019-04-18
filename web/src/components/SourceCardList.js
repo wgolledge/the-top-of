@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     height: '100%',
     overflowX: 'hidden',
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   list: {
     '&&': {
