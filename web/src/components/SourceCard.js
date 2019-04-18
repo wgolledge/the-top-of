@@ -108,6 +108,7 @@ const SourceCard = forwardRef(
                 root: classes.cardActionArea,
                 focusHighlight: classes.focusHighlight,
               }}
+              disableTouchRipple
             >
               <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
                 <CardMedia

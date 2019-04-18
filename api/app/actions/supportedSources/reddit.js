@@ -1,6 +1,7 @@
 const { get, post } = require('axios');
 const queryString = require('query-string');
 const { returnPropIfExists } = require('../../util/obj');
+const { isStringVaidUrl } = require('../../util/string');
 
 const headers = {
   'Content-Type': 'application/x-www-form-urlencoded',
@@ -41,7 +42,7 @@ module.exports = {
             title,
             url,
             ...returnPropIfExists(
-              ['self', 'default'].indexOf(thumbnail) === -1 && thumbnail,
+              isStringVaidUrl(thumbnail) && thumbnail,
               'thumbnail',
             ),
           });
