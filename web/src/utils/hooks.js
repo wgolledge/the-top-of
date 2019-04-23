@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { get } from 'axios';
 
-export const useGetFromUrl = (url, minTime = 0) => {
+import axios from './axiosWithDuration';
+
+export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
+  const LONG_REQUEST_LIMIT = 50;
   const [response, setResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRetrievingData, setIsRetrievingData] = useState(true);
@@ -10,7 +12,7 @@ export const useGetFromUrl = (url, minTime = 0) => {
 
   setTimeout(() => {
     setIsLongerThanMinTime(true);
-  }, minTime);
+  }, minTimeIfLongReq);
 
   useEffect(() => {
     const getData = async () => {
@@ -20,10 +22,16 @@ export const useGetFromUrl = (url, minTime = 0) => {
       try {
         const {
           data: { data, error },
-        } = await get(url);
+          duration,
+        } = await axios.get(url);
 
         if (data) {
           setResponse(data);
+
+          if (duration < LONG_REQUEST_LIMIT) {
+            setIsLoading(false);
+            return;
+          }
         } else if (error) {
           setResponse(error);
         } else {

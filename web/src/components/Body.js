@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Slide from '@material-ui/core/Slide';
 
 import { useGetFromUrl } from '../utils/hooks';
@@ -15,9 +15,9 @@ const Body = () => {
   const [chosenSource, setChosenSource] = useState(null);
   const [cardShown, setCardShown] = useState(false);
 
-  const handleChangeSource = () => {
+  const handleChangeSource = useCallback(() => {
     setCardShown(false);
-  };
+  }, []);
 
   const handleSetChosenSource = source => {
     setChosenSource(source);
