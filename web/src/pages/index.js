@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import withRoot from '../withRoot';
+import withRoot from '../utils/withRoot';
 import Header from '../components/Header';
 import Body from '../components/Body';
 
