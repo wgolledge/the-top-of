@@ -69,7 +69,6 @@ const styles = {
     marginTop: `-${ACTIONS_HEIGHT}px`,
   },
 };
-
 const SourceCard = forwardRef(
   // eslint-disable-next-line no-unused-vars
   ({ chosenSource, changeSource, cardShown }, unusedRef) => {
@@ -96,7 +95,7 @@ const SourceCard = forwardRef(
     const { data: sourceData, isLoading, isError } = useGetFromUrl(
       `${process.env.REACT_APP_API_URL}/sources/${chosenSource &&
         chosenSource.id}`,
-      300,
+      500,
     );
 
     return (
@@ -121,15 +120,15 @@ const SourceCard = forwardRef(
                 />
               </Box>
               <Box height="85%">
+                <Typography
+                  style={styles.contentTitle}
+                  className={classes.contentTitle}
+                  component="h2"
+                >
+                  {chosenSource.name}
+                </Typography>
                 {!isLoading && !isError ? (
                   <>
-                    <Typography
-                      style={styles.contentTitle}
-                      className={classes.contentTitle}
-                      component="h2"
-                    >
-                      {chosenSource.name}
-                    </Typography>
                     <div className={classes.contentList}>
                       <SourceList articles={sourceData} />
                     </div>
