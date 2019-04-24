@@ -8,14 +8,19 @@ const generateClassName = createGenerateClassName({
   productionPrefix: 'c',
 });
 
-export const minHeightMedia = '@media (min-height:800px)';
+const headerHeightSmall = 51;
+const headerHeightLarge = 64;
+const minHeightHeaderExpand = 800;
+
+const minHeightMedia = `@media (min-height:${minHeightHeaderExpand}px)`;
 
 export const theme = createMuiTheme({
+  maxWidth: 860,
   mixins: {
     toolbar: {
-      minHeight: 51,
+      minHeight: headerHeightSmall,
       [minHeightMedia]: {
-        minHeight: 64,
+        minHeight: headerHeightLarge,
       },
     },
   },
@@ -33,6 +38,12 @@ export const theme = createMuiTheme({
     easing: {
       easeOut: 'cubic-bezier(.6,0,.6,1)',
     },
+  },
+  header: {
+    headerHeightSmall,
+    headerHeightLarge,
+    minHeightHeaderExpand,
+    minHeightMedia,
   },
 });
 
