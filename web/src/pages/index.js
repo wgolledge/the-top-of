@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 
 import withRoot from '../utils/withRoot';
 import Header from '../components/Header';
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     height: props => `calc(100% - ${props.height}px)`,
     justifyContent: 'center',
     margin: 'auto',
-    maxWidth: '860px',
+    maxWidth: props => props.theme.maxWidth,
     position: 'relative',
   },
 });
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 const Index = () => {
   const [height, setHeight] = useState(null);
 
-  const classes = useStyles({ height });
+  const classes = useStyles({ height, theme: useTheme() });
 
   return (
     <div className={classes.root}>

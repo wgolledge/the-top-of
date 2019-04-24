@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, forwardRef } from 'react';
+import React, { Suspense, useEffect, useRef, forwardRef } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -12,52 +12,62 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
 import { useGetFromUrl } from '../utils/hooks';
+import { returnPropIfTrue } from '../utils/obj';
 
-import SourceList from './SourceCardList';
 import Loader from './Loader';
+
+const LazySourceList = React.lazy(() => import('./SourceCardList'));
 
 const MEDIA_HEIGHT = 69;
 const TITLE_HEIGHT = 35;
 const ACTIONS_HEIGHT = 50;
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '95%',
-    width: '95%',
-    position: 'absolute',
-    zIndex: 99,
-  },
-  cardActionArea: {
-    height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
-    '&:hover $focusHighlight': {
-      opacity: 0,
+const useStyles = isSingle =>
+  makeStyles(theme => ({
+    root: {
+      height: window.innerHeight - theme.header.headerHeightSmall - 30,
+      [theme.header.minHeightMedia]: {
+        height: window.innerHeight - theme.header.headerHeightLarge - 30,
+      },
+      maxWidth: theme.maxWidth - 20,
+      margin: '15px 10px',
+      position: 'absolute',
+      width: window.innerWidth - 20,
+      zIndex: 99,
+      ...returnPropIfTrue(isSingle, { left: 0 }),
+      ...returnPropIfTrue(isSingle, { top: 0 }),
     },
-  },
-  focusHighlight: {},
-  media: {
-    height: '100%',
-  },
-  content: {
-    '&&': {
+    cardActionArea: {
+      height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
+      '&:hover $focusHighlight': {
+        opacity: 0,
+      },
+    },
+    focusHighlight: {},
+    media: {
       height: '100%',
-      padding: '16px 16px 0 16px',
     },
-  },
-  contentTitle: {
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 'calc(1.2vw + 1.2vh + .5vmin)',
+    content: {
+      '&&': {
+        height: '100%',
+        padding: '16px 16px 0 16px',
+      },
     },
-    [theme.breakpoints.up('md')]: {
-      fontSize: 'calc(1vw + 1vh + .7vmin)',
+    contentTitle: {
+      [theme.breakpoints.down('sm')]: {
+        fontSize: 'calc(1.2vw + 1.2vh + .5vmin)',
+      },
+      [theme.breakpoints.up('md')]: {
+        fontSize: 'calc(1vw + 1vh + .7vmin)',
+      },
+      [theme.breakpoints.up('lg')]: {
+        fontSize: '1.5rem',
+      },
     },
-    [theme.breakpoints.up('lg')]: {
-      fontSize: '1.5rem',
+    contentList: {
+      height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
     },
-  },
-  contentList: {
-    height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
-  },
-}));
+  }));
 
 const styles = {
   contentTitle: {
@@ -69,14 +79,22 @@ const styles = {
     marginTop: `-${ACTIONS_HEIGHT}px`,
   },
 };
+
 const SourceCard = forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ chosenSource, changeSource, cardShown }, unusedRef) => {
-    const classes = useStyles(useTheme());
+  ({ chosenSource, changeSource, isSingle }, unusedRef) => {
     const cardRef = useRef(null);
+    const theme = useTheme();
+    const classes = useStyles(isSingle)(theme);
 
     const handleClickOutside = e => {
-      if (cardRef.current && !cardRef.current.contains(e.target)) {
+      const extraSpaceEitherSide = (window.innerWidth - theme.maxWidth) / 2;
+
+      if (
+        extraSpaceEitherSide > 0 &&
+        (e.clientX < extraSpaceEitherSide ||
+          e.clientX > theme.maxWidth + extraSpaceEitherSide)
+      ) {
         changeSource();
       }
     };
@@ -90,7 +108,7 @@ const SourceCard = forwardRef(
       return () => {
         document.removeEventListener('click', handleClickOutside, false);
       };
-    }, [cardShown]);
+    }, []);
 
     const { data: sourceData, isLoading, isError } = useGetFromUrl(
       `${process.env.REACT_APP_API_URL}/sources/${chosenSource &&
@@ -99,7 +117,7 @@ const SourceCard = forwardRef(
     );
 
     return (
-      <Card ref={cardRef} className={classes.root} raised>
+      <Card ref={cardRef} className={classes.root}>
         <>
           <Box height="100%">
             <CardActionArea
@@ -128,11 +146,11 @@ const SourceCard = forwardRef(
                   {chosenSource.name}
                 </Typography>
                 {!isLoading && !isError ? (
-                  <>
+                  <Suspense fallback={<Loader />}>
                     <div className={classes.contentList}>
-                      <SourceList articles={sourceData} />
+                      <LazySourceList articles={sourceData} />
                     </div>
-                  </>
+                  </Suspense>
                 ) : (
                   <Loader />
                 )}
@@ -164,7 +182,7 @@ const SourceCard = forwardRef(
 SourceCard.propTypes = {
   chosenSource: PropTypes.shape(),
   changeSource: PropTypes.func.isRequired,
-  cardShown: PropTypes.bool.isRequired,
+  isSingle: PropTypes.bool.isRequired,
 };
 
 SourceCard.defaultProps = {

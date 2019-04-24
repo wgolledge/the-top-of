@@ -15,3 +15,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.slick-slider, .slick-list, .slick-track {
+  height: 100%;
+  width: 100%;
+}
+
+.slick-slider {
+  position: absolute;
+  z-index: 999;
+}
