@@ -6,19 +6,10 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
   const LONG_REQUEST_LIMIT = 50;
   const [response, setResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRetrievingData, setIsRetrievingData] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [isLongerThanMinTime, setIsLongerThanMinTime] = useState(false);
-
-  setTimeout(() => {
-    setIsLongerThanMinTime(true);
-  }, minTimeIfLongReq);
 
   useEffect(() => {
     const getData = async () => {
-      setIsError(false);
-      setIsRetrievingData(true);
-
       try {
         const {
           data: { data, error },
@@ -32,6 +23,10 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
             setIsLoading(false);
             return;
           }
+
+          setTimeout(() => {
+            setIsLoading(false);
+          }, minTimeIfLongReq - duration);
         } else if (error) {
           setResponse(error);
         } else {
@@ -40,23 +35,10 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
       } catch (error) {
         setIsError(true);
       }
-
-      if (isLongerThanMinTime) {
-        setIsLoading(false);
-        return;
-      }
-
-      setIsRetrievingData(false);
     };
 
     getData();
   }, []);
-
-  useEffect(() => {
-    if (!isRetrievingData && isLongerThanMinTime) {
-      setIsLoading(false);
-    }
-  }, [isRetrievingData, isLongerThanMinTime]);
 
   return { data: response, isLoading, isError };
 };

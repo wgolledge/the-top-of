@@ -1,13 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import { minHeightMedia } from '../utils/withRoot';
-
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     position: 'relative',
@@ -19,13 +17,13 @@ const useStyles = makeStyles({
   text: {
     margin: '0 auto 0 auto',
     display: 'none',
-    [minHeightMedia]: {
+    [theme.header.minHeightMedia]: {
       display: 'block',
     },
     '&:not(:first-child)': {
       display: 'block',
       marginTop: '4px',
-      [minHeightMedia]: {
+      [theme.header.minHeightMedia]: {
         marginTop: '-5px',
       },
       fontFamily: `'Pacifico', cursive`,
@@ -33,11 +31,11 @@ const useStyles = makeStyles({
       fontSize: '2rem',
     },
   },
-});
+}));
 
 const Header = props => {
   const ref = useRef(null);
-  const classes = useStyles();
+  const classes = useStyles(useTheme());
 
   useEffect(() => {
     props.setHeight(ref.current.clientHeight);

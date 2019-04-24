@@ -5,7 +5,7 @@ import React from 'react';
 import { render } from 'react-testing-library';
 import { ThemeProvider } from '@material-ui/styles';
 
-import { theme } from './withRoot';
+import { theme } from './utils/withRoot';
 
 global.renderWithTheme = (ui, options) => {
   // eslint-disable-next-line react/prop-types
