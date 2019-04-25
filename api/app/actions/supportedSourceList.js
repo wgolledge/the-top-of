@@ -20,7 +20,7 @@ const availableSources = (() => {
     .filter(source => source.working)
     .map(source => ({
       // eslint-disable-next-line no-plusplus
-      id: ++id,
+      id: id++,
       ...source,
     }));
 })();

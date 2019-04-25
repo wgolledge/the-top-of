@@ -11,12 +11,12 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
-import { useGetFromUrl } from '../utils/hooks';
 import { returnPropIfTrue } from '../utils/obj';
+import { useSourcesData } from '../context/sourcesDataContext';
 
 import Loader from './Loader';
 
-const LazySourceList = React.lazy(() => import('./SourceCardList'));
+const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
 
 const MEDIA_HEIGHT = 69;
 const TITLE_HEIGHT = 35;
@@ -87,6 +87,10 @@ const SourceCard = forwardRef(
     const theme = useTheme();
     const classes = useStyles(isSingle)(theme);
 
+    const { data: sourceData } = useSourcesData()[0].find(
+      source => source.id === chosenSource.id,
+    );
+
     const handleClickOutside = e => {
       const extraSpaceEitherSide = (window.innerWidth - theme.maxWidth) / 2;
 
@@ -109,12 +113,6 @@ const SourceCard = forwardRef(
         document.removeEventListener('click', handleClickOutside, false);
       };
     }, []);
-
-    const { data: sourceData, isLoading, isError } = useGetFromUrl(
-      `${process.env.REACT_APP_API_URL}/sources/${chosenSource &&
-        chosenSource.id}`,
-      500,
-    );
 
     return (
       <Card ref={cardRef} className={classes.root}>
@@ -145,10 +143,10 @@ const SourceCard = forwardRef(
                 >
                   {chosenSource.name}
                 </Typography>
-                {!isLoading && !isError ? (
+                {sourceData ? (
                   <Suspense fallback={<Loader />}>
                     <div className={classes.contentList}>
-                      <LazySourceList articles={sourceData} />
+                      <LazySourceCardList articles={sourceData} />
                     </div>
                   </Suspense>
                 ) : (
