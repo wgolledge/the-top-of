@@ -43,6 +43,39 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
   return { data: response, isLoading, isError };
 };
 
+export const useGetFromArrayOfUrls = urlArr => {
+  const [response, setResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const urlData = await Promise.all(urlArr.map(url => axios.get(url)));
+
+        if (urlData) {
+          setResponse(
+            urlData.map(({ data: { data } }, id) => ({
+              data,
+              id,
+            })),
+          );
+
+          setIsLoading(false);
+        } else {
+          throw new Error('Error accessing response data');
+        }
+      } catch (error) {
+        setIsError(true);
+      }
+    };
+
+    getData();
+  }, []);
+
+  return { data: response, isLoading, isError };
+};
+
 export default {
   useGetFromUrl,
 };

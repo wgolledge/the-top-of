@@ -27,7 +27,7 @@ module.exports = {
             const thumbnail = rest['media:thumbnail'].$.url;
 
             // eslint-disable-next-line no-plusplus
-            acc.push({ id: ++id, title, url, thumbnail });
+            acc.push({ id: id++, title, url, thumbnail });
             return acc;
           }, [])
           .slice(0, 10);
