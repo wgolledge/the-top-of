@@ -21,7 +21,7 @@ module.exports = {
             }
 
             // eslint-disable-next-line no-plusplus
-            acc.push({ id: ++id, title, url });
+            acc.push({ id: id++, title, url });
             return acc;
           }, [])
           .slice(0, 10);

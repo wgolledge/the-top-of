@@ -38,7 +38,7 @@ module.exports = {
 
           acc.push({
             // eslint-disable-next-line no-plusplus
-            id: ++id,
+            id: id++,
             title,
             url,
             ...returnPropIfExists(

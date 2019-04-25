@@ -20,7 +20,7 @@ module.exports = {
             }
 
             // eslint-disable-next-line no-plusplus
-            acc.push({ title, url, id: ++id });
+            acc.push({ id: id++, title, url });
             return acc;
           }, [])
           .slice(0, 10);
