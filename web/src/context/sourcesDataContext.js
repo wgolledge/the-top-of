@@ -1,12 +1,12 @@
 import React from 'react';
 
-const SourcesDataContext = React.createContext();
+export const SourcesDataContext = React.createContext();
 
 function useSourcesData() {
   const context = React.useContext(SourcesDataContext);
 
   if (!context) {
-    throw new Error(`useSourcesData must be used within a CountProvider`);
+    throw new Error(`useSourcesData must be used within a SourcesDataProvider`);
   }
   return context;
 }
