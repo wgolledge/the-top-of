@@ -1,53 +1,57 @@
 import React from 'react';
-import axiosMock from 'axios';
 import { wait, fireEvent } from 'react-testing-library';
 
 import SourceCard from '../../components/SourceCard';
-import mockSourceData from '../../__mocks__/api/mockSourceData.json';
+import mockSources from '../../__mocks__/api/mockSources.json';
 import mockSourcesData from '../../__mocks__/api/mockSourcesData.json';
+import { SourcesDataContext } from '../../context/sourcesDataContext';
 
 afterEach(() => {
-  axiosMock.get.mockRestore();
+  jest.clearAllMocks();
 });
-const mockChosenSource = mockSourcesData.data[0];
+const mockChosenSource = mockSources.data[0];
+const mockChangeSource = jest.fn();
+
+const defaultSettings = {
+  chosenSource: mockChosenSource,
+  changeSource: mockChangeSource,
+  isSingle: true,
+  isLoadingOrError: false,
+};
 
 test('Renders correct chosenSource and list of urls plus calls changeSource function onClick', async () => {
-  axiosMock.get.mockResolvedValueOnce({ data: mockSourceData });
-
-  const mockChangeSource = jest.fn();
-
   const { getByText } = global.renderWithTheme(
-    <SourceCard
-      chosenSource={mockChosenSource}
-      changeSource={mockChangeSource}
-    />,
+    <SourcesDataContext.Provider value={[mockSourcesData, jest.fn()]}>
+      <SourceCard {...defaultSettings} />
+    </SourcesDataContext.Provider>,
   );
 
   await wait(() => {
     expect(getByText(mockChosenSource.name)).toBeInTheDocument();
   });
 
-  mockSourceData.data.forEach(source => {
+  mockSourcesData[0].data.forEach(source => {
     expect(getByText(source.title)).toBeInTheDocument();
   });
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
 
-  fireEvent.click(getByText(/change source/i));
+  // Change window size so click outside of area not triggered
+  global.innerWidth = 0;
+
+  fireEvent.click(getByText(/change source/i).parentNode);
 
   expect(mockChangeSource).toHaveBeenCalledTimes(1);
 });
 
 test('Renders loading spinner if isLoading or isError from api', () => {
   const { queryByText, getByTestId } = global.renderWithTheme(
-    <SourceCard chosenSource={mockChosenSource} changeSource={jest.fn()} />,
+    <SourcesDataContext.Provider value={[mockSourcesData, jest.fn()]}>
+      <SourceCard {...defaultSettings} isLoadingOrError />,
+    </SourcesDataContext.Provider>,
   );
 
-  axiosMock.get.mockImplementation(() => {
-    throw new Error();
+  mockSourcesData[0].data.forEach(source => {
+    expect(queryByText(source.title)).not.toBeInTheDocument();
   });
 
-  expect(queryByText(mockChosenSource.name)).not.toBeInTheDocument();
-
   expect(getByTestId('loading-spinner')).toBeInTheDocument();
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
 });

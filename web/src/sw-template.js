@@ -56,6 +56,22 @@ if (typeof importScripts === 'function') {
   );
 
   workbox.routing.registerRoute(
+    /https:\/\/the-top-of-api.herokuapp.com\/sources\/[0-9]?[0-9]/,
+    new workbox.strategies.NetworkFirst({
+      cacheName: 'sourceData',
+      plugins: [
+        new workbox.expiration.Plugin({
+          maxEntries: 50,
+          maxAgeSeconds: 60 * 30, // 30 Minutes
+        }),
+        new workbox.cacheableResponse.Plugin({
+          statuses: [200],
+        }),
+      ],
+    }),
+  );
+
+  workbox.routing.registerRoute(
     /https:\/\/the-top-of-api.herokuapp.com\/(sources|images\/[0-9]?[0-9])/,
     new workbox.strategies.CacheFirst({
       cacheName: 'sources',
@@ -63,22 +79,6 @@ if (typeof importScripts === 'function') {
         new workbox.expiration.Plugin({
           maxEntries: 50,
           maxAgeSeconds: 60 * 60 * 24, // 1 Day
-        }),
-        new workbox.cacheableResponse.Plugin({
-          statuses: [0, 200],
-        }),
-      ],
-    }),
-  );
-
-  workbox.routing.registerRoute(
-    /https:\/\/the-top-of-api.herokuapp.com\/sources\/[0-9]?[0-9]/,
-    new workbox.strategies.CacheFirst({
-      cacheName: 'sourceData',
-      plugins: [
-        new workbox.expiration.Plugin({
-          maxEntries: 50,
-          maxAgeSeconds: 60 * 30, // 30 Minutes
         }),
         new workbox.cacheableResponse.Plugin({
           statuses: [0, 200],

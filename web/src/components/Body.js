@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import _debounce from 'lodash.debounce';
 
 import { useGetFromUrl } from '../utils/hooks';
@@ -15,17 +15,7 @@ const Body = () => {
   );
   const [chosenSourceIndex, setChosenSourceIndex] = useState(null);
   const [cardShown, setCardShown] = useState(false);
-  const [sourceListShown, setSourceListShown] = useState(true);
-  const [changingSource, setChangingSource] = useState(false);
-
-  const handleChangeSource = useCallback(() => {
-    setCardShown(true);
-    setChangingSource(true);
-    setTimeout(() => {
-      setSourceListShown(true);
-      setCardShown(false);
-    }, 0);
-  }, []);
+  const [sourceListNoCarousel, setSourceListNoCarousel] = useState(true);
 
   const handleSetChosenSourceIndex = source => {
     setChosenSourceIndex(sources.findIndex(s => s.id === source.id));
@@ -33,7 +23,7 @@ const Body = () => {
   };
 
   useEffect(() => {
-    const handleResize = _debounce(() => setSourceListShown(true), 100);
+    const handleResize = _debounce(() => setSourceListNoCarousel(true), 100);
 
     window.addEventListener('resize', handleResize);
 
@@ -47,15 +37,13 @@ const Body = () => {
   }
 
   const sourceCardContainerSettings = {
-    sources,
-    chosenSourceIndex,
-    setChosenSourceIndex,
-    changingSource,
-    sourceListShown,
     cardShown,
-    handleChangeSource,
-    setSourceListShown,
-    setChangingSource,
+    chosenSourceIndex,
+    setCardShown,
+    setChosenSourceIndex,
+    setSourceListNoCarousel,
+    sourceListNoCarousel,
+    sources,
   };
 
   return (
@@ -64,7 +52,7 @@ const Body = () => {
         <SourceCardContainer {...sourceCardContainerSettings} />
       </SourcesDataProvider>
 
-      {sourceListShown && (
+      {sourceListNoCarousel && (
         <SourceList sources={sources} onClick={handleSetChosenSourceIndex} />
       )}
     </>

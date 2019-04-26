@@ -1,4 +1,10 @@
-import React, { Suspense, useEffect, useRef, forwardRef } from 'react';
+import React, {
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+} from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -82,14 +88,12 @@ const styles = {
 
 const SourceCard = forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ chosenSource, changeSource, isSingle }, unusedRef) => {
+  ({ chosenSource, changeSource, isSingle, isLoadingOrError }, unusedRef) => {
     const cardRef = useRef(null);
     const theme = useTheme();
     const classes = useStyles(isSingle)(theme);
-
-    const { data: sourceData } = useSourcesData()[0].find(
-      source => source.id === chosenSource.id,
-    );
+    const [sourcesData] = useSourcesData();
+    const [sourceData, setSourceData] = useState(null);
 
     const handleClickOutside = e => {
       const extraSpaceEitherSide = (window.innerWidth - theme.maxWidth) / 2;
@@ -113,6 +117,14 @@ const SourceCard = forwardRef(
         document.removeEventListener('click', handleClickOutside, false);
       };
     }, []);
+
+    useEffect(() => {
+      if (!isLoadingOrError) {
+        setSourceData(
+          sourcesData.find(source => source.id === chosenSource.id).data,
+        );
+      }
+    }, [isLoadingOrError]);
 
     return (
       <Card ref={cardRef} className={classes.root}>
@@ -181,6 +193,7 @@ SourceCard.propTypes = {
   chosenSource: PropTypes.shape(),
   changeSource: PropTypes.func.isRequired,
   isSingle: PropTypes.bool.isRequired,
+  isLoadingOrError: PropTypes.bool.isRequired,
 };
 
 SourceCard.defaultProps = {

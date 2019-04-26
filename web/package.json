@@ -29,7 +29,7 @@
     "react-jss": "^8.6.1",
     "react-scripts": "3.0.0",
     "react-slick": "^0.24.0",
-    "react-testing-library": "^6.0.4",
+    "react-testing-library": "^7.0.0",
     "workbox-build": "^4.3.0"
   },
   "devDependencies": {

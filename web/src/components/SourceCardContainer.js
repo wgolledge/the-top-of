@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import Slide from '@material-ui/core/Slide';
 import Slider from 'react-slick';
@@ -12,16 +10,23 @@ import SourceCard from './SourceCard';
 
 const SourceCardContainer = ({
   sources,
+  cardShown,
+  setCardShown,
   chosenSourceIndex,
   setChosenSourceIndex,
-  changingSource,
-  sourceListShown,
-  cardShown,
-  handleChangeSource,
-  setSourceListShown,
-  setChangingSource,
+  sourceListNoCarousel,
+  setSourceListNoCarousel,
 }) => {
   const [, setSourcesData] = useSourcesData();
+  const [changingSource, setChangingSource] = useState(false);
+
+  const handleChangeSource = useCallback(() => {
+    setChangingSource(true);
+    setTimeout(() => {
+      setSourceListNoCarousel(true);
+      setCardShown(false);
+    }, 0);
+  }, [setCardShown, setSourceListNoCarousel]);
 
   const {
     data: sourcesData,
@@ -33,23 +38,19 @@ const SourceCardContainer = ({
     ),
   );
 
-  if (!isLoadingSourcesData && !isErrorSourcesData) {
-    setSourcesData(sourcesData);
-  }
-
-  const timeout = { enter: 250, exit: 180 };
+  setSourcesData(sourcesData);
 
   const slideSettings = {
     appear: !changingSource,
     direction: 'up',
     enter: !changingSource,
     in: cardShown,
-    timeout,
+    timeout: { enter: 250, exit: 180 },
     mountOnEnter: true,
     unmountOnExit: true,
     onEntered: () =>
       setTimeout(() => {
-        setSourceListShown(false);
+        setSourceListNoCarousel(false);
       }, 10),
     onExited: () => setChangingSource(false),
   };
@@ -65,14 +66,20 @@ const SourceCardContainer = ({
     slidesToScroll: 1,
   };
 
+  const sourceCardSettings = {
+    changeSource: handleChangeSource,
+    isLoadingOrError: isLoadingSourcesData || isErrorSourcesData,
+    isSingle: true,
+  };
+
   return (
     <>
-      {!sourceListShown ? (
+      {!sourceListNoCarousel ? (
         <Slider {...sliderSettings}>
           {sources.map(source => (
             <SourceCard
+              {...sourceCardSettings}
               chosenSource={source}
-              changeSource={handleChangeSource}
               key={source.id}
               isSingle={false}
             />
@@ -81,9 +88,8 @@ const SourceCardContainer = ({
       ) : (
         <Slide {...slideSettings}>
           <SourceCard
+            {...sourceCardSettings}
             chosenSource={sources[chosenSourceIndex]}
-            changeSource={handleChangeSource}
-            isSingle
           />
         </Slide>
       )}
@@ -92,12 +98,17 @@ const SourceCardContainer = ({
 };
 
 SourceCardContainer.propTypes = {
-  text: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
+  sources: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  chosenSourceIndex: PropTypes.number,
+  setChosenSourceIndex: PropTypes.func.isRequired,
+  sourceListNoCarousel: PropTypes.bool.isRequired,
+  cardShown: PropTypes.bool.isRequired,
+  setCardShown: PropTypes.func.isRequired,
+  setSourceListNoCarousel: PropTypes.func.isRequired,
 };
 
 SourceCardContainer.defaultProps = {
-  onClick: undefined,
+  chosenSourceIndex: null,
 };
 
 export default SourceCardContainer;

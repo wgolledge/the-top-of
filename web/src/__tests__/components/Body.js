@@ -3,14 +3,14 @@ import axiosMock from 'axios';
 import { wait } from 'react-testing-library';
 
 import Body from '../../components/Body';
-import mockSourcesData from '../../__mocks__/api/mockSourcesData.json';
+import mockSources from '../../__mocks__/api/mockSources.json';
 
 afterEach(() => {
   axiosMock.get.mockRestore();
 });
 
 test('Renders correct text and sources', async () => {
-  axiosMock.get.mockResolvedValueOnce({ data: mockSourcesData });
+  axiosMock.get.mockResolvedValueOnce({ data: mockSources });
 
   const { getByText } = global.renderWithTheme(<Body />);
 
@@ -20,10 +20,10 @@ test('Renders correct text and sources', async () => {
     ).toBeInTheDocument();
   });
 
-  mockSourcesData.data.forEach(source => {
+  mockSources.data.forEach(source => {
     expect(getByText(source.name)).toBeInTheDocument();
   });
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
+  expect(axiosMock.get).toHaveBeenCalled();
 });
 
 test('Renders loading spinner if isLoading or isError from api', () => {
@@ -38,5 +38,7 @@ test('Renders loading spinner if isLoading or isError from api', () => {
   ).not.toBeInTheDocument();
 
   expect(getByTestId('loading-spinner')).toBeInTheDocument();
+
+  // Only called once as app never gets as far as populating context with other sources
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
 });
