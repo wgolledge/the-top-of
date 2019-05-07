@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     fontSize: '1.2em',
     fontWeight: 500,
     letterSpacing: 1.3,
-    margin: 'auto auto 50px auto',
+    margin: 'auto',
     width: '95%',
   },
   paper: {
@@ -42,7 +42,10 @@ const SourceList = ({ sources, onClick }) => {
             color="secondary"
             align="center"
           >
-            Choose which source you would like to see!
+            Choose a source{' '}
+            <span role="img" aria-label="smiling face">
+              🙂
+            </span>
           </Typography>
         </Grid>
         {sources.map(source => (

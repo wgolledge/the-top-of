@@ -21,7 +21,7 @@ const mockIndex = 0;
 const defaultSettings = {
   chosenSourceIndex: mockIndex,
   sources: mockSources.data,
-  setChosenSourceIndex: jest.fn(),
+  setSourceIndexAndStorage: jest.fn(),
   sourceListNoCarousel: true,
   cardShown: true,
   setCardShown: jest.fn(),

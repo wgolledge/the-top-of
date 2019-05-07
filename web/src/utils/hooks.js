@@ -19,7 +19,7 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
         if (data) {
           setResponse(data);
 
-          if (duration < LONG_REQUEST_LIMIT) {
+          if (!duration || duration < LONG_REQUEST_LIMIT) {
             setIsLoading(false);
             return;
           }
