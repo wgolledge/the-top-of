@@ -13,7 +13,7 @@ const SourceCardContainer = ({
   cardShown,
   setCardShown,
   chosenSourceIndex,
-  setChosenSourceIndex,
+  setSourceIndexAndStorage,
   sourceListNoCarousel,
   setSourceListNoCarousel,
 }) => {
@@ -22,6 +22,7 @@ const SourceCardContainer = ({
 
   const handleChangeSource = useCallback(() => {
     setChangingSource(true);
+    localStorage.removeItem('currentIndex');
     setTimeout(() => {
       setSourceListNoCarousel(true);
       setCardShown(false);
@@ -58,7 +59,7 @@ const SourceCardContainer = ({
   };
 
   const sliderSettings = {
-    afterChange: index => setChosenSourceIndex(index),
+    afterChange: index => setSourceIndexAndStorage(index),
     arrows: false,
     draggable: false,
     infinite: false,
@@ -103,7 +104,7 @@ const SourceCardContainer = ({
 SourceCardContainer.propTypes = {
   sources: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   chosenSourceIndex: PropTypes.number,
-  setChosenSourceIndex: PropTypes.func.isRequired,
+  setSourceIndexAndStorage: PropTypes.func.isRequired,
   sourceListNoCarousel: PropTypes.bool.isRequired,
   cardShown: PropTypes.bool.isRequired,
   setCardShown: PropTypes.func.isRequired,
