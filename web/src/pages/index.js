@@ -5,6 +5,10 @@ import withRoot from '../utils/withRoot';
 import Header from '../components/Header';
 import Body from '../components/Body';
 
+const history = require('history').createBrowserHistory();
+
+const IS_FRESH_LOAD = history.length < 3;
+
 const useStyles = makeStyles({
   root: {
     height: '100%',
@@ -33,7 +37,7 @@ const Index = () => {
       <Header setHeight={setHeight} />
       {height && (
         <div className={classes.main}>
-          <Body />
+          <Body isFreshLoad={IS_FRESH_LOAD} />
         </div>
       )}
     </div>
