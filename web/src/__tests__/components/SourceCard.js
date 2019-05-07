@@ -4,7 +4,8 @@ import { wait, fireEvent } from 'react-testing-library';
 import SourceCard from '../../components/SourceCard';
 import mockSources from '../../__mocks__/api/mockSources.json';
 import mockSourcesData from '../../__mocks__/api/mockSourcesData.json';
-import { SourcesDataContext } from '../../context/sourcesDataContext';
+
+import { withSourcesDataProvider } from './SourceCardContainer';
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -18,12 +19,11 @@ const defaultSettings = {
   isSingle: true,
   isLoadingOrError: false,
 };
+const SourceCardWithContainer = withSourcesDataProvider(SourceCard);
 
 test('Renders correct chosenSource and list of urls plus calls changeSource function onClick', async () => {
   const { getByText } = global.renderWithTheme(
-    <SourcesDataContext.Provider value={[mockSourcesData, jest.fn()]}>
-      <SourceCard {...defaultSettings} />
-    </SourcesDataContext.Provider>,
+    <SourceCardWithContainer {...defaultSettings} />,
   );
 
   await wait(() => {
@@ -44,9 +44,7 @@ test('Renders correct chosenSource and list of urls plus calls changeSource func
 
 test('Renders loading spinner if isLoading or isError from api', () => {
   const { queryByText, getByTestId } = global.renderWithTheme(
-    <SourcesDataContext.Provider value={[mockSourcesData, jest.fn()]}>
-      <SourceCard {...defaultSettings} isLoadingOrError />,
-    </SourcesDataContext.Provider>,
+    <SourceCardWithContainer {...defaultSettings} isLoadingOrError />,
   );
 
   mockSourcesData[0].data.forEach(source => {

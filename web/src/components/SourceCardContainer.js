@@ -48,10 +48,12 @@ const SourceCardContainer = ({
     timeout: { enter: 250, exit: 180 },
     mountOnEnter: true,
     unmountOnExit: true,
-    onEntered: () =>
+    onEntered: () => {
+      // Timeout as callback firing before animation ends
       setTimeout(() => {
         setSourceListNoCarousel(false);
-      }, 10),
+      }, 10);
+    },
     onExited: () => setChangingSource(false),
   };
 
@@ -59,8 +61,9 @@ const SourceCardContainer = ({
     afterChange: index => setChosenSourceIndex(index),
     arrows: false,
     draggable: false,
-    infinite: true,
+    infinite: false,
     initialSlide: chosenSourceIndex,
+    lazyLoad: 'progressive',
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,

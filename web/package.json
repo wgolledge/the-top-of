@@ -46,6 +46,8 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/index.js",
       "!src/serviceWorker.js",
+      "!src/sw-build.js",
+      "!src/sw-template.js",
       "!<rootDir>/node_modules/",
       "!<rootDir>/path/to/dir/"
     ],

@@ -23,7 +23,9 @@ test('Renders correct text and sources', async () => {
   mockSources.data.forEach(source => {
     expect(getByText(source.name)).toBeInTheDocument();
   });
-  expect(axiosMock.get).toHaveBeenCalled();
+
+  // One for list of sources, then another one per source
+  expect(axiosMock.get).toHaveBeenCalledTimes(1 + mockSources.data.length);
 });
 
 test('Renders loading spinner if isLoading or isError from api', () => {

@@ -1,8 +1,4 @@
-# The Top Of
-
-The Top Of is a news aggregator that lets you see the top (10) stories from your favourite sites without having to visit each one individually. No signups or logins, just trending content from the site(s) you choose.
-
-The web app is currently deployed with Netlify while the api is deployed on Heroku.
+Welcome! The Top Of is a news aggregator that lets you see the top (10) stories from your favourite sites without having to visit each one individually. No signups or logins, just trending content from the site(s) you choose. 🙂
 
 ## Running locally
 
@@ -20,7 +16,7 @@ cd api && npm run start:dev
 cd web && npm start
 ```
 
-By default the web app runs on port `3000` and the api runs on port `8080` unless a port is specified in the env vars.
+By default the web app runs on port `3000` & api runs on port `8080` unless a port is specified in env vars.
 
 ### Running the tests
 
