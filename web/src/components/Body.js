@@ -15,7 +15,9 @@ const Body = ({ isFreshLoad }) => {
   );
 
   const existingCardIndex =
-    !isFreshLoad && Number(localStorage.getItem('currentIndex'));
+    !isFreshLoad &&
+    localStorage.getItem('currentIndex') !== null &&
+    Number(localStorage.getItem('currentIndex'));
 
   const [chosenSourceIndex, setChosenSourceIndex] = useState(null);
   const [cardShown, setCardShown] = useState(
