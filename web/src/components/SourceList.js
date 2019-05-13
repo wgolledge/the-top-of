@@ -8,6 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
+  root: {
+    height: '100%',
+    maxHeight: 500,
+    overflowY: 'scroll',
+  },
   introText: {
     fontSize: '1.2em',
     fontWeight: 500,
@@ -33,7 +38,7 @@ const SourceList = ({ sources, onClick }) => {
   const classes = useStyles();
 
   return (
-    <List disablePadding>
+    <List className={classes.root} disablePadding>
       <Grid container justify="center">
         <Grid item xs={12}>
           <Typography
