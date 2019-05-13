@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Slide from '@material-ui/core/Slide';
 import Slider from 'react-slick';
@@ -19,6 +19,7 @@ const SourceCardContainer = ({
 }) => {
   const [, setSourcesData] = useSourcesData();
   const [changingSource, setChangingSource] = useState(false);
+  const sliderRef = useRef(null);
 
   const handleChangeSource = useCallback(() => {
     setChangingSource(true);
@@ -41,6 +42,25 @@ const SourceCardContainer = ({
 
   setSourcesData(sourcesData);
 
+  const onSwipe = () => {
+    if (sliderRef) {
+      sliderRef.current.innerSlider.clickable = true;
+    }
+  };
+
+  const sliderSettings = {
+    afterChange: index => setSourceIndexAndStorage(index),
+    arrows: false,
+    draggable: false,
+    infinite: false,
+    initialSlide: chosenSourceIndex,
+    lazyLoad: 'progressive',
+    onSwipe,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   const slideSettings = {
     appear: !changingSource,
     direction: 'up',
@@ -58,18 +78,6 @@ const SourceCardContainer = ({
     onExited: () => setChangingSource(false),
   };
 
-  const sliderSettings = {
-    afterChange: index => setSourceIndexAndStorage(index),
-    arrows: false,
-    draggable: false,
-    infinite: false,
-    initialSlide: chosenSourceIndex,
-    lazyLoad: 'progressive',
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
   const sourceCardSettings = {
     changeSource: handleChangeSource,
     isLoadingOrError: isLoadingSourcesData || isErrorSourcesData,
@@ -79,7 +87,7 @@ const SourceCardContainer = ({
   return (
     <>
       {!sourceListNoCarousel ? (
-        <Slider {...sliderSettings}>
+        <Slider ref={sliderRef} {...sliderSettings}>
           {sources.map(source => (
             <SourceCard
               {...sourceCardSettings}
