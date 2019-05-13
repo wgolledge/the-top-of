@@ -15,14 +15,18 @@ const Body = ({ isFreshLoad }) => {
   );
 
   const existingCardIndex =
-    !isFreshLoad && Number(localStorage.getItem('currentIndex'));
+    !isFreshLoad &&
+    localStorage.getItem('currentIndex') !== null &&
+    Number(localStorage.getItem('currentIndex'));
 
-  const [chosenSourceIndex, setChosenSourceIndex] = useState(null);
-  const [cardShown, setCardShown] = useState(
-    Number.isInteger(existingCardIndex),
+  const isExistingCardIndex = Number.isInteger(existingCardIndex);
+
+  const [chosenSourceIndex, setChosenSourceIndex] = useState(
+    isExistingCardIndex ? existingCardIndex : null,
   );
+  const [cardShown, setCardShown] = useState(isExistingCardIndex);
   const [sourceListNoCarousel, setSourceListNoCarousel] = useState(
-    !Number.isInteger(existingCardIndex),
+    !isExistingCardIndex,
   );
 
   const setSourceIndexAndStorage = index => {
@@ -36,9 +40,6 @@ const Body = ({ isFreshLoad }) => {
   };
 
   useEffect(() => {
-    if (existingCardIndex) {
-      setChosenSourceIndex(Number(existingCardIndex));
-    }
     const handleResize = _debounce(() => setSourceListNoCarousel(true), 100);
 
     window.addEventListener('resize', handleResize);

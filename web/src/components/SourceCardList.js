@@ -40,7 +40,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ListItemLink = props => <ListItem button component="a" {...props} />;
+const ListItemLink = props => (
+  <ListItem button component="a" disableTouchRipple {...props} />
+);
 
 const SourceList = ({ articles }) => {
   const classes = useStyles(useTheme());
