@@ -22,15 +22,22 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  listButton: {
+    padding: '10px 12px',
+  },
+  listItemNumber: {
+    minWidth: 25,
+  },
   listItemText: {
+    paddingLeft: 5,
     [theme.breakpoints.down('sm')]: {
-      fontSize: 'calc(0.7vw + 0.9vh + .5vmin)',
+      fontSize: 'calc(0.7vw + 1vh + .5vmin)',
     },
     [theme.breakpoints.up('md')]: {
       fontSize: 'calc(0.6vw + 0.7vh + .5vmin)',
     },
     [theme.breakpoints.up('lg')]: {
-      fontSize: '1rem',
+      fontSize: '1em',
     },
   },
   avatar: {
@@ -52,10 +59,15 @@ const SourceList = ({ articles }) => {
       <List component="nav" className={classes.list}>
         {articles.map(article => (
           <div key={article.id}>
-            <ListItemLink href={article.url}>
-              <Typography variant="h6" component="span">
-                {article.id + 1}
-              </Typography>
+            <ListItemLink
+              href={article.url}
+              classes={{ root: classes.listButton }}
+            >
+              <div className={classes.listItemNumber}>
+                <Typography variant="h6" component="span">
+                  {article.id + 1}
+                </Typography>
+              </div>
               <ListItemText
                 className={classes.listItemText}
                 primary={article.title}

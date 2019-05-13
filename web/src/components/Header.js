@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
   text: {
-    margin: '0 auto 0 auto',
     display: 'none',
+    margin: '0 auto 0 auto',
     [theme.header.minHeightMedia]: {
       display: 'block',
     },

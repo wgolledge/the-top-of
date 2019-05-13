@@ -2,6 +2,7 @@ import React, { useCallback, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Slide from '@material-ui/core/Slide';
 import Slider from 'react-slick';
+import { isMobile } from 'react-device-detect';
 
 import { useGetFromArrayOfUrls } from '../utils/hooks';
 import { useSourcesData } from '../context/sourcesDataContext';
@@ -51,6 +52,7 @@ const SourceCardContainer = ({
   const sliderSettings = {
     afterChange: index => setSourceIndexAndStorage(index),
     arrows: false,
+    dots: isMobile,
     draggable: false,
     infinite: false,
     initialSlide: chosenSourceIndex,

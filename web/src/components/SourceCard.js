@@ -24,9 +24,9 @@ import Loader from './Loader';
 
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
 
-const MEDIA_HEIGHT = 69;
-const TITLE_HEIGHT = 35;
-const ACTIONS_HEIGHT = 50;
+const MEDIA_HEIGHT = 55;
+const TITLE_HEIGHT = 30;
+const ACTIONS_HEIGHT = 45;
 
 const useStyles = isSingle =>
   makeStyles(theme => ({
@@ -36,7 +36,7 @@ const useStyles = isSingle =>
         height: window.innerHeight - theme.header.headerHeightLarge - 30,
       },
       maxWidth: theme.maxWidth - 20,
-      margin: '15px 10px',
+      margin: 10,
       position: 'absolute',
       width: window.innerWidth - 20,
       zIndex: 99,
@@ -61,7 +61,7 @@ const useStyles = isSingle =>
     },
     contentTitle: {
       [theme.breakpoints.down('sm')]: {
-        fontSize: 'calc(1.2vw + 1.2vh + .5vmin)',
+        fontSize: 'calc(1.2vw + 1.3vh + .5vmin)',
       },
       [theme.breakpoints.up('md')]: {
         fontSize: 'calc(1vw + 1vh + .7vmin)',
