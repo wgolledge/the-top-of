@@ -16,6 +16,9 @@ code {
     monospace;
 }
 
+
+/* react-slick overrides */
+
 .slick-slider, .slick-list, .slick-track {
   height: 100%;
   width: 100%;
@@ -24,6 +27,11 @@ code {
 .slick-slider {
   position: absolute;
   z-index: 999;
+}
+
+.slick-dots
+{
+    bottom: 0;
 }
 
 // To stop flicker on slick CSS transforms
@@ -52,4 +60,3 @@ code {
   -ms-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-
