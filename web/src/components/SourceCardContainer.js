@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Slide from '@material-ui/core/Slide';
 import Slider from 'react-slick';
@@ -6,6 +6,7 @@ import { isMobile } from 'react-device-detect';
 
 import { useGetFromArrayOfUrls } from '../utils/hooks';
 import { useSourcesData } from '../context/sourcesDataContext';
+import { history } from '../pages/index';
 
 import SourceCard from './SourceCard';
 
@@ -30,6 +31,22 @@ const SourceCardContainer = ({
       setCardShown(false);
     }, 0);
   }, [setCardShown, setSourceListNoCarousel]);
+
+  useEffect(() => {
+    let unblock = () => {};
+
+    if (cardShown) {
+      history.push('/');
+
+      unblock = history.block((location, action) => {
+        if (action === 'POP') handleChangeSource();
+      });
+    } else {
+      unblock();
+    }
+
+    return unblock;
+  }, [cardShown]);
 
   const {
     data: sourcesData,

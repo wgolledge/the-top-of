@@ -1,6 +1,6 @@
 import React from 'react';
 import axiosMock from 'axios';
-import { wait, fireEvent } from 'react-testing-library';
+import { wait, fireEvent, cleanup } from 'react-testing-library';
 
 import Body from '../../components/Body';
 import mockSources from '../../__mocks__/api/mockSources.json';
@@ -10,7 +10,10 @@ const mockSource = mockSources.data[0];
 
 afterEach(() => {
   axiosMock.get.mockRestore();
+  cleanup();
 });
+
+const pickSourceText = /choose a source/i;
 
 test('Renders correct text and sources', async () => {
   axiosMock.get.mockResolvedValueOnce({ data: mockSources });
@@ -18,7 +21,7 @@ test('Renders correct text and sources', async () => {
   const { getByText } = global.renderWithTheme(<Body isFreshLoad />);
 
   await wait(() => {
-    expect(getByText('Choose a source')).toBeInTheDocument();
+    expect(getByText(pickSourceText)).toBeInTheDocument();
   });
 
   mockSources.data.forEach(source => {
@@ -42,7 +45,7 @@ test('Renders loading spinner if isLoading or isError from api', () => {
     throw new Error();
   });
 
-  expect(queryByText('Choose a source')).not.toBeInTheDocument();
+  expect(queryByText(pickSourceText)).not.toBeInTheDocument();
 
   expect(getByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -50,7 +53,8 @@ test('Renders loading spinner if isLoading or isError from api', () => {
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
 });
 
-test('Renders card if isFreshLoad false and localStorage contains currentIndex', async () => {
+test(`Renders card if isFreshLoad false and localStorage contains currentIndex
+      Then closes card if window back button pressed`, async () => {
   axiosMock.get.mockResolvedValueOnce({ data: mockSources });
 
   localStorage.setItem('currentIndex', mockIndex);
@@ -58,16 +62,20 @@ test('Renders card if isFreshLoad false and localStorage contains currentIndex',
     <Body isFreshLoad={false} />,
   );
 
-  axiosMock.get.mockImplementation(() => {
-    throw new Error();
-  });
-
-  expect(queryByText('Choose a source')).not.toBeInTheDocument();
+  expect(queryByText(pickSourceText)).not.toBeInTheDocument();
 
   await wait(() => {
-    expect(getByText(mockSource.name)).toBeInTheDocument();
+    expect(getByText(/change source/i)).toBeInTheDocument();
   });
 
-  // Called twice as app now starts populating context with other sources
-  expect(axiosMock.get).toHaveBeenCalledTimes(2);
+  // Called once plus once per source as app now starts populating context with other sources
+  expect(axiosMock.get).toHaveBeenCalledTimes(1 + mockSources.data.length);
+
+  window.history.back();
+
+  await wait(() => {
+    expect(queryByText(/change source/i)).not.toBeInTheDocument();
+
+    expect(getByText(pickSourceText)).toBeInTheDocument();
+  });
 });
