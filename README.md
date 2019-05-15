@@ -1,5 +1,7 @@
 Welcome! The Top Of is a news aggregator that lets you see the top (10) stories from your favourite sites without having to visit each one individually. No signups or logins, just trending content from the site(s) you choose. 🙂
 
+The content is best viewed on a mobile device! Implemented as a PWA using service workers and Google workbox.
+
 ## Running locally
 
 ### Installing
@@ -8,15 +10,13 @@ To get the site running locally for development you'll need to create the `.env`
 
 *api*
 ```
-cd api && npm run start:dev
+cd api && npm i && npm run start:dev
 ```
 
 *web*
 ```
-cd web && npm start
+cd web && npm i && npm start
 ```
-
-By default the web app runs on port `3000` & api runs on port `8080` unless a port is specified in env vars.
 
 ### Running the tests
 
