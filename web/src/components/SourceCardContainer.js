@@ -32,13 +32,12 @@ const SourceCardContainer = ({
     }, 0);
   }, [setCardShown, setSourceListNoCarousel]);
 
-  let unblock = () => {};
-
   useEffect(() => {
-    if (cardShown) {
-      console.log('adding to history');
+    let unblock = () => {};
 
+    if (cardShown) {
       history.push('/');
+
       unblock = history.block((location, action) => {
         if (action === 'POP') handleChangeSource();
       });

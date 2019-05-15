@@ -1,11 +1,13 @@
 import React from 'react';
-import { wait } from 'react-testing-library';
+import { wait, cleanup } from 'react-testing-library';
 import axiosMock from 'axios';
 
 import SourceCardContainer from '../../components/SourceCardContainer';
 import mockSourcesData from '../../__mocks__/api/mockSourcesData';
 import mockSources from '../../__mocks__/api/mockSources';
 import { SourcesDataContext } from '../../context/sourcesDataContext';
+
+afterEach(cleanup);
 
 // eslint-disable-next-line
 export const withSourcesDataProvider = Component => props => (
@@ -48,7 +50,7 @@ test('Renders a single sourceCard when sourceListNoCarousel true, calls axios fo
   expect(axiosMock.get).toHaveBeenCalledTimes(mockSources.data.length);
 });
 
-test('Renders the carousel when sourceListNoCarousel false', async () => {
+test('Renders the carousel when sourceListNoCarousel false and then closes the card if back button pressed', async () => {
   const { getByTitle } = global.renderWithTheme(
     <SourceCardContainerWP {...defaultSettings} sourceListNoCarousel={false} />,
   );
