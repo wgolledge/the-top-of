@@ -5,7 +5,7 @@ import withRoot from '../utils/withRoot';
 import Header from '../components/Header';
 import Body from '../components/Body';
 
-const history = require('history').createBrowserHistory();
+export const history = require('history').createBrowserHistory();
 
 const IS_FRESH_LOAD = history.length < 3;
 
