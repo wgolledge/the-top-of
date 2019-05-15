@@ -1,5 +1,5 @@
 import React from 'react';
-import { wait, fireEvent } from 'react-testing-library';
+import { wait, fireEvent, cleanup } from 'react-testing-library';
 
 import SourceCard from '../../components/SourceCard';
 import mockSources from '../../__mocks__/api/mockSources.json';
@@ -9,6 +9,7 @@ import { withSourcesDataProvider } from './SourceCardContainer';
 
 afterEach(() => {
   jest.clearAllMocks();
+  cleanup();
 });
 const mockChosenSource = mockSources.data[0];
 const mockChangeSource = jest.fn();
