@@ -4,7 +4,7 @@ import Slide from '@material-ui/core/Slide';
 import Slider from 'react-slick';
 import { isMobile } from 'react-device-detect';
 
-import { useGetFromArrayOfUrls } from '../utils/hooks';
+import { useGetFromUrl } from '../utils/hooks';
 import { useSourcesData } from '../context/sourcesDataContext';
 import { history } from '../pages/index';
 
@@ -52,11 +52,7 @@ const SourceCardContainer = ({
     data: sourcesData,
     isLoading: isLoadingSourcesData,
     isError: isErrorSourcesData,
-  } = useGetFromArrayOfUrls(
-    sources.map(
-      source => `${process.env.REACT_APP_API_URL}/sources/${source.id}`,
-    ),
-  );
+  } = useGetFromUrl(`${process.env.REACT_APP_API_URL}/sources/all`);
 
   setSourcesData(sourcesData);
 

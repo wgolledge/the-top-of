@@ -56,7 +56,7 @@ if (typeof importScripts === 'function') {
   );
 
   workbox.routing.registerRoute(
-    /https:\/\/the-top-of-api.herokuapp.com\/sources\/[0-9]?[0-9]/,
+    /https:\/\/the-top-of-api.herokuapp.com\/sources\/([0-9]?[0-9]|all)/,
     new workbox.strategies.NetworkFirst({
       cacheName: 'sourceData',
       plugins: [
