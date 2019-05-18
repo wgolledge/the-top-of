@@ -28,8 +28,8 @@ test('Renders correct text and sources', async () => {
     expect(getByText(source.name)).toBeInTheDocument();
   });
 
-  // One for list of sources, then another one per source
-  expect(axiosMock.get).toHaveBeenCalledTimes(1 + mockSources.data.length);
+  // Called once for list of sources, and one for source data
+  expect(axiosMock.get).toHaveBeenCalledTimes(2);
 
   fireEvent.click(getByText(mockSource.name).parentNode);
 
@@ -68,8 +68,8 @@ test(`Renders card if isFreshLoad false and localStorage contains currentIndex
     expect(getByText(/change source/i)).toBeInTheDocument();
   });
 
-  // Called once plus once per source as app now starts populating context with other sources
-  expect(axiosMock.get).toHaveBeenCalledTimes(1 + mockSources.data.length);
+  // Called once for list of sources, and one for source data
+  expect(axiosMock.get).toHaveBeenCalledTimes(2);
 
   window.history.back();
 

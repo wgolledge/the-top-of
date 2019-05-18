@@ -47,7 +47,8 @@ test('Renders a single sourceCard when sourceListNoCarousel true, calls axios fo
     });
   });
 
-  expect(axiosMock.get).toHaveBeenCalledTimes(mockSources.data.length);
+  // Called once for all source data
+  expect(axiosMock.get).toHaveBeenCalledTimes(1);
 });
 
 test('Renders the carousel when sourceListNoCarousel false and then closes the card if back button pressed', async () => {

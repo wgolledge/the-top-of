@@ -32,7 +32,21 @@ const getSourceData = async (req, res) => {
   }
 };
 
+const getAllSourceData = async (req, res) => {
+  try {
+    const sourceData = await storage.valuesWithKeyMatch(/[0-9]?([0-9])/);
+
+    res.send({
+      data: sourceData,
+    });
+  } catch (err) {
+    console.log(err);
+    res.send({ error: err });
+  }
+};
+
 module.exports = {
   getSources,
   getSourceData,
+  getAllSourceData,
 };

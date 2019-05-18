@@ -32,7 +32,10 @@ const updateSourceStorage = async () => {
     );
 
     await availableSources.forEach((source, i) => {
-      storage.setItem(source.id.toString(), sourceDataArr[i]);
+      storage.setItem(source.id.toString(), {
+        id: source.id,
+        data: sourceDataArr[i],
+      });
     });
   } catch (err) {
     console.log(err);
