@@ -11,6 +11,7 @@ import Divider from '@material-ui/core/Divider';
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
+    color: theme.palette.type === 'dark' ? '#fff' : '#000',
     height: '100%',
     overflowX: 'hidden',
     overflowY: 'auto',

@@ -3,7 +3,14 @@ import ReactDOM from 'react-dom';
 
 import './index.scss';
 import Index from './pages/index';
+import { setTheme } from './utils/withRoot';
 import * as serviceWorker from './serviceWorker';
+
+(() => {
+  const theme = localStorage.getItem('theme');
+
+  setTheme(theme);
+})();
 
 ReactDOM.render(<Index />, document.getElementById('root'));
 

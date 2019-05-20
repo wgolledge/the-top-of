@@ -1,0 +1,18 @@
+:root {
+  --dot-color: #9E9AA7;
+  --dot-color-active: #000;
+  --background-color: #F2F6F8;
+  --primary-text: #78A1BB;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+.slick-dots li button:before {
+  color: var(--dot-color);
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--dot-color-active);
+}

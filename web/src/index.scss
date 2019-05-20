@@ -8,7 +8,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #F2F6F8;
 }
 
 code {
@@ -26,7 +25,7 @@ code {
 
 .slick-slider {
   position: absolute;
-  z-index: 999;
+  z-index: 100;
 }
 
 .slick-dots

@@ -30,6 +30,7 @@ const ACTIONS_HEIGHT = 45;
 const useStyles = isSingle =>
   makeStyles(theme => ({
     root: {
+      color: theme.palette.type === 'dark' ? '#fff' : '#000',
       height: window.innerHeight - theme.header.headerHeightSmall - 30,
       [theme.header.minHeightMedia]: {
         height: window.innerHeight - theme.header.headerHeightLarge - 30,
@@ -38,7 +39,7 @@ const useStyles = isSingle =>
       margin: 10,
       position: 'absolute',
       width: window.innerWidth - 20,
-      zIndex: 99,
+      zIndex: 50,
       ...returnPropIfTrue(isSingle, { left: 0 }),
       ...returnPropIfTrue(isSingle, { top: 0 }),
     },
@@ -98,28 +99,29 @@ const SourceCard = forwardRef(
     const [sourcesData] = useSourcesData();
     const [sourceData, setSourceData] = useState(null);
 
-    const handleClickOutside = e => {
-      const extraSpaceEitherSide = (window.innerWidth - theme.maxWidth) / 2;
-
-      if (
-        extraSpaceEitherSide > 0 &&
-        (e.clientX < extraSpaceEitherSide ||
-          e.clientX > theme.maxWidth + extraSpaceEitherSide)
-      ) {
-        changeSource();
-      }
-    };
-
     const handleCardMediaClick = () => {
       window.location = chosenSource.url;
     };
 
     useEffect(() => {
+      const handleClickOutside = e => {
+        const extraSpaceEitherSide = (window.innerWidth - theme.maxWidth) / 2;
+
+        if (
+          extraSpaceEitherSide > 0 &&
+          e.clientY > 64 &&
+          (e.clientX < extraSpaceEitherSide ||
+            e.clientX > theme.maxWidth + extraSpaceEitherSide)
+        ) {
+          changeSource();
+        }
+      };
+
       document.addEventListener('click', handleClickOutside, false);
       return () => {
         document.removeEventListener('click', handleClickOutside, false);
       };
-    }, []);
+    }, [changeSource, theme.maxWidth]);
 
     useEffect(() => {
       if (!isLoadingOrError) {
@@ -127,7 +129,7 @@ const SourceCard = forwardRef(
           sourcesData.find(source => source.id === chosenSource.id).data,
         );
       }
-    }, [isLoadingOrError]);
+    }, [isLoadingOrError, chosenSource.id, sourcesData]);
 
     return (
       <Card ref={cardRef} className={classes.root}>

@@ -46,7 +46,7 @@ const SourceCardContainer = ({
     }
 
     return unblock;
-  }, [cardShown]);
+  }, [cardShown, handleChangeSource]);
 
   const {
     data: sourcesData,
@@ -66,12 +66,12 @@ const SourceCardContainer = ({
     afterChange: index => setSourceIndexAndStorage(index),
     arrows: false,
     dots: isMobile,
-    draggable: false,
+    draggable: true,
     infinite: false,
     initialSlide: chosenSourceIndex,
     lazyLoad: 'progressive',
     onSwipe,
-    speed: 500,
+    speed: 700,
     slidesToShow: 1,
     slidesToScroll: 1,
   };
@@ -102,7 +102,7 @@ const SourceCardContainer = ({
   return (
     <>
       {!sourceListNoCarousel ? (
-        <Slider ref={sliderRef} {...sliderSettings}>
+        <Slider ref={sliderRef} {...sliderSettings} className>
           {sources.map(source => (
             <SourceCard
               {...sourceCardSettings}

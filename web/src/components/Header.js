@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     position: 'relative',
-    zIndex: 9999,
+    zIndex: 200,
   },
   toolbar: {
     flexDirection: 'column',
@@ -31,15 +31,20 @@ const useStyles = makeStyles(theme => ({
       fontSize: '2rem',
     },
   },
+  toggle: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+  },
 }));
 
-const Header = props => {
+const Header = ({ setHeight }) => {
   const ref = useRef(null);
   const classes = useStyles(useTheme());
 
   useEffect(() => {
-    props.setHeight(ref.current.clientHeight);
-  }, []);
+    setHeight(ref.current.clientHeight);
+  }, [setHeight]);
 
   return (
     <div className={classes.root} ref={ref}>
