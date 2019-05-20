@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import axios from './axiosWithDuration';
+import { setTheme } from './withRoot';
 
 export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
   const LONG_REQUEST_LIMIT = 50;
@@ -38,7 +39,7 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
     };
 
     getData();
-  }, []);
+  }, [minTimeIfLongReq, url]);
 
   return { data: response, isLoading, isError };
 };
@@ -71,11 +72,25 @@ export const useGetFromArrayOfUrls = urlArr => {
     };
 
     getData();
-  }, []);
+  }, [urlArr]);
 
   return { data: response, isLoading, isError };
 };
 
+export const useDarkMode = () => {
+  const theme = localStorage.getItem('theme');
+  const [enabled, setEnabled] = useState(theme === 'dark');
+
+  useEffect(() => {
+    const themeColor = enabled ? 'dark' : 'light';
+
+    setTheme(themeColor);
+  }, [enabled]);
+
+  return [enabled, setEnabled];
+};
+
 export default {
   useGetFromUrl,
+  useDarkMode,
 };

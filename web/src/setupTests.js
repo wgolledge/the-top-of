@@ -1,11 +1,13 @@
 import 'react-testing-library/cleanup-after-each';
 import 'jest-dom/extend-expect';
-
+import { createMuiTheme } from '@material-ui/core/styles';
 import React from 'react';
 import { render } from 'react-testing-library';
 import { ThemeProvider } from '@material-ui/styles';
 
-import { theme } from './utils/withRoot';
+import { defaultThemeSettings } from './utils/withRoot';
+
+const theme = createMuiTheme(defaultThemeSettings);
 
 global.renderWithTheme = (ui, options) => {
   // eslint-disable-next-line react/prop-types
