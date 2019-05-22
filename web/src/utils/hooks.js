@@ -9,29 +9,47 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
+  const setData = (data, duration) => {
+    setResponse(data);
+
+    if (!duration || duration < LONG_REQUEST_LIMIT) {
+      setIsLoading(false);
+      return;
+    }
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, minTimeIfLongReq - duration);
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
-        const {
+        let {
           data: { data, error },
           duration,
         } = await axios.get(url);
 
         if (data) {
-          setResponse(data);
+          setData(data, duration);
+          return;
+        }
 
-          if (!duration || duration < LONG_REQUEST_LIMIT) {
-            setIsLoading(false);
-            return;
-          }
+        // assignment without declaration
+        ({
+          data: { data, error },
+          duration,
+        } = await axios.get(url));
 
-          setTimeout(() => {
-            setIsLoading(false);
-          }, minTimeIfLongReq - duration);
-        } else if (error) {
+        if (data) {
+          setData(data, duration);
+        }
+
+        setIsError(true);
+        if (error) {
           setResponse(error);
         } else {
-          throw new Error('Error accessing response data');
+          throw new Error('Error accesssing response data');
         }
       } catch (error) {
         setIsError(true);

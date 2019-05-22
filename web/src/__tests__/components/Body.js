@@ -1,6 +1,6 @@
 import React from 'react';
 import axiosMock from 'axios';
-import { wait, fireEvent, cleanup } from 'react-testing-library';
+import { wait, fireEvent, cleanup } from '@testing-library/react';
 
 import Body from '../../components/Body';
 import mockSources from '../../__mocks__/api/mockSources.json';
