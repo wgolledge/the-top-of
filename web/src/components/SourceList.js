@@ -9,8 +9,10 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   root: {
+    display: 'flex',
+    alignItems: 'center',
     height: '100%',
-    maxHeight: props => props.sourceCount * 75 + 100,
+    maxHeight: props => props.sourceCount * 100 + 100,
     overflowY: 'scroll',
   },
   introText: {
