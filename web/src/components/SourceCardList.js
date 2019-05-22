@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: 25,
   },
   listItemText: {
+    marginRight: 10,
     paddingLeft: 5,
     [theme.breakpoints.down('sm')]: {
       fontSize: 'calc(0.7vw + 1vh + .5vmin)',

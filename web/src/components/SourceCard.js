@@ -92,8 +92,7 @@ const goToUrl = url => {
 
 const SourceCard = forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ chosenSource, changeSource, isSingle, isLoadingOrError }, unusedRef) => {
-    const cardRef = useRef(null);
+  ({ chosenSource, changeSource, isSingle, isLoadingOrError }, ref) => {
     const theme = useTheme();
     const classes = useStyles(isSingle)(theme);
     const [sourcesData] = useSourcesData();
@@ -132,7 +131,7 @@ const SourceCard = forwardRef(
     }, [isLoadingOrError, chosenSource.id, sourcesData]);
 
     return (
-      <Card ref={cardRef} className={classes.root}>
+      <Card ref={ref} className={classes.root}>
         <>
           <Box height="100%">
             <CardActionArea
