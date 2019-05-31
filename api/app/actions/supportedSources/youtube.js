@@ -38,7 +38,7 @@ module.exports = {
                 id: id++,
                 title,
                 url: `https://www.youtube.com/watch?v=${videoId}`,
-                // thumbnail,
+                thumbnail,
               });
               return acc;
             },
