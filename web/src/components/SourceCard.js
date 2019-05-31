@@ -13,7 +13,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
@@ -84,6 +83,10 @@ const styles = {
     height: `${ACTIONS_HEIGHT}px`,
     marginTop: `-${ACTIONS_HEIGHT}px`,
   },
+};
+
+const goToUrl = url => {
+  window.location = url;
 };
 
 const SourceCard = forwardRef(
@@ -175,10 +178,14 @@ const SourceCard = forwardRef(
                 </Button>
               </Grid>
               {chosenSource.attributionLink && (
-                <Grid item xs={6}>
-                  <Link href={chosenSource.attributionLink.link}>
+                <Grid item xs={6} container justify="flex-end">
+                  <Button
+                    size="medium"
+                    color="primary"
+                    onClick={() => goToUrl(chosenSource.attributionLink.link)}
+                  >
                     {chosenSource.attributionLink.text}
-                  </Link>
+                  </Button>
                 </Grid>
               )}
             </Grid>
