@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles({
   root: {
     height: '100%',
-    maxHeight: 500,
+    maxHeight: props => props.sourceCount * 75 + 100,
     overflowY: 'scroll',
   },
   introText: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 });
 
 const SourceList = ({ sources, onClick }) => {
-  const classes = useStyles();
+  const classes = useStyles({ sourceCount: sources.length });
 
   return (
     <List className={classes.root} disablePadding>
