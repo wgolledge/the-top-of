@@ -48,11 +48,19 @@ const SourceCardContainer = ({
     return unblock;
   }, [cardShown, handleChangeSource]);
 
-  const {
+  let {
     data: sourcesData,
     isLoading: isLoadingSourcesData,
     isError: isErrorSourcesData,
   } = useGetFromUrl(`${process.env.REACT_APP_API_URL}/sources/all`);
+
+  if (sourcesData.length === 0) {
+    ({
+      data: sourcesData,
+      isLoading: isLoadingSourcesData,
+      isError: isErrorSourcesData,
+    } = useGetFromUrl(`${process.env.REACT_APP_API_URL}/sources/all`));
+  }
 
   setSourcesData(sourcesData);
 

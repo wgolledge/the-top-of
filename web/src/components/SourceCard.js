@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  forwardRef,
-} from 'react';
+import React, { Suspense, useEffect, useState, forwardRef } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
