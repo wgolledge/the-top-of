@@ -18,6 +18,7 @@ import Loader from './Loader';
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
 
 const MEDIA_HEIGHT = 55;
+const MEDIA_MAX_HEIGHT = 80;
 const TITLE_HEIGHT = 30;
 const ACTIONS_HEIGHT = 45;
 
@@ -134,7 +135,11 @@ const SourceCard = forwardRef(
               }}
               disableTouchRipple
             >
-              <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
+              <Box
+                height="15%"
+                minHeight={`${MEDIA_HEIGHT}px`}
+                maxHeight={`${MEDIA_MAX_HEIGHT}px`}
+              >
                 <CardMedia
                   className={classes.media}
                   onClick={handleCardMediaClick}

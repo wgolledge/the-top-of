@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -34,13 +34,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1.6em',
     fontWeight: 500,
   },
-  buttonClass: {
-    color: theme.palette.ripple.color,
-    '&:hover': {
-      color: 'red',
-    },
-  },
-}));
+});
 
 const SourceList = ({ sources, onClick }) => {
   const classes = useStyles({ sourceCount: sources.length });
@@ -66,6 +60,7 @@ const SourceList = ({ sources, onClick }) => {
             <Paper className={classes.paper} elevation={2}>
               <ListItem
                 className={classes.listItem}
+                disableRipple
                 button
                 component="button"
                 onClick={() => onClick(source)}

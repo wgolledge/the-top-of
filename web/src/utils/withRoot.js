@@ -27,8 +27,8 @@ const lightThemeSecondaryText = '#9E9AA7';
 const darkThemeSecondaryText = '#fff';
 const lightThemePaperBg = '#fff';
 const darkThemePaperBg = '#272727';
-const lightThemeRipple = '#fff';
-const darkThemeRipple = '#092227';
+const lightThemeHover = '#E0E2DB';
+const darkThemeHover = '#092227';
 
 const headerHeightSmall = 51;
 const headerHeightLarge = 64;
@@ -83,8 +83,8 @@ const getTheme = darkMode =>
       background: {
         paper: darkMode ? darkThemePaperBg : lightThemePaperBg,
       },
-      ripple: {
-        color: darkMode ? darkThemeRipple : lightThemeRipple,
+      action: {
+        hover: darkMode ? darkThemeHover : lightThemeHover,
       },
     },
   });
