@@ -66,7 +66,7 @@ const SourceCardContainer = ({
     afterChange: index => setSourceIndexAndStorage(index),
     arrows: false,
     dots: isMobile,
-    draggable: true,
+    draggable: false,
     infinite: false,
     initialSlide: chosenSourceIndex,
     lazyLoad: 'progressive',
