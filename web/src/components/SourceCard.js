@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  forwardRef,
-} from 'react';
+import React, { Suspense, useEffect, useState, forwardRef } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -23,7 +17,8 @@ import Loader from './Loader';
 
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
 
-const MEDIA_HEIGHT = 55;
+const MEDIA_HEIGHT = 65;
+const MEDIA_MAX_HEIGHT = 95;
 const TITLE_HEIGHT = 30;
 const ACTIONS_HEIGHT = 45;
 
@@ -44,6 +39,7 @@ const useStyles = isSingle =>
       ...returnPropIfTrue(isSingle, { top: 0 }),
     },
     cardActionArea: {
+      cursor: 'auto',
       height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
       '&:hover $focusHighlight': {
         opacity: 0,
@@ -51,12 +47,16 @@ const useStyles = isSingle =>
     },
     focusHighlight: {},
     media: {
-      height: '100%',
+      cursor: 'pointer',
+      height: MEDIA_HEIGHT,
+      [theme.breakpoints.up('sm')]: {
+        height: MEDIA_MAX_HEIGHT,
+      },
     },
     content: {
-      '&&': {
-        height: '100%',
-        padding: '16px 16px 0 16px',
+      height: `calc(100% - ${MEDIA_HEIGHT}px)`,
+      [theme.breakpoints.up('sm')]: {
+        height: `calc(100% - ${MEDIA_MAX_HEIGHT}px)`,
       },
     },
     contentTitle: {
@@ -81,7 +81,7 @@ const styles = {
     padding: '10px 0 0 10px',
   },
   action: {
-    marginTop: `-${ACTIONS_HEIGHT}px`,
+    marginTop: `-${ACTIONS_HEIGHT + 5}px`,
   },
 };
 
@@ -140,17 +140,15 @@ const SourceCard = forwardRef(
               }}
               disableTouchRipple
             >
-              <Box height="15%" minHeight={`${MEDIA_HEIGHT}px`}>
-                <CardMedia
-                  className={classes.media}
-                  onClick={handleCardMediaClick}
-                  title={chosenSource.name}
-                  image={`${process.env.REACT_APP_API_URL}/images/${
-                    chosenSource.id
-                  }`}
-                />
-              </Box>
-              <Box height="85%">
+              <CardMedia
+                className={classes.media}
+                onClick={handleCardMediaClick}
+                title={chosenSource.name}
+                image={`${process.env.REACT_APP_API_URL}/images/${
+                  chosenSource.id
+                }`}
+              />
+              <div className={classes.content}>
                 <Typography
                   style={styles.contentTitle}
                   className={classes.contentTitle}
@@ -167,7 +165,7 @@ const SourceCard = forwardRef(
                 ) : (
                   <Loader />
                 )}
-              </Box>
+              </div>
             </CardActionArea>
           </Box>
           <CardActions style={styles.action}>

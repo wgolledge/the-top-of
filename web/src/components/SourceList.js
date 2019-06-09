@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     height: '100%',
     maxHeight: props => props.sourceCount * 100 + 100,
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   introText: {
     fontSize: '1.2em',
@@ -60,9 +60,11 @@ const SourceList = ({ sources, onClick }) => {
             <Paper className={classes.paper} elevation={2}>
               <ListItem
                 className={classes.listItem}
+                disableRipple
                 button
                 component="button"
                 onClick={() => onClick(source)}
+                classes={{ button: classes.buttonClass }}
               >
                 <Typography
                   className={classes.sourceText}

@@ -30,7 +30,7 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
           duration,
         } = await axios.get(url);
 
-        if (data) {
+        if (data.length !== 0 && data) {
           setData(data, duration);
           return;
         }
