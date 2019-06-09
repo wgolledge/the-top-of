@@ -25,6 +25,15 @@ const useStyles = makeStyles(theme => ({
   },
   listButton: {
     padding: '10px 12px',
+    // Override hover color unless desktop
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    '@media (hover: hover)': {
+      '&:hover': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
   },
   listItemNumber: {
     minWidth: 25,

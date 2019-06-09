@@ -39,6 +39,7 @@ const useStyles = isSingle =>
       ...returnPropIfTrue(isSingle, { top: 0 }),
     },
     cardActionArea: {
+      cursor: 'auto',
       height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
       '&:hover $focusHighlight': {
         opacity: 0,
@@ -46,6 +47,7 @@ const useStyles = isSingle =>
     },
     focusHighlight: {},
     media: {
+      cursor: 'pointer',
       height: MEDIA_HEIGHT,
       [theme.breakpoints.up('sm')]: {
         height: MEDIA_MAX_HEIGHT,
