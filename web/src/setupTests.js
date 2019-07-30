@@ -1,5 +1,5 @@
 import '@testing-library/react/cleanup-after-each';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 import { createMuiTheme } from '@material-ui/core/styles';
 import React from 'react';
 import { render } from '@testing-library/react';
