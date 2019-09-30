@@ -31,7 +31,7 @@
     "react-jss": "8.6.1",
     "react-scripts": "3.0.1",
     "react-slick": "0.25.2",
-    "react-toggle": "4.0.2",
+    "react-toggle": "4.1.1",
     "workbox-build": "4.3.1"
   },
   "devDependencies": {
