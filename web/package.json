@@ -35,7 +35,7 @@
     "workbox-build": "4.3.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "4.1.1",
+    "@testing-library/jest-dom": "4.1.2",
     "eslint-config-airbnb": "18.0.1",
     "eslint-config-prettier": "6.4.0",
     "eslint-plugin-import": "2.18.2",
