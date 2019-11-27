@@ -25,13 +25,13 @@ const useStyles = makeStyles(theme => ({
   },
   listButton: {
     padding: '10px 12px',
-    // Override hover color unless desktop
     '&:hover': {
-      backgroundColor: 'transparent',
+      backgroundColor: theme.palette.action.hover,
     },
-    '@media (hover: hover)': {
+    '@media (hover: none)': {
+      // Override hover color
       '&:hover': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: 'transparent',
       },
     },
   },
