@@ -30,8 +30,9 @@ const useStyles = makeStyles({
 
 const Index = () => {
   const [height, setHeight] = useState(null);
+  const theme = useTheme();
 
-  const classes = useStyles({ height, theme: useTheme() });
+  const classes = useStyles({ height, theme });
 
   return (
     <div className={classes.root}>

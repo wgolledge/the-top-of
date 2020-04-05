@@ -11,27 +11,19 @@ import Divider from '@material-ui/core/Divider';
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    color: theme.palette.type === 'dark' ? '#fff' : '#000',
+    color: theme.palette.secondary.main,
     height: '100%',
     overflowX: 'hidden',
     overflowY: 'auto',
   },
   list: {
-    '&&': {
-      [theme.breakpoints.down('sm')]: {
-        paddingTop: 0,
-      },
-    },
+    paddingTop: 0,
   },
   listButton: {
     padding: '10px 12px',
-    '&:hover': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    '@media (hover: none)': {
-      // Override hover color
+    '@media not all and (pointer: coarse)': {
       '&:hover': {
-        backgroundColor: 'transparent',
+        backgroundColor: theme.palette.action.hover,
       },
     },
   },
@@ -48,7 +40,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: 'calc(0.6vw + 0.7vh + .5vmin)',
     },
     [theme.breakpoints.up('lg')]: {
-      fontSize: '1em',
+      fontSize: '0.8rem',
     },
   },
   avatar: {

@@ -1,9 +1,14 @@
-import React, { Suspense, useEffect, useState, forwardRef, useMemo } from 'react';
+import React, {
+  Suspense,
+  useEffect,
+  useState,
+  forwardRef,
+  useMemo,
+} from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
@@ -17,15 +22,13 @@ import Loader from './Loader';
 
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
 
-const HEADER_HEIGHT = 65;
-const HEADER_HEIGHT_MAX = 75;
-const TITLE_HEIGHT = 30;
+const HEADER_HEIGHT = 60;
 const ACTIONS_HEIGHT = 45;
 
-const useStyles = (isSingle, headerBg) => console.log(headerBg) || 
+const useStyles = (isSingle, headerBg) =>
   makeStyles(theme => ({
     root: {
-      color: theme.palette.type === 'dark' ? '#fff' : '#000',
+      color: theme.palette.darkThemeSecondaryText,
       height: window.innerHeight - theme.header.headerHeightSmall - 30,
       [theme.header.minHeightMedia]: {
         height: window.innerHeight - theme.header.headerHeightLarge - 30,
@@ -51,52 +54,38 @@ const useStyles = (isSingle, headerBg) => console.log(headerBg) ||
       cursor: 'pointer',
       height: HEADER_HEIGHT,
       margin: 0,
-      [theme.breakpoints.up('sm')]: {
-        height: HEADER_HEIGHT_MAX,
+      padding: '0.5rem',
+      textAlign: 'center',
+      '& p': {
+        fontSize: '0.7rem',
+      },
+      '& h1': {
+        fontSize: '2.1rem',
+        marginTop: '-0.5rem',
+        fontFamily: `'Pacifico', cursive`,
       },
     },
     content: {
       height: `calc(100% - ${HEADER_HEIGHT}px)`,
-      [theme.breakpoints.up('sm')]: {
-        height: `calc(100% - ${HEADER_HEIGHT_MAX}px)`,
-      },
-    },
-    contentTitle: {
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 'calc(1.2vw + 1.3vh + .5vmin)',
-      },
-      [theme.breakpoints.up('md')]: {
-        fontSize: 'calc(1vw + 1vh + .7vmin)',
-      },
-      [theme.breakpoints.up('lg')]: {
-        fontSize: '1.5rem',
-      },
     },
     contentList: {
-      height: `calc(100% - ${ACTIONS_HEIGHT}px)`,
+      height: `calc(100% - ${ACTIONS_HEIGHT * 1.2}px)`,
+    },
+    action: {
+      marginTop: `-${ACTIONS_HEIGHT}px`,
+      backgroundColor: theme.palette.background.paper,
+      zIndex: 99,
     },
   }));
-
-const styles = {
-  contentTitle: {
-    height: TITLE_HEIGHT,
-    padding: '10px 0 0 10px',
-  },
-  action: {
-    marginTop: `-${ACTIONS_HEIGHT + 5}px`,
-  },
-};
 
 const goToUrl = url => {
   window.location = url;
 };
 
 const SourceCard = forwardRef(
-  // eslint-disable-next-line no-unused-vars
   ({ chosenSource, changeSource, isSingle, isLoadingOrError }, ref) => {
     const theme = useTheme();
-    console.log(chosenSource.banner.color);
-    
+
     const classes = useStyles(isSingle, chosenSource.banner.color)(theme);
     const [sourcesData] = useSourcesData();
     const [sourceData, setSourceData] = useState(null);
@@ -104,7 +93,6 @@ const SourceCard = forwardRef(
     const handleCardMediaClick = () => {
       window.location = chosenSource.url;
     };
-    
 
     useEffect(() => {
       const handleClickOutside = e => {
@@ -134,61 +122,41 @@ const SourceCard = forwardRef(
       }
     }, [isLoadingOrError, chosenSource.id, sourcesData]);
 
-    const CardHeaderTitle = useMemo(() => (
-      <>{chosenSource.banner.byline && (<Typography
-      component="p"
-    >
-      {chosenSource.banner.byline}
-    </Typography>)}
-    <Typography
-      component="h1"
-      style={{textAlign: 'center', fontSize: '3rem'}}
-    >
-      {chosenSource.banner.text}
-    </Typography>
-    </>
-    ), []);
+    const CardHeaderTitle = useMemo(
+      () => (
+        <>
+          {chosenSource.banner.byline && (
+            <Typography component="p">{chosenSource.banner.byline}</Typography>
+          )}
+          <Typography component="h1">{chosenSource.banner.text}</Typography>
+        </>
+      ),
+      [],
+    );
 
     return (
       <Card ref={ref} className={classes.root}>
         <>
           <Box height="100%">
-            <CardActionArea
-              classes={{
-                root: classes.cardActionArea,
-                focusHighlight: classes.focusHighlight,
-              }}
-              disableTouchRipple
-            >
-              <CardHeader
-                className={classes.header}
-                onClick={handleCardMediaClick}
-                title={CardHeaderTitle}
-                image={`${process.env.REACT_APP_API_URL}/images/${
-                  chosenSource.id
-                }`}
-              ></CardHeader>
-              <div className={classes.content}>
-                <Typography
-                  style={styles.contentTitle}
-                  className={classes.contentTitle}
-                  component="h2"
-                >
-                  {chosenSource.name}
-                </Typography>
-                {sourceData ? (
-                  <Suspense fallback={<Loader />}>
-                    <div className={classes.contentList}>
-                      <LazySourceCardList articles={sourceData} />
-                    </div>
-                  </Suspense>
-                ) : (
-                  <Loader />
-                )}
-              </div>
-            </CardActionArea>
+            <CardHeader
+              className={classes.header}
+              onClick={handleCardMediaClick}
+              title={CardHeaderTitle}
+              image={`${process.env.REACT_APP_API_URL}/images/${chosenSource.id}`}
+            />
+            <div className={classes.content}>
+              {sourceData ? (
+                <Suspense fallback={<Loader />}>
+                  <div className={classes.contentList}>
+                    <LazySourceCardList articles={sourceData} />
+                  </div>
+                </Suspense>
+              ) : (
+                <Loader />
+              )}
+            </div>
           </Box>
-          <CardActions style={styles.action}>
+          <CardActions className={classes.action}>
             <Grid container spacing={0} justify="flex-start">
               <Grid item xs={6}>
                 <Button size="medium" color="primary" onClick={changeSource}>

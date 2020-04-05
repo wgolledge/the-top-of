@@ -7,7 +7,8 @@ module.exports = {
   priority: 100,
   banner: {
     text: 'Hacker News',
-    color: '#0F3862',
+    byline: 'Powered by',
+    color: '#F56605',
   },
   getData: () =>
     get(
