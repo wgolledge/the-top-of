@@ -3,9 +3,17 @@ const { get } = require('axios');
 module.exports = {
   name: 'YouTube',
   working: true,
-  imgName: 'youtube.png',
   url: 'https://youtube.com/',
   priority: 120,
+  attributionLink: {
+    text: "YouTube's TOS",
+    link: 'https://www.youtube.com/t/terms/',
+  },
+  banner: {
+    text: 'YouTube',
+    byline: 'Powered by',
+    color: '#F40104',
+  },
   getData: () =>
     get(
       `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=10&key=${
@@ -47,8 +55,4 @@ module.exports = {
           .slice(0, 10);
       })
       .catch(err => console.log(err)),
-  attributionLink: {
-    text: "YouTube's TOS",
-    link: 'https://www.youtube.com/t/terms/',
-  },
 };

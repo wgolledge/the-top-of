@@ -9,9 +9,13 @@ const parser = new Parser({
 module.exports = {
   name: 'Daily Mail',
   working: true,
-  imgName: 'dailymail.png',
   url: 'https://dailymail.co.uk/',
-  priority: 40,
+  priority: 200,
+  banner: {
+    text: 'Daily Mail',
+    byline: 'Powered by the',
+    color: '#1D4DB3',
+  },
   getData: () =>
     parser
       .parseURL('https://www.dailymail.co.uk/news/index.rss')

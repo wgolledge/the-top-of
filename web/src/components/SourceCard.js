@@ -1,11 +1,11 @@
-import React, { Suspense, useEffect, useState, forwardRef } from 'react';
+import React, { Suspense, useEffect, useState, forwardRef, useMemo } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
+import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
@@ -17,12 +17,12 @@ import Loader from './Loader';
 
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
 
-const MEDIA_HEIGHT = 65;
-const MEDIA_MAX_HEIGHT = 95;
+const HEADER_HEIGHT = 65;
+const HEADER_HEIGHT_MAX = 75;
 const TITLE_HEIGHT = 30;
 const ACTIONS_HEIGHT = 45;
 
-const useStyles = isSingle =>
+const useStyles = (isSingle, headerBg) => console.log(headerBg) || 
   makeStyles(theme => ({
     root: {
       color: theme.palette.type === 'dark' ? '#fff' : '#000',
@@ -46,17 +46,19 @@ const useStyles = isSingle =>
       },
     },
     focusHighlight: {},
-    media: {
+    header: {
+      backgroundColor: headerBg,
       cursor: 'pointer',
-      height: MEDIA_HEIGHT,
+      height: HEADER_HEIGHT,
+      margin: 0,
       [theme.breakpoints.up('sm')]: {
-        height: MEDIA_MAX_HEIGHT,
+        height: HEADER_HEIGHT_MAX,
       },
     },
     content: {
-      height: `calc(100% - ${MEDIA_HEIGHT}px)`,
+      height: `calc(100% - ${HEADER_HEIGHT}px)`,
       [theme.breakpoints.up('sm')]: {
-        height: `calc(100% - ${MEDIA_MAX_HEIGHT}px)`,
+        height: `calc(100% - ${HEADER_HEIGHT_MAX}px)`,
       },
     },
     contentTitle: {
@@ -93,13 +95,16 @@ const SourceCard = forwardRef(
   // eslint-disable-next-line no-unused-vars
   ({ chosenSource, changeSource, isSingle, isLoadingOrError }, ref) => {
     const theme = useTheme();
-    const classes = useStyles(isSingle)(theme);
+    console.log(chosenSource.banner.color);
+    
+    const classes = useStyles(isSingle, chosenSource.banner.color)(theme);
     const [sourcesData] = useSourcesData();
     const [sourceData, setSourceData] = useState(null);
 
     const handleCardMediaClick = () => {
       window.location = chosenSource.url;
     };
+    
 
     useEffect(() => {
       const handleClickOutside = e => {
@@ -129,6 +134,21 @@ const SourceCard = forwardRef(
       }
     }, [isLoadingOrError, chosenSource.id, sourcesData]);
 
+    const CardHeaderTitle = useMemo(() => (
+      <>{chosenSource.banner.byline && (<Typography
+      component="p"
+    >
+      {chosenSource.banner.byline}
+    </Typography>)}
+    <Typography
+      component="h1"
+      style={{textAlign: 'center', fontSize: '3rem'}}
+    >
+      {chosenSource.banner.text}
+    </Typography>
+    </>
+    ), []);
+
     return (
       <Card ref={ref} className={classes.root}>
         <>
@@ -140,14 +160,14 @@ const SourceCard = forwardRef(
               }}
               disableTouchRipple
             >
-              <CardMedia
-                className={classes.media}
+              <CardHeader
+                className={classes.header}
                 onClick={handleCardMediaClick}
-                title={chosenSource.name}
+                title={CardHeaderTitle}
                 image={`${process.env.REACT_APP_API_URL}/images/${
                   chosenSource.id
                 }`}
-              />
+              ></CardHeader>
               <div className={classes.content}>
                 <Typography
                   style={styles.contentTitle}

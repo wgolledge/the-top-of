@@ -102,16 +102,19 @@ const SourceCardContainer = ({
   return (
     <>
       {!sourceListNoCarousel ? (
-        <Slider ref={sliderRef} {...sliderSettings} className>
-          {sources.map(source => (
-            <SourceCard
-              {...sourceCardSettings}
-              chosenSource={source}
-              key={source.id}
-              isSingle={false}
-            />
-          ))}
-        </Slider>
+        // * extra div needed to stop https://github.com/akiran/react-slick/issues/1557
+        <div style={{height: '100%', width: '100%'}}>
+          <Slider ref={sliderRef} {...sliderSettings} className>
+            {sources.map(source => (
+              <SourceCard
+                {...sourceCardSettings}
+                chosenSource={source}
+                key={source.id}
+                isSingle={false}
+              />
+            ))}
+          </Slider>
+        </div>
       ) : (
         <Slide {...slideSettings}>
           <SourceCard

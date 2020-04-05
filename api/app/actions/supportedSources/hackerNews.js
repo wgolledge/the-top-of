@@ -3,9 +3,12 @@ const { get } = require('axios');
 module.exports = {
   name: 'Hacker News',
   working: true,
-  imgName: 'hackerNews.png',
   url: 'https://hn.algolia.com',
   priority: 100,
+  banner: {
+    text: 'Hacker News',
+    color: '#0F3862',
+  },
   getData: () =>
     get(
       'http://hn.algolia.com/api/v1/search?tags=front_page&numericFilters=created_at_i>86400',

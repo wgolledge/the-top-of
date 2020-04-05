@@ -3,9 +3,13 @@ const { get } = require('axios');
 module.exports = {
   name: 'The Guardian',
   working: true,
-  imgName: 'theGuardian.png',
   url: 'https://theguardian.com',
   priority: 20,
+  banner: {
+    text: 'The Guardian',
+    byline: 'Powered by',
+    color: '#0F3862',
+  },
   getData: () =>
     get(
       `https://content.guardianapis.com/search?order-by=relevance&q=news&use-date=last-modified&lang=en&from-date=2019-04-04&page-size=50&show-fields=headline,thumbnail,lastModified,score&api-key=${
