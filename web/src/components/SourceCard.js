@@ -33,7 +33,7 @@ const useStyles = (isSingle, headerBg) =>
       [theme.header.minHeightMedia]: {
         height: window.innerHeight - theme.header.headerHeightLarge - 30,
       },
-      maxWidth: theme.maxWidth - 20,
+      maxWidth: theme.maxCardWidth - 20,
       margin: 10,
       position: 'absolute',
       width: window.innerWidth - 20,
@@ -51,8 +51,12 @@ const useStyles = (isSingle, headerBg) =>
     focusHighlight: {},
     header: {
       backgroundColor: headerBg,
+      color: 'white',
       cursor: 'pointer',
       height: HEADER_HEIGHT,
+      boxShadow: `0 0.7rem 0.7rem ${theme.palette.background.paper}`,
+      position: 'relative',
+      zIndex: 1,
       margin: 0,
       padding: '0.5rem',
       textAlign: 'center',
@@ -72,9 +76,24 @@ const useStyles = (isSingle, headerBg) =>
       height: `calc(100% - ${ACTIONS_HEIGHT * 1.2}px)`,
     },
     action: {
-      marginTop: `-${ACTIONS_HEIGHT}px`,
+      marginTop: `-35px`,
+      padding: '0 12px',
+      boxShadow: `0 -0.7rem 0.7rem ${theme.palette.background.paper}`,
+      position: 'relative',
       backgroundColor: theme.palette.background.paper,
-      zIndex: 99,
+      zIndex: 1,
+    },
+    button: {
+      padding: 0,
+      letterSpacing: 1,
+      transition: 'all 280ms ease-in-out',
+      '&:hover': {
+        backgroundColor: theme.palette.background.paper,
+        letterSpacing: 1.3,
+      },
+      '&:hover $focusHighlight': {
+        opacity: 0,
+      },
     },
   }));
 
@@ -96,13 +115,14 @@ const SourceCard = forwardRef(
 
     useEffect(() => {
       const handleClickOutside = e => {
-        const extraSpaceEitherSide = (window.innerWidth - theme.maxWidth) / 2;
+        const extraSpaceEitherSide =
+          (window.innerWidth - theme.maxCardWidth) / 2;
 
         if (
           extraSpaceEitherSide > 0 &&
           e.clientY > 64 &&
           (e.clientX < extraSpaceEitherSide ||
-            e.clientX > theme.maxWidth + extraSpaceEitherSide)
+            e.clientX > theme.maxCardWidth + extraSpaceEitherSide)
         ) {
           changeSource();
         }
@@ -112,7 +132,7 @@ const SourceCard = forwardRef(
       return () => {
         document.removeEventListener('click', handleClickOutside, false);
       };
-    }, [changeSource, theme.maxWidth]);
+    }, [changeSource, theme.maxCardWidth]);
 
     useEffect(() => {
       if (!isLoadingOrError) {
@@ -131,7 +151,7 @@ const SourceCard = forwardRef(
           <Typography component="h1">{chosenSource.banner.text}</Typography>
         </>
       ),
-      [],
+      [chosenSource.banner.byline, chosenSource.banner.text],
     );
 
     return (
@@ -142,7 +162,6 @@ const SourceCard = forwardRef(
               className={classes.header}
               onClick={handleCardMediaClick}
               title={CardHeaderTitle}
-              image={`${process.env.REACT_APP_API_URL}/images/${chosenSource.id}`}
             />
             <div className={classes.content}>
               {sourceData ? (
@@ -159,16 +178,24 @@ const SourceCard = forwardRef(
           <CardActions className={classes.action}>
             <Grid container spacing={0} justify="flex-start">
               <Grid item xs={6}>
-                <Button size="medium" color="primary" onClick={changeSource}>
+                <Button
+                  className={classes.button}
+                  size="medium"
+                  color="primary"
+                  onClick={changeSource}
+                  disableRipple
+                >
                   Change Source
                 </Button>
               </Grid>
               {chosenSource.attributionLink && (
                 <Grid item xs={6} container justify="flex-end">
                   <Button
+                    className={classes.button}
                     size="medium"
                     color="primary"
                     onClick={() => goToUrl(chosenSource.attributionLink.link)}
+                    disableRipple
                   >
                     {chosenSource.attributionLink.text}
                   </Button>

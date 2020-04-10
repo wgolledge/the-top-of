@@ -38,7 +38,8 @@ const minHeightMedia = `@media (min-height:${minHeightHeaderExpand}px)`;
 
 export const defaultThemeSettings = {
   cardBackground: '#272727',
-  maxWidth: 760,
+  maxWidth: 860,
+  maxCardWidth: 450,
   mixins: {
     toolbar: {
       minHeight: headerHeightSmall,

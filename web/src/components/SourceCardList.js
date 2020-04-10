@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    color: theme.palette.secondary.main,
     height: '100%',
     overflowX: 'hidden',
     overflowY: 'auto',
@@ -33,15 +32,7 @@ const useStyles = makeStyles(theme => ({
   listItemText: {
     marginRight: 10,
     paddingLeft: 5,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 'calc(0.7vw + 1vh + .5vmin)',
-    },
-    [theme.breakpoints.up('md')]: {
-      fontSize: 'calc(0.6vw + 0.7vh + .5vmin)',
-    },
-    [theme.breakpoints.up('lg')]: {
-      fontSize: '0.8rem',
-    },
+    fontSize: '0.8rem',
   },
   avatar: {
     height: 45,

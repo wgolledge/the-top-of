@@ -1,6 +1,5 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useRef, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Slide from '@material-ui/core/Slide';
 import Slider from 'react-slick';
 import { isMobile } from 'react-device-detect';
 
@@ -8,10 +7,13 @@ import { useGetFromUrl } from '../utils/hooks';
 import { useSourcesData } from '../context/sourcesDataContext';
 import { history } from '../pages/index';
 
+import { Slide } from './Slide';
 import SourceCard from './SourceCard';
 
 const SourceCardContainer = ({
   sources,
+  changingSource,
+  setChangingSource,
   cardShown,
   setCardShown,
   chosenSourceIndex,
@@ -20,8 +22,12 @@ const SourceCardContainer = ({
   setSourceListNoCarousel,
 }) => {
   const [, setSourcesData] = useSourcesData();
-  const [changingSource, setChangingSource] = useState(false);
   const sliderRef = useRef(null);
+  const {
+    data: sourcesData,
+    isLoading: isLoadingSourcesData,
+    isError: isErrorSourcesData,
+  } = useGetFromUrl(`${process.env.REACT_APP_API_URL}/sources/all`);
 
   const handleChangeSource = useCallback(() => {
     setChangingSource(true);
@@ -30,7 +36,7 @@ const SourceCardContainer = ({
       setSourceListNoCarousel(true);
       setCardShown(false);
     }, 0);
-  }, [setCardShown, setSourceListNoCarousel]);
+  }, [setChangingSource, setCardShown, setSourceListNoCarousel]);
 
   useEffect(() => {
     let unblock = () => {};
@@ -48,42 +54,38 @@ const SourceCardContainer = ({
     return unblock;
   }, [cardShown, handleChangeSource]);
 
-  const {
-    data: sourcesData,
-    isLoading: isLoadingSourcesData,
-    isError: isErrorSourcesData,
-  } = useGetFromUrl(`${process.env.REACT_APP_API_URL}/sources/all`);
+  useEffect(() => {
+    setSourcesData(sourcesData);
+  }, [sourcesData, setSourcesData]);
 
-  setSourcesData(sourcesData);
-
-  const onSwipe = () => {
+  const onSwipe = useCallback(() => {
     if (sliderRef) {
       sliderRef.current.innerSlider.clickable = true;
     }
-  };
+  }, []);
 
-  const sliderSettings = {
-    afterChange: index => setSourceIndexAndStorage(index),
-    arrows: false,
-    dots: isMobile,
-    draggable: false,
-    infinite: false,
-    initialSlide: chosenSourceIndex,
-    lazyLoad: 'progressive',
-    onSwipe,
-    speed: 700,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  const sliderSettings = useMemo(
+    () => ({
+      afterChange: index => setSourceIndexAndStorage(index),
+      arrows: false,
+      dots: isMobile,
+      draggable: false,
+      infinite: false,
+      initialSlide: chosenSourceIndex,
+      lazyLoad: 'progressive',
+      onSwipe,
+      speed: 700,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    }),
+    [setSourceIndexAndStorage, chosenSourceIndex, onSwipe],
+  );
 
   const slideSettings = {
     appear: !changingSource,
-    direction: 'up',
     enter: !changingSource,
+    direction: 'up',
     in: cardShown,
-    timeout: { enter: 250, exit: 180 },
-    mountOnEnter: true,
-    unmountOnExit: true,
     onEntered: () => {
       // Timeout as callback firing before animation ends
       setTimeout(() => {
@@ -103,18 +105,16 @@ const SourceCardContainer = ({
     <>
       {!sourceListNoCarousel ? (
         // * extra div needed to stop https://github.com/akiran/react-slick/issues/1557
-        <div style={{height: '100%', width: '100%'}}>
-          <Slider ref={sliderRef} {...sliderSettings} className>
-            {sources.map(source => (
-              <SourceCard
-                {...sourceCardSettings}
-                chosenSource={source}
-                key={source.id}
-                isSingle={false}
-              />
-            ))}
-          </Slider>
-        </div>
+        <Slider ref={sliderRef} {...sliderSettings}>
+          {sources.map(source => (
+            <SourceCard
+              {...sourceCardSettings}
+              chosenSource={source}
+              key={source.id}
+              isSingle={false}
+            />
+          ))}
+        </Slider>
       ) : (
         <Slide {...slideSettings}>
           <SourceCard

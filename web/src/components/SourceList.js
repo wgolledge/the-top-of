@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     overflowY: 'auto',
   },
   introText: {
-    fontSize: '1.2em',
+    fontSize: '1.2rem',
     fontWeight: 500,
     letterSpacing: 1.3,
     margin: 'auto',
@@ -31,16 +31,16 @@ const useStyles = makeStyles({
     padding: 5,
   },
   sourceText: {
-    fontSize: '1.6em',
+    fontSize: '1.1rem',
     fontWeight: 500,
   },
 });
 
-const SourceList = ({ sources, onClick }) => {
+const SourceList = forwardRef(({ sources, onClick }, ref) => {
   const classes = useStyles({ sourceCount: sources.length });
 
   return (
-    <List className={classes.root} disablePadding>
+    <List ref={ref} className={classes.root} disablePadding>
       <Grid container justify="center">
         <Grid item xs={12}>
           <Typography
@@ -80,7 +80,7 @@ const SourceList = ({ sources, onClick }) => {
       </Grid>
     </List>
   );
-};
+});
 
 SourceList.propTypes = {
   sources: PropTypes.arrayOf(PropTypes.shape()).isRequired,

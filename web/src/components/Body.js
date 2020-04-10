@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import _debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
 
 import { useGetFromUrl } from '../utils/hooks';
 import { SourcesDataProvider } from '../context/sourcesDataContext';
 
+import { Slide } from './Slide';
 import SourceList from './SourceList';
 import SourceCardContainer from './SourceCardContainer';
 import Loader from './Loader';
 
+const useStyles = makeStyles(() => ({
+  sources: {
+    height: '100%',
+    width: '100%',
+    maxWidth: 450,
+    position: 'absolute',
+  },
+}));
+
 const Body = ({ isFreshLoad }) => {
+  const classes = useStyles();
+  const [changingSource, setChangingSource] = useState(false);
+
   const { data: sources, isLoading, isError } = useGetFromUrl(
     `${process.env.REACT_APP_API_URL}/sources`,
   );
@@ -53,7 +67,16 @@ const Body = ({ isFreshLoad }) => {
     return <Loader />;
   }
 
+  const slideSettings = {
+    appear: changingSource,
+    direction: 'down',
+    enter: changingSource,
+    in: !cardShown,
+  };
+
   const sourceCardContainerSettings = {
+    changingSource,
+    setChangingSource,
     cardShown,
     chosenSourceIndex,
     setCardShown,
@@ -65,13 +88,15 @@ const Body = ({ isFreshLoad }) => {
 
   return (
     <>
-      <SourcesDataProvider>
-        <SourceCardContainer {...sourceCardContainerSettings} />
-      </SourcesDataProvider>
+      <div className={classes.sources}>
+        <SourcesDataProvider>
+          <SourceCardContainer {...sourceCardContainerSettings} />
+        </SourcesDataProvider>
+      </div>
 
-      {sourceListNoCarousel && (
+      <Slide {...slideSettings}>
         <SourceList sources={sources} onClick={handleSetChosenSourceIndex} />
-      )}
+      </Slide>
     </>
   );
 };
