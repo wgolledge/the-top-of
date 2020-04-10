@@ -30,18 +30,19 @@ const useStyles = makeStyles({
 
 const Index = () => {
   const [height, setHeight] = useState(null);
+  const theme = useTheme();
 
-  const classes = useStyles({ height, theme: useTheme() });
+  const classes = useStyles({ height, theme });
 
   return (
-    <div className={classes.root}>
+    <main className={classes.root}>
       <Header setHeight={setHeight} />
       {height && (
         <div className={classes.main}>
           <Body isFreshLoad={IS_FRESH_LOAD} />
         </div>
       )}
-    </div>
+    </main>
   );
 };
 

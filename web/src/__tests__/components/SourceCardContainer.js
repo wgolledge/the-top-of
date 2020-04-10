@@ -40,25 +40,14 @@ test('Renders a single sourceCard when sourceListNoCarousel true, calls axios fo
   await wait(() => {
     mockSources.data.forEach((mockSource, i) => {
       if (i === mockIndex) {
-        expect(getByText(mockSource.name)).toBeInTheDocument();
+        expect(getByText(mockSource.banner.text)).toBeInTheDocument();
+        expect(getByText(mockSource.banner.text)).toBeInTheDocument();
       } else {
-        expect(queryByText(mockSource.name)).toBe(null);
+        expect(queryByText(mockSource.banner.text)).toBe(null);
       }
     });
   });
 
   // Called once for all source data
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
-});
-
-test('Renders the carousel when sourceListNoCarousel false and then closes the card if back button pressed', async () => {
-  const { getByTitle } = global.renderWithTheme(
-    <SourceCardContainerWP {...defaultSettings} sourceListNoCarousel={false} />,
-  );
-
-  await wait(() => {
-    mockSources.data.forEach(mockSource => {
-      expect(getByTitle(mockSource.name)).toBeInTheDocument();
-    });
-  });
 });

@@ -1,16 +1,68 @@
 {
   "data": [
     {
+      "id": 4,
+      "name": "YouTube",
+      "url": "https://youtube.com/",
+      "banner": {
+        "text": "YouTube",
+        "byline": "Powered by",
+        "color": "#F40104"
+      },
+      "attributionLink": {
+        "text": "YouTube's TOS",
+        "link": "https://www.youtube.com/t/terms/"
+      }
+    },
+    {
       "id": 0,
-      "name": "Hacker News"
+      "name": "The Top Of for Reddit",
+      "url": "https://reddit.com",
+      "banner": {
+        "text": "Reddit",
+        "byline": "The Top Of for",
+        "color": "#F44505"
+      }
     },
     {
       "id": 1,
-      "name": "The Top Of for Reddit"
+      "name": "The Guardian",
+      "url": "https://theguardian.com",
+      "banner": {
+        "text": "The Guardian",
+        "byline": "Powered by",
+        "color": "#0F3862"
+      }
     },
     {
       "id": 2,
-      "name": "The Guardian"
+      "name": "BBC News",
+      "url": "https://bbc.co.uk",
+      "banner": {
+        "text": "BBC News",
+        "byline": "Powered by",
+        "color": "#BB1919"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Hacker News",
+      "url": "https://hn.algolia.com",
+      "banner": {
+        "text": "Hacker News",
+        "byline": "Powered by",
+        "color": "#F56605"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Daily Mail",
+      "url": "https://dailymail.co.uk/",
+      "banner": {
+        "text": "Daily Mail",
+        "byline": "Powered by the",
+        "color": "#1D4DB3"
+      }
     }
   ]
 }

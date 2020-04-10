@@ -9,6 +9,7 @@ const getSources = (req, res) => {
       id: source.id,
       name: source.name,
       url: source.url,
+      banner: source.banner,
       ...returnPropIfExists(source.attributionLink, 'attributionLink'),
     }));
 

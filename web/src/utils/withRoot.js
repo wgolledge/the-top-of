@@ -39,6 +39,7 @@ const minHeightMedia = `@media (min-height:${minHeightHeaderExpand}px)`;
 export const defaultThemeSettings = {
   cardBackground: '#272727',
   maxWidth: 860,
+  maxCardWidth: 450,
   mixins: {
     toolbar: {
       minHeight: headerHeightSmall,
@@ -79,6 +80,7 @@ const getTheme = darkMode =>
       },
       secondary: {
         main: darkMode ? darkThemeSecondaryText : lightThemeSecondaryText,
+        darkThemeSecondaryText,
       },
       background: {
         paper: darkMode ? darkThemePaperBg : lightThemePaperBg,
@@ -101,7 +103,7 @@ export const setTheme = theme => {
       },
       active: {
         light: '#000',
-        dark: '#fff',
+        dark: '#ECEBE4',
       },
     },
     background: {

@@ -20,9 +20,11 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-props-no-spreading': 'off',
     'react/button-has-type': 'off',
     'newline-after-var': ['error', 'always'],
     'import/order': ['error', { 'newlines-between': 'always' }],
+    'import/prefer-default-export': 'off',
     'prettier/prettier': [
       'error',
       {
