@@ -28,7 +28,7 @@ test('Renders correct chosenSource and list of urls plus calls changeSource func
   );
 
   await wait(() => {
-    expect(getByText(mockChosenSource.name)).toBeInTheDocument();
+    expect(getByText(mockChosenSource.banner.text)).toBeInTheDocument();
   });
 
   mockSourcesData[0].data.forEach(source => {

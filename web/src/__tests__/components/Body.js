@@ -1,6 +1,7 @@
 import React from 'react';
 import axiosMock from 'axios';
 import { wait, fireEvent, cleanup } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 
 import Body from '../../components/Body';
 import mockSources from '../../__mocks__/api/mockSources.json';
@@ -37,12 +38,17 @@ test('Renders correct text and sources', async () => {
 });
 
 test('Renders loading spinner if isLoading or isError from api', () => {
-  const { queryByText, getByTestId } = global.renderWithTheme(
-    <Body isFreshLoad />,
-  );
+  let queryByText;
 
-  axiosMock.get.mockImplementation(() => {
-    throw new Error();
+  let getByTestId;
+
+  act(() => {
+    axiosMock.get.mockImplementation(() => {
+      throw new Error();
+    });
+    ({ queryByText, getByTestId } = global.renderWithTheme(
+      <Body isFreshLoad />,
+    ));
   });
 
   expect(queryByText(pickSourceText)).not.toBeInTheDocument();
