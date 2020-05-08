@@ -14,16 +14,17 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     overflowX: 'hidden',
     overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    },
   },
   list: {
     paddingTop: 0,
   },
   listButton: {
     padding: '10px 12px',
-    '@media not all and (pointer: coarse)': {
-      '&:hover': {
-        backgroundColor: theme.palette.action.hover,
-      },
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper
     },
   },
   listItemNumber: {
