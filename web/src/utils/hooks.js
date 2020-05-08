@@ -97,7 +97,7 @@ export const useGetFromArrayOfUrls = urlArr => {
 
 export const useDarkMode = () => {
   const theme = localStorage.getItem('theme');
-  const [enabled, setEnabled] = useState(theme === 'dark');
+  const [enabled, setEnabled] = useState(theme !== 'light');
 
   useEffect(() => {
     const themeColor = enabled ? 'dark' : 'light';
@@ -112,3 +112,4 @@ export default {
   useGetFromUrl,
   useDarkMode,
 };
+ 
