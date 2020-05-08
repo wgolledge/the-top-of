@@ -32,10 +32,10 @@ const SourceCardContainer = ({
   const handleChangeSource = useCallback(() => {
     setChangingSource(true);
     localStorage.removeItem('currentIndex');
-    setTimeout(() => {
+    Promise.resolve(true).then(() => {
       setSourceListNoCarousel(true);
       setCardShown(false);
-    }, 0);
+    });
   }, [setChangingSource, setCardShown, setSourceListNoCarousel]);
 
   useEffect(() => {
@@ -87,10 +87,8 @@ const SourceCardContainer = ({
     direction: 'up',
     in: cardShown,
     onEntered: () => {
-      // Timeout as callback firing before animation ends
-      setTimeout(() => {
-        setSourceListNoCarousel(false);
-      }, 10);
+      // Microtick to wait for call stack to empty
+      Promise.resolve(true).then(setSourceListNoCarousel(false));
     },
     onExited: () => setChangingSource(false),
   };

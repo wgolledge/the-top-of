@@ -3,84 +3,73 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import MuiListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles';
+import styled from 'styled-components';
 
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    maxHeight: props => props.sourceCount * 100 + 100,
-    overflowY: 'auto',
-  },
-  introText: {
-    fontSize: '1.2rem',
-    fontWeight: 500,
-    letterSpacing: 1.3,
-    margin: 'auto',
-    width: '95%',
-  },
-  paper: {
-    margin: '25px',
-  },
-  listItem: {
-    cursor: 'pointer',
-    justifyContent: 'center',
-    padding: 5,
-  },
-  sourceText: {
-    fontSize: '1.1rem',
-    fontWeight: 500,
-  },
-});
+const ListRoot = styled(({ sourceCount, listRef, ...rest }) => (
+  <List ref={listRef} {...rest} />
+))`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-height: ${p => p.sourceCount * 100 + 100};
+  overflow-y: auto;
+`;
 
-const SourceList = forwardRef(({ sources, onClick }, ref) => {
-  const classes = useStyles({ sourceCount: sources.length });
+const Intro = styled(Typography)`
+  font-size: '1.2rem';
+  font-weight: 500;
+  letter-spacing: 1.3;
+  margin: 'auto';
+  width: '95%';
+`;
 
-  return (
-    <List ref={ref} className={classes.root} disablePadding>
-      <Grid container justify="center">
-        <Grid item xs={12}>
-          <Typography
-            className={classes.introText}
-            variant="body2"
-            color="secondary"
-            align="center"
-          >
-            Choose a source{' '}
-            <span role="img" aria-label="smiling face">
-              🙂
-            </span>
-          </Typography>
-        </Grid>
-        {sources.map(source => (
-          <Grid item key={source.id} xs={12} md={6} lg={6}>
-            <Paper className={classes.paper} elevation={2}>
-              <ListItem
-                className={classes.listItem}
-                disableRipple
-                button
-                component="button"
-                onClick={() => onClick(source)}
-                classes={{ button: classes.buttonClass }}
-              >
-                <Typography
-                  className={classes.sourceText}
-                  variant="body2"
-                  color="primary"
-                >
-                  {source.name}
-                </Typography>
-              </ListItem>
-            </Paper>
-          </Grid>
-        ))}
+const ListContent = styled(Paper)`
+  margin: 25px;
+`;
+
+const ListItem = styled(MuiListItem)`
+  cursor: pointer;
+  justify-content: center;
+  padding: 5px;
+`;
+
+const SourceText = styled(Typography)`
+  font-size: 1.1rem;
+  font-weight: 500;
+`;
+
+const SourceList = forwardRef(({ sources, onClick }, ref) => (
+  <ListRoot listRef={ref} disablePadding sourceCount={sources.length}>
+    <Grid container justify="center">
+      <Grid item xs={12}>
+        <Intro variant="body2" color="secondary" align="center">
+          Choose a source{' '}
+          <span role="img" aria-label="smiling face">
+            🙂
+          </span>
+        </Intro>
       </Grid>
-    </List>
-  );
-});
+      {sources.map(source => (
+        <Grid item key={source.id} xs={12} md={6} lg={6}>
+          <ListContent elevation={2}>
+            <ListItem
+              disableRipple
+              button
+              component="button"
+              onClick={() => onClick(source)}
+            >
+              <SourceText variant="body2" color="primary">
+                {source.name}
+              </SourceText>
+            </ListItem>
+          </ListContent>
+        </Grid>
+      ))}
+    </Grid>
+  </ListRoot>
+));
 
 SourceList.propTypes = {
   sources: PropTypes.arrayOf(PropTypes.shape()).isRequired,

@@ -1,10 +1,5 @@
 import React from 'react';
-import JssProvider from 'react-jss/lib/JssProvider';
-import {
-  createGenerateClassName,
-  ThemeProvider,
-  makeStyles,
-} from '@material-ui/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Toggle from 'react-toggle';
 
@@ -13,11 +8,6 @@ import moon from '../assets/moon.svg';
 import sun from '../assets/sun.svg';
 
 import { useDarkMode } from './hooks';
-
-const generateClassName = createGenerateClassName({
-  dangerouslyUseGlobalCSS: false,
-  productionPrefix: 'c',
-});
 
 const lightThemeBg = '#F2F6F8';
 const darkThemeBg = '#393D3F';
@@ -140,39 +130,34 @@ const withRoot = Component => props => {
   const classes = useStyles();
 
   return (
-    <JssProvider generateClassName={generateClassName}>
-      <ThemeProvider theme={theme}>
-        <Toggle
-          checked={darkModeEnabled}
-          className={classes.toggle}
-          onChange={() => setDarkModeEnabled(c => !c)}
-          icons={{
-            checked: (
-              <img
-                src={moon}
-                width="16"
-                height="16"
-                alt="moon"
-                style={{ pointerEvents: 'none' }}
-              />
-            ),
-            unchecked: (
-              <img
-                src={sun}
-                width="16"
-                height="16"
-                alt="sun"
-                style={{ pointerEvents: 'none' }}
-              />
-            ),
-          }}
-        />
-        <Component
-          {...props}
-          darkMode={[darkModeEnabled, setDarkModeEnabled]}
-        />
-      </ThemeProvider>
-    </JssProvider>
+    <ThemeProvider theme={theme}>
+      <Toggle
+        checked={darkModeEnabled}
+        className={classes.toggle}
+        onChange={() => setDarkModeEnabled(c => !c)}
+        icons={{
+          checked: (
+            <img
+              src={moon}
+              width="16"
+              height="16"
+              alt="moon"
+              style={{ pointerEvents: 'none' }}
+            />
+          ),
+          unchecked: (
+            <img
+              src={sun}
+              width="16"
+              height="16"
+              alt="sun"
+              style={{ pointerEvents: 'none' }}
+            />
+          ),
+        }}
+      />
+      <Component {...props} darkMode={[darkModeEnabled, setDarkModeEnabled]} />
+    </ThemeProvider>
   );
 };
 
