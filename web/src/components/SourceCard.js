@@ -54,7 +54,6 @@ const useStyles = (isSingle, headerBg) =>
       color: 'white',
       cursor: 'pointer',
       height: HEADER_HEIGHT,
-      boxShadow: `0 0.7rem 0.7rem ${theme.palette.background.paper}`,
       position: 'relative',
       zIndex: 1,
       margin: 0,
@@ -78,10 +77,12 @@ const useStyles = (isSingle, headerBg) =>
     action: {
       marginTop: `-35px`,
       padding: '0 12px',
-      boxShadow: `0 -0.7rem 0.7rem ${theme.palette.background.paper}`,
       position: 'relative',
       backgroundColor: theme.palette.background.paper,
       zIndex: 1,
+      '&:hover': {
+        boxShadow: 'none'
+      }
     },
     button: {
       padding: 0,
