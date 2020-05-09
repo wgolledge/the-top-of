@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from './axiosWithDuration';
 import { setTheme } from './withRoot';
 
-export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
+export const useGetFromUrl = url => {
   const LONG_REQUEST_LIMIT = 50;
   const [response, setResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,10 +17,8 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
       return;
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, minTimeIfLongReq - duration);
-  }, [minTimeIfLongReq]);
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -57,7 +55,7 @@ export const useGetFromUrl = (url, minTimeIfLongReq = 0) => {
     };
 
     getData();
-  }, [minTimeIfLongReq, url, setData]);
+  }, [url, setData]);
 
   return { data: response, isLoading, isError };
 };
@@ -97,7 +95,7 @@ export const useGetFromArrayOfUrls = urlArr => {
 
 export const useDarkMode = () => {
   const theme = localStorage.getItem('theme');
-  const [enabled, setEnabled] = useState(theme === 'dark');
+  const [enabled, setEnabled] = useState(theme !== 'light');
 
   useEffect(() => {
     const themeColor = enabled ? 'dark' : 'light';

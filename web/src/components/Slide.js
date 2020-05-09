@@ -7,7 +7,7 @@ export const Slide = memo(({ children, direction, ...rest }) => {
     () => ({
       direction,
       mountOnEnter: true,
-      timeout: { enter: 180, exit: 180 },
+      timeout: { enter: 350, exit: 250 },
       unmountOnExit: true,
     }),
     [direction],

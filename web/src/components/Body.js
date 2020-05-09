@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer, useMemo } from 'react';
 import _debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -20,41 +20,55 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const reducer = (prevState, action) => ({
+  ...prevState,
+  ...action,
+});
+
+const init = ({ existingCardIndex }) => {
+  const isExistingCardIndex = Number.isInteger(existingCardIndex);
+
+  return {
+    changingSource: false,
+    isExistingCardIndex,
+    chosenSourceIndex: isExistingCardIndex ? existingCardIndex : null,
+    cardShown: isExistingCardIndex,
+    sourceListNoCarousel: !isExistingCardIndex,
+  };
+};
+
 const Body = ({ isFreshLoad }) => {
   const classes = useStyles();
-  const [changingSource, setChangingSource] = useState(false);
+
+  const existingCardIndex = useMemo(
+    () =>
+      !isFreshLoad &&
+      localStorage.getItem('currentIndex') !== null &&
+      Number(localStorage.getItem('currentIndex')),
+    [isFreshLoad],
+  );
+
+  const [state, dispatch] = useReducer(reducer, { existingCardIndex }, init);
 
   const { data: sources, isLoading, isError } = useGetFromUrl(
     `${process.env.REACT_APP_API_URL}/sources`,
   );
 
-  const existingCardIndex =
-    !isFreshLoad &&
-    localStorage.getItem('currentIndex') !== null &&
-    Number(localStorage.getItem('currentIndex'));
-
-  const isExistingCardIndex = Number.isInteger(existingCardIndex);
-
-  const [chosenSourceIndex, setChosenSourceIndex] = useState(
-    isExistingCardIndex ? existingCardIndex : null,
-  );
-  const [cardShown, setCardShown] = useState(isExistingCardIndex);
-  const [sourceListNoCarousel, setSourceListNoCarousel] = useState(
-    !isExistingCardIndex,
-  );
-
   const setSourceIndexAndStorage = index => {
-    setChosenSourceIndex(index);
+    dispatch({ chosenSourceIndex: index });
     localStorage.setItem('currentIndex', index);
   };
 
   const handleSetChosenSourceIndex = source => {
     setSourceIndexAndStorage(sources.findIndex(s => s.id === source.id));
-    setCardShown(true);
+    dispatch({ cardShown: true });
   };
 
   useEffect(() => {
-    const handleResize = _debounce(() => setSourceListNoCarousel(true), 100);
+    const handleResize = _debounce(
+      () => dispatch({ sourceListNoCarousel: true }),
+      100,
+    );
 
     window.addEventListener('resize', handleResize);
 
@@ -68,21 +82,20 @@ const Body = ({ isFreshLoad }) => {
   }
 
   const slideSettings = {
-    appear: changingSource,
+    appear: state.changingSource,
     direction: 'down',
-    enter: changingSource,
-    in: !cardShown,
+    enter: state.changingSource,
+    in: !state.cardShown,
   };
 
   const sourceCardContainerSettings = {
-    changingSource,
-    setChangingSource,
-    cardShown,
-    chosenSourceIndex,
-    setCardShown,
+    changingSource: state.changingSource,
+    cardShown: state.cardShown,
+    chosenSourceIndex: state.chosenSourceIndex,
+    dispatch,
+    setCardShown: state.setCardShown,
     setSourceIndexAndStorage,
-    setSourceListNoCarousel,
-    sourceListNoCarousel,
+    sourceListNoCarousel: state.sourceListNoCarousel,
     sources,
   };
 

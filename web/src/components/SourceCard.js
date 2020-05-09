@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -18,6 +17,7 @@ import PropTypes from 'prop-types';
 import { returnPropIfTrue } from '../utils/obj';
 import { useSourcesData } from '../context/sourcesDataContext';
 
+import Button from './Button';
 import Loader from './Loader';
 
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
@@ -80,18 +80,6 @@ const useStyles = (isSingle, headerBg) =>
       position: 'relative',
       backgroundColor: theme.palette.background.paper,
       zIndex: 1,
-    },
-    button: {
-      padding: 0,
-      letterSpacing: 1,
-      transition: 'all 280ms ease-in-out',
-      '&:hover': {
-        backgroundColor: theme.palette.background.paper,
-        letterSpacing: 1.3,
-      },
-      '&:hover $focusHighlight': {
-        opacity: 0,
-      },
     },
   }));
 
@@ -177,7 +165,6 @@ const SourceCard = forwardRef(
             <Grid container spacing={0} justify="flex-start">
               <Grid item xs={6}>
                 <Button
-                  className={classes.button}
                   size="medium"
                   color="primary"
                   onClick={changeSource}

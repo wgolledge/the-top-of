@@ -1,5 +1,5 @@
 import React from 'react';
-import { wait, fireEvent, cleanup } from '@testing-library/react';
+import { waitFor, fireEvent, cleanup } from '@testing-library/react';
 
 import SourceCard from '../../components/SourceCard';
 import mockSources from '../../__mocks__/api/mockSources.json';
@@ -27,7 +27,7 @@ test('Renders correct chosenSource and list of urls plus calls changeSource func
     <SourceCardWithContainer {...defaultSettings} />,
   );
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getByText(mockChosenSource.banner.text)).toBeInTheDocument();
   });
 

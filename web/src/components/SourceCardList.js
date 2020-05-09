@@ -7,16 +7,37 @@ import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import { isMobile } from 'react-device-detect';
 
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     height: '100%',
+    marginRight: 3,
     overflowX: 'hidden',
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    },
+    ...(!isMobile && {
+      '&::-webkit-scrollbar': {
+        backgroundColor: 'transparent',
+        width: 3,
+      },
+      '&::-webkit-scrollbar-track': {
+        background: 'transparent',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: theme.palette.secondary.main,
+        borderRight: 'none',
+        borderLeft: 'none',
+      },
+      '&::-webkit-scrollbar-track-piece:start': {
+        background: 'transparent',
+        marginTop: 3,
+      },
+      '&::-webkit-scrollbar-track-piece:end': {
+        background: 'transparent',
+        marginBottom: 3,
+      },
+    }),
   },
   list: {
     paddingTop: 0,
@@ -24,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   listButton: {
     padding: '10px 12px',
     '&:hover': {
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.paper,
     },
   },
   listItemNumber: {

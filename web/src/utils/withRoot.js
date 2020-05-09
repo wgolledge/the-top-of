@@ -1,23 +1,16 @@
 import React from 'react';
-import JssProvider from 'react-jss/lib/JssProvider';
-import {
-  createGenerateClassName,
-  ThemeProvider,
-  makeStyles,
-} from '@material-ui/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Toggle from 'react-toggle';
+import styled, {
+  ThemeProvider as StyledThemeProvider,
+} from 'styled-components';
 
 import './toggle.css';
 import moon from '../assets/moon.svg';
 import sun from '../assets/sun.svg';
 
 import { useDarkMode } from './hooks';
-
-const generateClassName = createGenerateClassName({
-  dangerouslyUseGlobalCSS: false,
-  productionPrefix: 'c',
-});
 
 const lightThemeBg = '#F2F6F8';
 const darkThemeBg = '#393D3F';
@@ -134,13 +127,17 @@ const useStyles = makeStyles({
   },
 });
 
+const ImgNoPointerEvts = styled.img`
+  pointer-events: none;
+`;
+
 const withRoot = Component => props => {
   const [darkModeEnabled, setDarkModeEnabled] = useDarkMode();
   const theme = getTheme(darkModeEnabled);
   const classes = useStyles();
 
   return (
-    <JssProvider generateClassName={generateClassName}>
+    <StyledThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <Toggle
           checked={darkModeEnabled}
@@ -148,22 +145,10 @@ const withRoot = Component => props => {
           onChange={() => setDarkModeEnabled(c => !c)}
           icons={{
             checked: (
-              <img
-                src={moon}
-                width="16"
-                height="16"
-                alt="moon"
-                style={{ pointerEvents: 'none' }}
-              />
+              <ImgNoPointerEvts src={moon} width="16" height="16" alt="moon" />
             ),
             unchecked: (
-              <img
-                src={sun}
-                width="16"
-                height="16"
-                alt="sun"
-                style={{ pointerEvents: 'none' }}
-              />
+              <ImgNoPointerEvts src={sun} width="16" height="16" alt="sun" />
             ),
           }}
         />
@@ -172,7 +157,7 @@ const withRoot = Component => props => {
           darkMode={[darkModeEnabled, setDarkModeEnabled]}
         />
       </ThemeProvider>
-    </JssProvider>
+    </StyledThemeProvider>
   );
 };
 
