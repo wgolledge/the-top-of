@@ -7,13 +7,14 @@ import React, {
 } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import MuiButton from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import { returnPropIfTrue } from '../utils/obj';
 import { useSourcesData } from '../context/sourcesDataContext';
@@ -81,19 +82,17 @@ const useStyles = (isSingle, headerBg) =>
       backgroundColor: theme.palette.background.paper,
       zIndex: 1,
     },
-    button: {
-      padding: 0,
-      letterSpacing: 1,
-      transition: 'all 280ms ease-in-out',
-      '&:hover': {
-        backgroundColor: theme.palette.background.paper,
-        letterSpacing: 1.3,
-      },
-      '&:hover $focusHighlight': {
-        opacity: 0,
-      },
-    },
   }));
+
+const Button = styled(MuiButton)`
+  padding: 0;
+  letter-spacing: 1px;
+  transition: all 280ms ease-in-out;
+  &:hover {
+    background-color: ${p => p.theme.palette.background.paper};
+    letter-spacing: 1.3px;
+  }
+`;
 
 const goToUrl = url => {
   window.location = url;
@@ -177,7 +176,6 @@ const SourceCard = forwardRef(
             <Grid container spacing={0} justify="flex-start">
               <Grid item xs={6}>
                 <Button
-                  className={classes.button}
                   size="medium"
                   color="primary"
                   onClick={changeSource}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { wait, cleanup } from '@testing-library/react';
+import { waitFor, cleanup } from '@testing-library/react';
 import axiosMock from 'axios';
 
 import SourceCardContainer from '../../components/SourceCardContainer';
-import mockSourcesData from '../../__mocks__/api/mockSourcesData';
-import mockSources from '../../__mocks__/api/mockSources';
+import mockSourcesData from '../../__mocks__/api/mockSourcesData.json';
+import mockSources from '../../__mocks__/api/mockSources.json';
 import { SourcesDataContext } from '../../context/sourcesDataContext';
 
 afterEach(cleanup);
@@ -22,6 +22,8 @@ const mockIndex = 0;
 
 const defaultSettings = {
   chosenSourceIndex: mockIndex,
+  changingSource: false,
+  dispatch: jest.fn(),
   sources: mockSources.data,
   setSourceIndexAndStorage: jest.fn(),
   sourceListNoCarousel: true,
@@ -37,7 +39,7 @@ test('Renders a single sourceCard when sourceListNoCarousel true, calls axios fo
     <SourceCardContainerWP {...defaultSettings} />,
   );
 
-  await wait(() => {
+  await waitFor(() => {
     mockSources.data.forEach((mockSource, i) => {
       if (i === mockIndex) {
         expect(getByText(mockSource.banner.text)).toBeInTheDocument();

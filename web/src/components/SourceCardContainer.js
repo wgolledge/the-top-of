@@ -13,13 +13,11 @@ import SourceCard from './SourceCard';
 const SourceCardContainer = ({
   sources,
   changingSource,
-  setChangingSource,
   cardShown,
-  setCardShown,
   chosenSourceIndex,
+  dispatch,
   setSourceIndexAndStorage,
   sourceListNoCarousel,
-  setSourceListNoCarousel,
 }) => {
   const [, setSourcesData] = useSourcesData();
   const sliderRef = useRef(null);
@@ -28,15 +26,15 @@ const SourceCardContainer = ({
     isLoading: isLoadingSourcesData,
     isError: isErrorSourcesData,
   } = useGetFromUrl(`${process.env.REACT_APP_API_URL}/sources/all`);
-
+  
   const handleChangeSource = useCallback(() => {
-    setChangingSource(true);
+    dispatch({ changingSource: true });
     localStorage.removeItem('currentIndex');
     Promise.resolve(true).then(() => {
-      setSourceListNoCarousel(true);
-      setCardShown(false);
+      dispatch({ sourceListNoCarousel: true });
+      dispatch({ cardShown: false });
     });
-  }, [setChangingSource, setCardShown, setSourceListNoCarousel]);
+  }, [dispatch]);
 
   useEffect(() => {
     let unblock = () => {};
@@ -86,8 +84,8 @@ const SourceCardContainer = ({
     enter: !changingSource,
     direction: 'up',
     in: cardShown,
-    onEntered: () => setSourceListNoCarousel(false),
-    onExited: () => setChangingSource(false),
+    onEntered: () => dispatch({ sourceListNoCarousel: false }),
+    onExited: () => dispatch({ changingSource: false }),
   };
 
   const sourceCardSettings = {
@@ -99,7 +97,6 @@ const SourceCardContainer = ({
   return (
     <>
       {!sourceListNoCarousel ? (
-        // * extra div needed to stop https://github.com/akiran/react-slick/issues/1557
         <Slider ref={sliderRef} {...sliderSettings}>
           {sources.map(source => (
             <SourceCard
@@ -124,12 +121,12 @@ const SourceCardContainer = ({
 
 SourceCardContainer.propTypes = {
   sources: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  cardShown: PropTypes.bool.isRequired,
+  changingSource: PropTypes.bool.isRequired,
   chosenSourceIndex: PropTypes.number,
+  dispatch: PropTypes.func.isRequired,
   setSourceIndexAndStorage: PropTypes.func.isRequired,
   sourceListNoCarousel: PropTypes.bool.isRequired,
-  cardShown: PropTypes.bool.isRequired,
-  setCardShown: PropTypes.func.isRequired,
-  setSourceListNoCarousel: PropTypes.func.isRequired,
 };
 
 SourceCardContainer.defaultProps = {

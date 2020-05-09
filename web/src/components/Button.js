@@ -1,20 +1,19 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
-const button = ({ text, onClick }) => (
-  <Button onClick={onClick} variant="contained" color="primary" size="large">
+const Button = ({ text, onClick }) => (
+  <button onClick={onClick} variant="contained" color="primary" size="large">
     {text}
-  </Button>
+  </button>
 );
 
-button.propTypes = {
+Button.propTypes = {
   text: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 };
 
-button.defaultProps = {
+Button.defaultProps = {
   onClick: undefined,
 };
 
-export default button;
+export default Button;

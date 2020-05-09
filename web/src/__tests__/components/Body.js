@@ -1,6 +1,6 @@
 import React from 'react';
 import axiosMock from 'axios';
-import { wait, fireEvent, cleanup } from '@testing-library/react';
+import { waitFor, fireEvent, cleanup } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 import Body from '../../components/Body';
@@ -21,7 +21,7 @@ test('Renders correct text and sources', async () => {
 
   const { getByText } = global.renderWithTheme(<Body isFreshLoad />);
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getByText(pickSourceText)).toBeInTheDocument();
   });
 
@@ -70,7 +70,7 @@ test(`Renders card if isFreshLoad false and localStorage contains currentIndex
 
   expect(queryByText(pickSourceText)).not.toBeInTheDocument();
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getByText(/change source/i)).toBeInTheDocument();
   });
 
@@ -79,7 +79,7 @@ test(`Renders card if isFreshLoad false and localStorage contains currentIndex
 
   window.history.back();
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryByText(/change source/i)).not.toBeInTheDocument();
 
     expect(getByText(pickSourceText)).toBeInTheDocument();

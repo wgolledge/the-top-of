@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Toggle from 'react-toggle';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 import './toggle.css';
 import moon from '../assets/moon.svg';
@@ -130,34 +131,39 @@ const withRoot = Component => props => {
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={theme}>
-      <Toggle
-        checked={darkModeEnabled}
-        className={classes.toggle}
-        onChange={() => setDarkModeEnabled(c => !c)}
-        icons={{
-          checked: (
-            <img
-              src={moon}
-              width="16"
-              height="16"
-              alt="moon"
-              style={{ pointerEvents: 'none' }}
-            />
-          ),
-          unchecked: (
-            <img
-              src={sun}
-              width="16"
-              height="16"
-              alt="sun"
-              style={{ pointerEvents: 'none' }}
-            />
-          ),
-        }}
-      />
-      <Component {...props} darkMode={[darkModeEnabled, setDarkModeEnabled]} />
-    </ThemeProvider>
+    <StyledThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <Toggle
+          checked={darkModeEnabled}
+          className={classes.toggle}
+          onChange={() => setDarkModeEnabled(c => !c)}
+          icons={{
+            checked: (
+              <img
+                src={moon}
+                width="16"
+                height="16"
+                alt="moon"
+                style={{ pointerEvents: 'none' }}
+              />
+            ),
+            unchecked: (
+              <img
+                src={sun}
+                width="16"
+                height="16"
+                alt="sun"
+                style={{ pointerEvents: 'none' }}
+              />
+            ),
+          }}
+        />
+        <Component
+          {...props}
+          darkMode={[darkModeEnabled, setDarkModeEnabled]}
+        />
+      </ThemeProvider>
+    </StyledThemeProvider>
   );
 };
 
