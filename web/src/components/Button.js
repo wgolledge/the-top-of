@@ -1,14 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-const Button = ({ text, onClick }) => (
-  <button onClick={onClick} variant="contained" color="primary" size="large">
-    {text}
-  </button>
+const StyledButton = styled.button`
+  background-color: ${p => p.theme.palette.background.paper};
+  border: none;
+  color: ${p => p.theme.palette.primary.main};
+  cursor: pointer;
+  outline: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 280ms ease-in-out;
+  &:hover {
+    letter-spacing: 1.3px;
+  }
+`;
+
+const Button = ({ children, onClick }) => (
+  <StyledButton onClick={onClick}>{children}</StyledButton>
 );
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
 };
 

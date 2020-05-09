@@ -2,7 +2,9 @@ import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Toggle from 'react-toggle';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import styled, {
+  ThemeProvider as StyledThemeProvider,
+} from 'styled-components';
 
 import './toggle.css';
 import moon from '../assets/moon.svg';
@@ -125,6 +127,10 @@ const useStyles = makeStyles({
   },
 });
 
+const ImgNoPointerEvts = styled.img`
+  pointer-events: none;
+`;
+
 const withRoot = Component => props => {
   const [darkModeEnabled, setDarkModeEnabled] = useDarkMode();
   const theme = getTheme(darkModeEnabled);
@@ -139,22 +145,10 @@ const withRoot = Component => props => {
           onChange={() => setDarkModeEnabled(c => !c)}
           icons={{
             checked: (
-              <img
-                src={moon}
-                width="16"
-                height="16"
-                alt="moon"
-                style={{ pointerEvents: 'none' }}
-              />
+              <ImgNoPointerEvts src={moon} width="16" height="16" alt="moon" />
             ),
             unchecked: (
-              <img
-                src={sun}
-                width="16"
-                height="16"
-                alt="sun"
-                style={{ pointerEvents: 'none' }}
-              />
+              <ImgNoPointerEvts src={sun} width="16" height="16" alt="sun" />
             ),
           }}
         />

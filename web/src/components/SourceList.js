@@ -30,6 +30,7 @@ const ListContent = styled(Paper)`
 `;
 
 const ListItem = styled(MuiListItem)`
+  border-radius: 0.3rem;
   cursor: pointer;
   justify-content: center;
   padding: 5px;

@@ -7,18 +7,17 @@ import React, {
 } from 'react';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
-import MuiButton from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import { returnPropIfTrue } from '../utils/obj';
 import { useSourcesData } from '../context/sourcesDataContext';
 
+import Button from './Button';
 import Loader from './Loader';
 
 const LazySourceCardList = React.lazy(() => import('./SourceCardList'));
@@ -83,16 +82,6 @@ const useStyles = (isSingle, headerBg) =>
       zIndex: 1,
     },
   }));
-
-const Button = styled(MuiButton)`
-  padding: 0;
-  letter-spacing: 1px;
-  transition: all 280ms ease-in-out;
-  &:hover {
-    background-color: ${p => p.theme.palette.background.paper};
-    letter-spacing: 1.3px;
-  }
-`;
 
 const goToUrl = url => {
   window.location = url;
