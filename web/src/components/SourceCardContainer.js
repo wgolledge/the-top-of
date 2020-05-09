@@ -86,10 +86,7 @@ const SourceCardContainer = ({
     enter: !changingSource,
     direction: 'up',
     in: cardShown,
-    onEntered: () => {
-      // Microtick to wait for call stack to empty
-      Promise.resolve(true).then(setSourceListNoCarousel(false));
-    },
+    onEntered: () => setSourceListNoCarousel(false),
     onExited: () => setChangingSource(false),
   };
 
