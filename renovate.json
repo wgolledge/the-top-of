@@ -3,8 +3,17 @@
     "config:base"
   ],
   "rangeStrategy": "bump",
-  "automerge": true,
-  "major": {
-    "automerge": false
-  }
+  "packageRules": [
+    {
+      "packagePatterns": ["^eslint"],
+      "enabled": false 
+    },
+    {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "schedule": "at any time",
+      "automerge": true
+    }
+  ],
+  "automerge": false,
+  "schedule": "before 3am on the first day of the month",
 }
