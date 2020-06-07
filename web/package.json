@@ -43,7 +43,7 @@
     "eslint-plugin-react-hooks": "4.0.0",
     "jest-dom": "4.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
-    "prettier-eslint": "9.0.1"
+    "prettier-eslint": "11.0.0"
   },
   "jest": {
     "collectCoverageFrom": [
