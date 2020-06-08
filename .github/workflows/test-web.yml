@@ -1,8 +1,6 @@
 name: Test /web
 
-on:
-  release:
-    types: [created]
+on: pull_request
 
 jobs:
   build:
