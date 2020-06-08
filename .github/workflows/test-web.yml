@@ -1,4 +1,4 @@
-name: Test /web
+name: Test Web
 
 on: pull_request
 
@@ -10,6 +10,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: cd web
-      - run: npm ci
-      - run: npm test
+      - name: Setup and run tests
+        working-directory: ./web
+        run: |
+          npm ci
+          npm test
